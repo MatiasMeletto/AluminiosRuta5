@@ -7,22 +7,21 @@ namespace AluminiosRuta5
 {
     public partial class FormPrincipal : Form
     {
-        FormStock formStock = new FormStock();
-        public void CambiarForm(Form f)
+        public void CambiarForm(Form f,Form form)
         {
             f.SuspendLayout();
-            formStock.TopLevel = false;
-            formStock.FormBorderStyle = FormBorderStyle.None;
-            formStock.Dock = DockStyle.Fill;
-            formStock.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
-            panelPrincipal.Controls.Add(formStock);
-            panelPrincipal.Tag = formStock;
-            formStock.BringToFront();
-            formStock.Show();
+            form.TopLevel = false;
+            form.FormBorderStyle = FormBorderStyle.None;
+            form.Dock = DockStyle.Fill;
+            form.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
+            panelPrincipal.Controls.Add(form);
+            panelPrincipal.Tag = form;
+            form.BringToFront();
+            form.Show();
         }
         public void GetCambiarForm()
         {
-            CambiarForm(f: panelPrincipal.FindForm());
+            CambiarForm(f: panelPrincipal.FindForm(), new FormStock());
         }
         public FormPrincipal()
         {

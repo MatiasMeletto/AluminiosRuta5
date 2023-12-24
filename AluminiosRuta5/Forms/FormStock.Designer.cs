@@ -29,35 +29,36 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormStock));
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.panelSeleccion = new System.Windows.Forms.Panel();
+            this.panelSalida = new System.Windows.Forms.Panel();
+            this.btnCategorias = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.panel2.SuspendLayout();
+            this.panelDefault = new System.Windows.Forms.Panel();
+            this.panelDecorativo = new System.Windows.Forms.Panel();
+            this.panelPerfiles = new System.Windows.Forms.Panel();
+            this.panelSalida.SuspendLayout();
             this.SuspendLayout();
             // 
-            // panel1
+            // panelSeleccion
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(39)))), ((int)(((byte)(57)))));
-            resources.ApplyResources(this.panel1, "panel1");
-            this.panel1.Name = "panel1";
+            this.panelSeleccion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(39)))), ((int)(((byte)(57)))));
+            resources.ApplyResources(this.panelSeleccion, "panelSeleccion");
+            this.panelSeleccion.Name = "panelSeleccion";
             // 
-            // panel2
+            // panelSalida
             // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(39)))), ((int)(((byte)(57)))));
-            this.panel2.Controls.Add(this.button1);
-            this.panel2.Controls.Add(this.btnVolver);
-            resources.ApplyResources(this.panel2, "panel2");
-            this.panel2.Name = "panel2";
+            this.panelSalida.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(39)))), ((int)(((byte)(57)))));
+            this.panelSalida.Controls.Add(this.btnCategorias);
+            this.panelSalida.Controls.Add(this.btnVolver);
+            resources.ApplyResources(this.panelSalida, "panelSalida");
+            this.panelSalida.Name = "panelSalida";
             // 
-            // panel3
+            // btnCategorias
             // 
-            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(39)))), ((int)(((byte)(57)))));
-            resources.ApplyResources(this.panel3, "panel3");
-            this.panel3.Name = "panel3";
+            resources.ApplyResources(this.btnCategorias, "btnCategorias");
+            this.btnCategorias.ForeColor = System.Drawing.Color.Aqua;
+            this.btnCategorias.Name = "btnCategorias";
+            this.btnCategorias.UseVisualStyleBackColor = true;
             // 
             // btnVolver
             // 
@@ -65,51 +66,51 @@
             this.btnVolver.ForeColor = System.Drawing.Color.Aqua;
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
-            // button1
+            // panelDefault
             // 
-            resources.ApplyResources(this.button1, "button1");
-            this.button1.ForeColor = System.Drawing.Color.Aqua;
-            this.button1.Name = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.panelDefault.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(39)))), ((int)(((byte)(57)))));
+            resources.ApplyResources(this.panelDefault, "panelDefault");
+            this.panelDefault.Name = "panelDefault";
             // 
-            // panel4
+            // panelDecorativo
             // 
-            this.panel4.BackColor = System.Drawing.Color.LightCyan;
-            resources.ApplyResources(this.panel4, "panel4");
-            this.panel4.Name = "panel4";
+            this.panelDecorativo.BackColor = System.Drawing.Color.LightCyan;
+            resources.ApplyResources(this.panelDecorativo, "panelDecorativo");
+            this.panelDecorativo.Name = "panelDecorativo";
             // 
-            // panel5
+            // panelPerfiles
             // 
-            resources.ApplyResources(this.panel5, "panel5");
-            this.panel5.Name = "panel5";
+            resources.ApplyResources(this.panelPerfiles, "panelPerfiles");
+            this.panelPerfiles.Name = "panelPerfiles";
             // 
             // FormStock
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.Controls.Add(this.panel5);
-            this.Controls.Add(this.panel4);
-            this.Controls.Add(this.panel3);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panelPerfiles);
+            this.Controls.Add(this.panelDecorativo);
+            this.Controls.Add(this.panelDefault);
+            this.Controls.Add(this.panelSalida);
+            this.Controls.Add(this.panelSeleccion);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormStock";
-            this.panel2.ResumeLayout(false);
+            this.panelSalida.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panelSeleccion;
+        private System.Windows.Forms.Panel panelSalida;
         private System.Windows.Forms.Button btnVolver;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Panel panelDefault;
+        private System.Windows.Forms.Button btnCategorias;
+        private System.Windows.Forms.Panel panelDecorativo;
+        private System.Windows.Forms.Panel panelPerfiles;
     }
 }

@@ -24,9 +24,5 @@ namespace AluminiosRuta5
             form.Show();
             return form;
         }
-        public static void CambiarDeForm(Form form)
-        {
-            form.Close();
-        }
     }
 }

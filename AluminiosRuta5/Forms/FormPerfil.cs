@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace AluminiosRuta5.Forms
 {
-    public partial class FormStock : Form
+    public partial class FormPerfil : Form
     {
-        public FormStock()
+        public FormPerfil()
         {
             InitializeComponent();
-        }
-
-        private void btnVolver_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
     }
 }
