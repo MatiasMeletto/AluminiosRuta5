@@ -1,24 +1,28 @@
 ﻿using AluminiosRuta5.Forms;
 using System;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace AluminiosRuta5
 {
     public partial class FormPrincipal : Form
     {
-        public static Form AbrirFormularioHijo(Panel panel, Form formAct, Form form)
+        FormStock formStock = new FormStock();
+        public void CambiarForm(Form f)
         {
-            if (formAct != null)
-                formAct.Close();
-            form.TopLevel = false;
-            form.FormBorderStyle = FormBorderStyle.None;
-            form.Dock = DockStyle.Fill;
-            form.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
-            panel.Controls.Add(form);
-            panel.Tag = form;
-            form.BringToFront();
-            form.Show();
-            return form;
+            f.SuspendLayout();
+            formStock.TopLevel = false;
+            formStock.FormBorderStyle = FormBorderStyle.None;
+            formStock.Dock = DockStyle.Fill;
+            formStock.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
+            panelPrincipal.Controls.Add(formStock);
+            panelPrincipal.Tag = formStock;
+            formStock.BringToFront();
+            formStock.Show();
+        }
+        public void GetCambiarForm()
+        {
+            CambiarForm(f: panelPrincipal.FindForm());
         }
         public FormPrincipal()
         {
@@ -27,7 +31,8 @@ namespace AluminiosRuta5
 
         private void FormPrincipal_Load(object sender, EventArgs e)
         {
-            AbrirFormularioHijo(panelPrincipal,new FormEleccion(),new FormEleccion());
+            ModuloPrincipal.AbrirFormularioHijo(panelPrincipal, new FormEleccion(this), new FormEleccion(this));
         }
+
     }
 }

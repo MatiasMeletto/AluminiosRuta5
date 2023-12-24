@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormEleccion));
             this.btnStock = new System.Windows.Forms.Button();
-            this.btnRemito = new System.Windows.Forms.Button();
-            this.btnPresupuesto = new System.Windows.Forms.Button();
+            this.btnRemitos = new System.Windows.Forms.Button();
+            this.btnPresupuestos = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnStock
@@ -38,7 +39,8 @@
             this.btnStock.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnStock.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(130)))), ((int)(((byte)(157)))), ((int)(((byte)(186)))));
             this.btnStock.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnStock.Font = new System.Drawing.Font("Microsoft YaHei UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStock.Font = new System.Drawing.Font("Microsoft YaHei UI Light", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStock.Image = ((System.Drawing.Image)(resources.GetObject("btnStock.Image")));
             this.btnStock.Location = new System.Drawing.Point(75, 82);
             this.btnStock.Name = "btnStock";
             this.btnStock.Padding = new System.Windows.Forms.Padding(0, 0, 0, 50);
@@ -47,37 +49,40 @@
             this.btnStock.Text = "Stock";
             this.btnStock.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnStock.UseVisualStyleBackColor = false;
+            this.btnStock.Click += new System.EventHandler(this.btnStock_Click);
             // 
-            // btnRemito
+            // btnRemitos
             // 
-            this.btnRemito.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnRemito.AutoSize = true;
-            this.btnRemito.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(130)))), ((int)(((byte)(157)))), ((int)(((byte)(186)))));
-            this.btnRemito.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnRemito.Font = new System.Drawing.Font("Microsoft YaHei UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemito.Location = new System.Drawing.Point(451, 82);
-            this.btnRemito.Name = "btnRemito";
-            this.btnRemito.Padding = new System.Windows.Forms.Padding(0, 0, 0, 50);
-            this.btnRemito.Size = new System.Drawing.Size(370, 500);
-            this.btnRemito.TabIndex = 1;
-            this.btnRemito.Text = "Remitos";
-            this.btnRemito.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnRemito.UseVisualStyleBackColor = false;
+            this.btnRemitos.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnRemitos.AutoSize = true;
+            this.btnRemitos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(130)))), ((int)(((byte)(157)))), ((int)(((byte)(186)))));
+            this.btnRemitos.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnRemitos.Font = new System.Drawing.Font("Microsoft YaHei UI Light", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRemitos.Image = ((System.Drawing.Image)(resources.GetObject("btnRemitos.Image")));
+            this.btnRemitos.Location = new System.Drawing.Point(451, 82);
+            this.btnRemitos.Name = "btnRemitos";
+            this.btnRemitos.Padding = new System.Windows.Forms.Padding(0, 0, 0, 50);
+            this.btnRemitos.Size = new System.Drawing.Size(370, 500);
+            this.btnRemitos.TabIndex = 1;
+            this.btnRemitos.Text = "Remitos";
+            this.btnRemitos.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnRemitos.UseVisualStyleBackColor = false;
             // 
-            // btnPresupuesto
+            // btnPresupuestos
             // 
-            this.btnPresupuesto.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnPresupuesto.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(130)))), ((int)(((byte)(157)))), ((int)(((byte)(186)))));
-            this.btnPresupuesto.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnPresupuesto.Font = new System.Drawing.Font("Microsoft YaHei UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPresupuesto.Location = new System.Drawing.Point(827, 82);
-            this.btnPresupuesto.Name = "btnPresupuesto";
-            this.btnPresupuesto.Padding = new System.Windows.Forms.Padding(0, 0, 0, 50);
-            this.btnPresupuesto.Size = new System.Drawing.Size(370, 500);
-            this.btnPresupuesto.TabIndex = 2;
-            this.btnPresupuesto.Text = "Presupuestos";
-            this.btnPresupuesto.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnPresupuesto.UseVisualStyleBackColor = false;
+            this.btnPresupuestos.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnPresupuestos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(130)))), ((int)(((byte)(157)))), ((int)(((byte)(186)))));
+            this.btnPresupuestos.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnPresupuestos.Font = new System.Drawing.Font("Microsoft YaHei UI Light", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPresupuestos.Image = ((System.Drawing.Image)(resources.GetObject("btnPresupuestos.Image")));
+            this.btnPresupuestos.Location = new System.Drawing.Point(827, 82);
+            this.btnPresupuestos.Name = "btnPresupuestos";
+            this.btnPresupuestos.Padding = new System.Windows.Forms.Padding(0, 0, 0, 50);
+            this.btnPresupuestos.Size = new System.Drawing.Size(370, 500);
+            this.btnPresupuestos.TabIndex = 2;
+            this.btnPresupuestos.Text = "Presupuestos";
+            this.btnPresupuestos.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnPresupuestos.UseVisualStyleBackColor = false;
             // 
             // FormEleccion
             // 
@@ -85,8 +90,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1262, 673);
-            this.Controls.Add(this.btnPresupuesto);
-            this.Controls.Add(this.btnRemito);
+            this.Controls.Add(this.btnPresupuestos);
+            this.Controls.Add(this.btnRemitos);
             this.Controls.Add(this.btnStock);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormEleccion";
@@ -100,7 +105,7 @@
         #endregion
 
         private System.Windows.Forms.Button btnStock;
-        private System.Windows.Forms.Button btnRemito;
-        private System.Windows.Forms.Button btnPresupuesto;
+        private System.Windows.Forms.Button btnRemitos;
+        private System.Windows.Forms.Button btnPresupuestos;
     }
 }
