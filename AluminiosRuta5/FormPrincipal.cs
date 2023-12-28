@@ -7,13 +7,13 @@ namespace AluminiosRuta5
 {
     public partial class FormPrincipal : Form
     {
+        private FormEleccion formElec = null;
         public void CambiarForm(Form f,Form form)
         {
-            f.SuspendLayout();
+            f.Close();
             form.TopLevel = false;
             form.FormBorderStyle = FormBorderStyle.None;
             form.Dock = DockStyle.Fill;
-            form.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
             panelPrincipal.Controls.Add(form);
             panelPrincipal.Tag = form;
             form.BringToFront();
@@ -21,7 +21,7 @@ namespace AluminiosRuta5
         }
         public void GetCambiarForm()
         {
-            CambiarForm(f: panelPrincipal.FindForm(), new FormStock());
+            CambiarForm(formElec, new FormStock(this));
         }
         public FormPrincipal()
         {
@@ -30,8 +30,20 @@ namespace AluminiosRuta5
 
         private void FormPrincipal_Load(object sender, EventArgs e)
         {
-            ModuloPrincipal.AbrirFormularioHijo(panelPrincipal, new FormEleccion(this), new FormEleccion(this));
+            ResetearEleccion();
         }
 
+        public void ResetearEleccion()
+        {
+            FormEleccion formEleccion = new FormEleccion(this);
+            formEleccion.TopLevel = false;
+            formEleccion.FormBorderStyle = FormBorderStyle.None;
+            formEleccion.Dock = DockStyle.Fill;
+            panelPrincipal.Controls.Add(formEleccion);
+            panelPrincipal.Tag = formEleccion;
+            formEleccion.BringToFront();
+            formEleccion.Show();
+            formElec = formEleccion;
+        }
     }
 }

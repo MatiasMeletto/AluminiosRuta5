@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AluminiosRuta5.Objects;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,7 +13,7 @@ namespace AluminiosRuta5.Forms
 {
     public partial class FormPerfil : Form
     {
-        public FormPerfil()
+        public FormPerfil(Categoria c)
         {
             InitializeComponent();
         }

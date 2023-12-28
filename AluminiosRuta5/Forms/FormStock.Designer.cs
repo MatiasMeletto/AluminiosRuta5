@@ -41,16 +41,16 @@
             // 
             // panelSeleccion
             // 
-            this.panelSeleccion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(39)))), ((int)(((byte)(57)))));
             resources.ApplyResources(this.panelSeleccion, "panelSeleccion");
+            this.panelSeleccion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(39)))), ((int)(((byte)(57)))));
             this.panelSeleccion.Name = "panelSeleccion";
             // 
             // panelSalida
             // 
+            resources.ApplyResources(this.panelSalida, "panelSalida");
             this.panelSalida.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(39)))), ((int)(((byte)(57)))));
             this.panelSalida.Controls.Add(this.btnCategorias);
             this.panelSalida.Controls.Add(this.btnVolver);
-            resources.ApplyResources(this.panelSalida, "panelSalida");
             this.panelSalida.Name = "panelSalida";
             // 
             // btnCategorias
@@ -59,6 +59,7 @@
             this.btnCategorias.ForeColor = System.Drawing.Color.Aqua;
             this.btnCategorias.Name = "btnCategorias";
             this.btnCategorias.UseVisualStyleBackColor = true;
+            this.btnCategorias.Click += new System.EventHandler(this.btnCategorias_Click);
             // 
             // btnVolver
             // 
@@ -98,6 +99,7 @@
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormStock";
+            this.Load += new System.EventHandler(this.FormStock_Load);
             this.panelSalida.ResumeLayout(false);
             this.ResumeLayout(false);
 
