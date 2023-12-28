@@ -1,15 +1,9 @@
 ﻿using AluminiosRuta5.Objects;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SQLite;
-using System.Drawing;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace AluminiosRuta5.Forms
 {
@@ -36,12 +30,10 @@ namespace AluminiosRuta5.Forms
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            AddCmdParameters();
             if (string.IsNullOrEmpty(textBoxCodigo.Text.Trim()) || 
-                string.IsNullOrEmpty(textBoxCodigo.Text.Trim()) ||
-                numericUpDownKg.Value == 0 ||
-                numericUpDownImporte.Value == 0 ||
-                numericUpDownTiras.Value == 0)
+                string.IsNullOrEmpty(textBoxDescripcion.Text.Trim()) ||
+                string.IsNullOrEmpty(textBoxKg.Text.Trim()) ||
+                numericUpDownImporte.Value == 0)
             {
                 MessageBox.Show("Complete los campos por favor");
                 return;
@@ -52,9 +44,7 @@ namespace AluminiosRuta5.Forms
                 dbCommand = "UPDATE";
 
                 DataRowView dr = bindingSrc[dataGridViewStock.SelectedRows[0].Index] as DataRowView;
-                sql = "UPDATE perfiles SET Codigo = @Codigo, Descripcion = @Descripcion, Import = @Importe, CantidadTiras = @CantidadTiras, KgXPaquete = @KgXPaquete, CategoriaId = @CategoriaId WHERE PefilId = " + dr[0];
-
-                AddCmdParameters();
+                sql = "UPDATE perfiles SET Codigo = @Codigo, Descripcion = @Descripcion, Import = @Importe, CantidadTiras = @CantidadTiras, KgXPaquete = @KgXPaquete, CategoriaId = @CategoriaId WHERE PerfilId = " + dr[0];
             }
             else if (!editando)
             {
@@ -62,8 +52,8 @@ namespace AluminiosRuta5.Forms
 
                 sql = "INSERT INTO perfiles (Codigo,Descripcion,Import,CantidadTiras,KgXPaquete,CategoriaId) " +
                     "VALUES (@Codigo,@Descripcion,@Importe,@CantidadTiras,@KgXPaquete,@CategoriaId)";
-                AddCmdParameters();
             }
+            AddCmdParameters();
             int executeResult = command.ExecuteNonQuery();
             if (executeResult != -1)
             {
@@ -80,10 +70,11 @@ namespace AluminiosRuta5.Forms
         {
             textBoxCodigo.Text = string.Empty;
             textBoxDescripcion.Text = string.Empty;
-            numericUpDownKg.Value = 0;
+            textBoxKg.Text = string.Empty;
             numericUpDownTiras.Value = 0;
             numericUpDownImporte.Value = 0;
             editando = false;
+            btnAgregar.Text = "Agregar";
         }
 
         private void UpdateDataBinding(SQLiteCommand cmd = null)
@@ -132,9 +123,9 @@ namespace AluminiosRuta5.Forms
 
             command.Parameters.AddWithValue("Codigo", textBoxCodigo.Text.Trim());
             command.Parameters.AddWithValue("Descripcion", textBoxDescripcion.Text.Trim());
-            command.Parameters.AddWithValue("Importe", numericUpDownImporte.Value);
+            command.Parameters.AddWithValue("Importe", Convert.ToDecimal(numericUpDownImporte.Value.ToString()));
             command.Parameters.AddWithValue("CantidadTiras", numericUpDownTiras.Value);
-            command.Parameters.AddWithValue("KgXPaquete", numericUpDownKg.Value);
+            command.Parameters.AddWithValue("KgXPaquete", Convert.ToDecimal(textBoxKg.Text));
             command.Parameters.AddWithValue("CategoriaId", c.CategoriaId);
         }
 
@@ -144,6 +135,74 @@ namespace AluminiosRuta5.Forms
             UpdateDataBinding();
             dataGridViewStock.DataSource = bindingSrc;
             CloseConnection();  
+        }
+
+        private void textBoxKg_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+        (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+
+            // only allow one decimal point
+            if ((e.KeyChar == '.') && ((sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewStock.SelectedRows.Count > 0)
+            {
+                OpenConnection();
+
+                dbCommand = "DELETE";
+
+                DataRowView dr = bindingSrc[dataGridViewStock.SelectedRows[0].Index] as DataRowView;
+                sql = "DELETE FROM perfiles WHERE PerfilId = " + dr[0];
+                command.Parameters.Clear();
+                command.CommandText = sql;
+
+                int executeResult = command.ExecuteNonQuery();
+                if (executeResult == 1)
+                {
+                    UpdateDataBinding();
+                    dataGridViewStock.DataSource = bindingSrc;
+                    LimpiarCampos();
+                }
+                CloseConnection();
+            }
+        }
+
+        private void dataGridViewStock_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            textBoxCodigo.DataBindings.Clear();
+            textBoxDescripcion.DataBindings.Clear();
+            textBoxKg.DataBindings.Clear();
+            numericUpDownImporte.DataBindings.Clear();
+            numericUpDownTiras.DataBindings.Clear();
+            dbCommand = "SELECT";
+
+            sql = "SELECT * FROM perfiles ORDER BY PerfilId ASC;";
+
+            command.CommandText = sql;
+
+            SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds, "Perfiles");
+
+            bindingSrc = new BindingSource();
+            bindingSrc.DataSource = ds.Tables["Perfiles"];
+
+            textBoxCodigo.DataBindings.Add("Text", bindingSrc[dataGridViewStock.SelectedRows[0].Index], "Codigo");
+            textBoxDescripcion.DataBindings.Add("Text", bindingSrc[dataGridViewStock.SelectedRows[0].Index], "Descripcion");
+            textBoxKg.DataBindings.Add("Text", bindingSrc[dataGridViewStock.SelectedRows[0].Index], "KgXPaquete");
+            numericUpDownTiras.DataBindings.Add("Text", bindingSrc[dataGridViewStock.SelectedRows[0].Index], "CantidadTiras");
+            numericUpDownImporte.DataBindings.Add("Text", bindingSrc[dataGridViewStock.SelectedRows[0].Index], "Import");
+            btnAgregar.Text = "Actualizar";
+            editando = true;
         }
     }
 }

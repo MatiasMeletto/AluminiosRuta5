@@ -31,16 +31,9 @@
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dataGridViewStock = new System.Windows.Forms.DataGridView();
-            this.codigoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.descripcionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.kgXPaqueteDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cantTirasDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.importeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.perfilBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.textBoxBuscar = new System.Windows.Forms.TextBox();
             this.textBoxCodigo = new System.Windows.Forms.TextBox();
             this.textBoxDescripcion = new System.Windows.Forms.TextBox();
-            this.numericUpDownKg = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownTiras = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownImporte = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
@@ -51,12 +44,20 @@
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.btnAgregar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
+            this.textBoxKg = new System.Windows.Forms.TextBox();
+            this.CantidadTiras = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.codigoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.descripcionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.kgXPaqueteDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.importeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.perfilBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.perfilBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStock)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.perfilBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownKg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTiras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownImporte)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.perfilBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.perfilBindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -86,7 +87,7 @@
             this.codigoDataGridViewTextBoxColumn,
             this.descripcionDataGridViewTextBoxColumn,
             this.kgXPaqueteDataGridViewTextBoxColumn,
-            this.cantTirasDataGridViewTextBoxColumn,
+            this.CantidadTiras,
             this.importeDataGridViewTextBoxColumn});
             this.dataGridViewStock.DataSource = this.perfilBindingSource;
             this.dataGridViewStock.Location = new System.Drawing.Point(51, 57);
@@ -96,50 +97,7 @@
             this.dataGridViewStock.RowTemplate.Height = 24;
             this.dataGridViewStock.Size = new System.Drawing.Size(972, 301);
             this.dataGridViewStock.TabIndex = 1;
-            // 
-            // codigoDataGridViewTextBoxColumn
-            // 
-            this.codigoDataGridViewTextBoxColumn.DataPropertyName = "Codigo";
-            this.codigoDataGridViewTextBoxColumn.HeaderText = "Codigo";
-            this.codigoDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.codigoDataGridViewTextBoxColumn.Name = "codigoDataGridViewTextBoxColumn";
-            this.codigoDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // descripcionDataGridViewTextBoxColumn
-            // 
-            this.descripcionDataGridViewTextBoxColumn.DataPropertyName = "Descripcion";
-            this.descripcionDataGridViewTextBoxColumn.HeaderText = "Descripcion";
-            this.descripcionDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.descripcionDataGridViewTextBoxColumn.Name = "descripcionDataGridViewTextBoxColumn";
-            this.descripcionDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // kgXPaqueteDataGridViewTextBoxColumn
-            // 
-            this.kgXPaqueteDataGridViewTextBoxColumn.DataPropertyName = "KgXPaquete";
-            this.kgXPaqueteDataGridViewTextBoxColumn.HeaderText = "KgXPaquete";
-            this.kgXPaqueteDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.kgXPaqueteDataGridViewTextBoxColumn.Name = "kgXPaqueteDataGridViewTextBoxColumn";
-            this.kgXPaqueteDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // cantTirasDataGridViewTextBoxColumn
-            // 
-            this.cantTirasDataGridViewTextBoxColumn.DataPropertyName = "CantTiras";
-            this.cantTirasDataGridViewTextBoxColumn.HeaderText = "CantTiras";
-            this.cantTirasDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.cantTirasDataGridViewTextBoxColumn.Name = "cantTirasDataGridViewTextBoxColumn";
-            this.cantTirasDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // importeDataGridViewTextBoxColumn
-            // 
-            this.importeDataGridViewTextBoxColumn.DataPropertyName = "Importe";
-            this.importeDataGridViewTextBoxColumn.HeaderText = "Importe";
-            this.importeDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.importeDataGridViewTextBoxColumn.Name = "importeDataGridViewTextBoxColumn";
-            this.importeDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // perfilBindingSource
-            // 
-            this.perfilBindingSource.DataSource = typeof(AluminiosRuta5.Objects.Perfil);
+            this.dataGridViewStock.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewStock_RowHeaderMouseDoubleClick);
             // 
             // textBoxBuscar
             // 
@@ -172,15 +130,6 @@
             this.textBoxDescripcion.Name = "textBoxDescripcion";
             this.textBoxDescripcion.Size = new System.Drawing.Size(403, 75);
             this.textBoxDescripcion.TabIndex = 3;
-            // 
-            // numericUpDownKg
-            // 
-            this.numericUpDownKg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.numericUpDownKg.Font = new System.Drawing.Font("Microsoft JhengHei UI", 13F);
-            this.numericUpDownKg.Location = new System.Drawing.Point(716, 40);
-            this.numericUpDownKg.Name = "numericUpDownKg";
-            this.numericUpDownKg.Size = new System.Drawing.Size(120, 35);
-            this.numericUpDownKg.TabIndex = 4;
             // 
             // numericUpDownTiras
             // 
@@ -282,6 +231,67 @@
             this.btnEliminar.TabIndex = 12;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
+            // 
+            // textBoxKg
+            // 
+            this.textBoxKg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxKg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxKg.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
+            this.textBoxKg.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.textBoxKg.Location = new System.Drawing.Point(717, 42);
+            this.textBoxKg.Name = "textBoxKg";
+            this.textBoxKg.Size = new System.Drawing.Size(121, 34);
+            this.textBoxKg.TabIndex = 15;
+            this.textBoxKg.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxKg_KeyPress);
+            // 
+            // CantidadTiras
+            // 
+            this.CantidadTiras.DataPropertyName = "CantidadTiras";
+            this.CantidadTiras.HeaderText = "CantidadTiras";
+            this.CantidadTiras.MinimumWidth = 6;
+            this.CantidadTiras.Name = "CantidadTiras";
+            this.CantidadTiras.ReadOnly = true;
+            // 
+            // codigoDataGridViewTextBoxColumn
+            // 
+            this.codigoDataGridViewTextBoxColumn.DataPropertyName = "Codigo";
+            this.codigoDataGridViewTextBoxColumn.HeaderText = "Codigo";
+            this.codigoDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.codigoDataGridViewTextBoxColumn.Name = "codigoDataGridViewTextBoxColumn";
+            this.codigoDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // descripcionDataGridViewTextBoxColumn
+            // 
+            this.descripcionDataGridViewTextBoxColumn.DataPropertyName = "Descripcion";
+            this.descripcionDataGridViewTextBoxColumn.HeaderText = "Descripcion";
+            this.descripcionDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.descripcionDataGridViewTextBoxColumn.Name = "descripcionDataGridViewTextBoxColumn";
+            this.descripcionDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // kgXPaqueteDataGridViewTextBoxColumn
+            // 
+            this.kgXPaqueteDataGridViewTextBoxColumn.DataPropertyName = "KgXPaquete";
+            this.kgXPaqueteDataGridViewTextBoxColumn.HeaderText = "KgXPaquete";
+            this.kgXPaqueteDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.kgXPaqueteDataGridViewTextBoxColumn.Name = "kgXPaqueteDataGridViewTextBoxColumn";
+            this.kgXPaqueteDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // importeDataGridViewTextBoxColumn
+            // 
+            this.importeDataGridViewTextBoxColumn.DataPropertyName = "Import";
+            this.importeDataGridViewTextBoxColumn.HeaderText = "Importe";
+            this.importeDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.importeDataGridViewTextBoxColumn.Name = "importeDataGridViewTextBoxColumn";
+            this.importeDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // perfilBindingSource
+            // 
+            this.perfilBindingSource.DataSource = typeof(AluminiosRuta5.Objects.Perfil);
+            // 
+            // perfilBindingSource1
+            // 
+            this.perfilBindingSource1.DataSource = typeof(AluminiosRuta5.Objects.Perfil);
             // 
             // FormPerfil
             // 
@@ -289,6 +299,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1082, 673);
+            this.Controls.Add(this.textBoxKg);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.btnAgregar);
             this.Controls.Add(this.btnEliminar);
@@ -299,7 +310,6 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.numericUpDownImporte);
             this.Controls.Add(this.numericUpDownTiras);
-            this.Controls.Add(this.numericUpDownKg);
             this.Controls.Add(this.textBoxDescripcion);
             this.Controls.Add(this.textBoxCodigo);
             this.Controls.Add(this.panel1);
@@ -310,10 +320,10 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStock)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.perfilBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownKg)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTiras)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownImporte)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.perfilBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.perfilBindingSource1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -324,15 +334,10 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridView dataGridViewStock;
         private System.Windows.Forms.TextBox textBoxBuscar;
-        private System.Windows.Forms.DataGridViewTextBoxColumn codigoDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn descripcionDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn kgXPaqueteDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn cantTirasDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn importeDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource perfilBindingSource;
         private System.Windows.Forms.TextBox textBoxCodigo;
         private System.Windows.Forms.TextBox textBoxDescripcion;
-        private System.Windows.Forms.NumericUpDown numericUpDownKg;
         private System.Windows.Forms.NumericUpDown numericUpDownTiras;
         private System.Windows.Forms.NumericUpDown numericUpDownImporte;
         private System.Windows.Forms.Label label1;
@@ -343,5 +348,12 @@
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.Button btnAgregar;
         private System.Windows.Forms.Button btnEliminar;
+        private System.Windows.Forms.TextBox textBoxKg;
+        private System.Windows.Forms.DataGridViewTextBoxColumn codigoDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn descripcionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn kgXPaqueteDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CantidadTiras;
+        private System.Windows.Forms.DataGridViewTextBoxColumn importeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.BindingSource perfilBindingSource1;
     }
 }

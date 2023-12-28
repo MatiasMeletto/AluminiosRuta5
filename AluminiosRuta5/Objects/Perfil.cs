@@ -13,7 +13,7 @@ namespace AluminiosRuta5.Objects
         public string Descripcion { get; set; }
         public double KgXPaquete { get; set; }
         public int CantidadTiras { get; set; }
-        public double Importe { get; set; }
+        public double Import { get; set; }
 
         public int CategoriaId { get; set; }
 
