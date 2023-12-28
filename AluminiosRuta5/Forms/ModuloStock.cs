@@ -12,7 +12,7 @@ namespace AluminiosRuta5.Forms
 {
     public class ModuloStock
     {
-        public static List<Button> CargarCategorias(BindingSource binding)
+        public static List<Button> CargarCategorias(BindingSource binding,int i = 0)
         {
             List<Button> list = new List<Button>();
             foreach (DataRowView b in binding.List)
@@ -21,7 +21,7 @@ namespace AluminiosRuta5.Forms
                 {
                     Width = 180,
                     Height = 50,
-                    Location = new Point(0, 50 * Convert.ToInt16(b[0].ToString())),
+                    Location = new Point(0, 50 * i),
                     FlatStyle = FlatStyle.Popup,
                     BackColor = Color.FromArgb(29, 39, 57),
                     ForeColor = Color.Aqua,
@@ -32,6 +32,7 @@ namespace AluminiosRuta5.Forms
                 button.BringToFront();
                 button.Show();
                 list.Add(button);
+                i++;
             }
             return list;
         }

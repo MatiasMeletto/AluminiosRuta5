@@ -86,10 +86,29 @@ namespace AluminiosRuta5.Forms
                 MessageBox.Show("DataBinding Error");
             }
         }
+        private int GetId(string nombre)
+        {
+            sql = "SELECT * FROM categorias ";
+            sql += "WHERE Nombre = @Nombre";
 
+            command.Parameters.Clear();
+            command.Parameters.AddWithValue("Nombre", nombre);
+            command.CommandText = sql;
+
+            SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds, "Categorias");
+
+            bindingSrc = new BindingSource();
+            bindingSrc.DataSource = ds.Tables["Categorias"];
+            DataRowView dr = bindingSrc[0] as DataRowView;
+
+            return Convert.ToInt16(dr[0].ToString());
+        }
         private void AbrirForm(object sender, EventArgs e)
         {
             Button button = sender as Button;
+            OpenConnection();
             dbCommand = "SELECT";
 
             sql = "SELECT * FROM categorias ORDER BY CategoriaId ASC;";
@@ -103,14 +122,17 @@ namespace AluminiosRuta5.Forms
             bindingSrc = new BindingSource();
             bindingSrc.DataSource = ds.Tables["Categorias"];
 
+            int id = GetId(button.Text);
             Categoria c = new Categoria()
             {
                 Nombre = button.Text,
+                CategoriaId = id
             };
             if (btnActual != null)
                 btnActual = ModuloPrincipal.CambioColor(btnActual, btnActual, false);
             btnActual = ModuloPrincipal.PreAbrir(panelDecorativo, btnActual, button);
             formularioActivo = ModuloPrincipal.AbrirFormularioHijo(panelPerfiles, formularioActivo, new FormPerfil(c));
+            CloseConnection();
         }
 
         private void CloseConnection()
@@ -134,8 +156,25 @@ namespace AluminiosRuta5.Forms
             formularioActivo = ModuloPrincipal.AbrirFormularioHijo(panelPerfiles, formularioActivo, new FormCategoria(this));
             if (btnActual != null)
                 btnActual = ModuloPrincipal.CambioColor(btnActual, btnActual, false);
-            panelDecorativo.Location = new Point(0, 110);
+            panelDecorativo.Location = new Point(0, 60);
             panelDecorativo.Height = 50 * Convert.ToInt16(bindingSrc.Count.ToString()); 
+            if (btnActual != null)
+                btnActual = ModuloPrincipal.CambioColor(btnActual, btnActual, false);
+        }
+
+        public void LoadForm()
+        {
+            UpdateDataBinding();
+        }
+
+        private void panelDefault_Click(object sender, EventArgs e)
+        {
+            if(formularioActivo != null)
+                formularioActivo.Close();
+            if (btnActual != null)
+                btnActual = ModuloPrincipal.CambioColor(btnActual, btnActual, false);
+            panelDecorativo.Location = new Point(0, 60);
+            panelDecorativo.Height = 50 * Convert.ToInt16(bindingSrc.Count.ToString());
             if (btnActual != null)
                 btnActual = ModuloPrincipal.CambioColor(btnActual, btnActual, false);
         }

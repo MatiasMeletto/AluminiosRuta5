@@ -74,6 +74,7 @@
             this.panelDefault.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(39)))), ((int)(((byte)(57)))));
             resources.ApplyResources(this.panelDefault, "panelDefault");
             this.panelDefault.Name = "panelDefault";
+            this.panelDefault.Click += new System.EventHandler(this.panelDefault_Click);
             // 
             // panelDecorativo
             // 

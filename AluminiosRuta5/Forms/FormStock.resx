@@ -147,51 +147,6 @@
   <data name="panelSalida.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
   </data>
-  <data name="&gt;&gt;btnCategorias.Name" xml:space="preserve">
-    <value>btnCategorias</value>
-  </data>
-  <data name="&gt;&gt;btnCategorias.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnCategorias.Parent" xml:space="preserve">
-    <value>panelSalida</value>
-  </data>
-  <data name="&gt;&gt;btnCategorias.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;btnVolver.Name" xml:space="preserve">
-    <value>btnVolver</value>
-  </data>
-  <data name="&gt;&gt;btnVolver.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnVolver.Parent" xml:space="preserve">
-    <value>panelSalida</value>
-  </data>
-  <data name="&gt;&gt;btnVolver.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="panelSalida.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 613</value>
-  </data>
-  <data name="panelSalida.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 60</value>
-  </data>
-  <data name="panelSalida.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;panelSalida.Name" xml:space="preserve">
-    <value>panelSalida</value>
-  </data>
-  <data name="&gt;&gt;panelSalida.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelSalida.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;panelSalida.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
   <data name="btnCategorias.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Right</value>
   </data>
@@ -270,6 +225,27 @@
   <data name="&gt;&gt;btnVolver.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="panelSalida.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 613</value>
+  </data>
+  <data name="panelSalida.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 60</value>
+  </data>
+  <data name="panelSalida.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;panelSalida.Name" xml:space="preserve">
+    <value>panelSalida</value>
+  </data>
+  <data name="&gt;&gt;panelSalida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelSalida.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panelSalida.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="panelDefault.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -292,7 +268,7 @@
     <value>2</value>
   </data>
   <data name="panelDecorativo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 110</value>
+    <value>0, 60</value>
   </data>
   <data name="panelDecorativo.Size" type="System.Drawing.Size, System.Drawing">
     <value>7, 0</value>

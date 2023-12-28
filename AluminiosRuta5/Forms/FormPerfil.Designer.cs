@@ -39,7 +39,7 @@
             this.perfilBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.textBoxBuscar = new System.Windows.Forms.TextBox();
             this.textBoxCodigo = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxDescripcion = new System.Windows.Forms.TextBox();
             this.numericUpDownKg = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownTiras = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownImporte = new System.Windows.Forms.NumericUpDown();
@@ -162,16 +162,16 @@
             this.textBoxCodigo.Size = new System.Drawing.Size(403, 34);
             this.textBoxCodigo.TabIndex = 2;
             // 
-            // textBox1
+            // textBoxDescripcion
             // 
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
-            this.textBox1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.textBox1.Location = new System.Drawing.Point(51, 105);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(403, 75);
-            this.textBox1.TabIndex = 3;
+            this.textBoxDescripcion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxDescripcion.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
+            this.textBoxDescripcion.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.textBoxDescripcion.Location = new System.Drawing.Point(51, 105);
+            this.textBoxDescripcion.Multiline = true;
+            this.textBoxDescripcion.Name = "textBoxDescripcion";
+            this.textBoxDescripcion.Size = new System.Drawing.Size(403, 75);
+            this.textBoxDescripcion.TabIndex = 3;
             // 
             // numericUpDownKg
             // 
@@ -271,6 +271,7 @@
             this.btnAgregar.TabIndex = 13;
             this.btnAgregar.Text = "Agregar";
             this.btnAgregar.UseVisualStyleBackColor = true;
+            this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
             // 
             // btnEliminar
             // 
@@ -299,12 +300,13 @@
             this.Controls.Add(this.numericUpDownImporte);
             this.Controls.Add(this.numericUpDownTiras);
             this.Controls.Add(this.numericUpDownKg);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxDescripcion);
             this.Controls.Add(this.textBoxCodigo);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormPerfil";
             this.Text = "FormPerfil";
+            this.Load += new System.EventHandler(this.FormPerfil_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStock)).EndInit();
@@ -329,7 +331,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn importeDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource perfilBindingSource;
         private System.Windows.Forms.TextBox textBoxCodigo;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxDescripcion;
         private System.Windows.Forms.NumericUpDown numericUpDownKg;
         private System.Windows.Forms.NumericUpDown numericUpDownTiras;
         private System.Windows.Forms.NumericUpDown numericUpDownImporte;
