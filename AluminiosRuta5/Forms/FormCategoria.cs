@@ -31,6 +31,7 @@ namespace AluminiosRuta5.Forms
         private void LimpiarCampos()
         {
             editando = false;
+            textBox1.DataBindings.Clear();
             textBox1.Text = "";
             btnAgregar.Text = "Agregar";
         }

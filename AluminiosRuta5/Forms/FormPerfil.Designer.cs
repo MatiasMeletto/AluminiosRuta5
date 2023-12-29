@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dataGridViewStock = new System.Windows.Forms.DataGridView();
+            this.CantidadTiras = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.textBoxBuscar = new System.Windows.Forms.TextBox();
             this.textBoxCodigo = new System.Windows.Forms.TextBox();
             this.textBoxDescripcion = new System.Windows.Forms.TextBox();
@@ -45,7 +46,6 @@
             this.btnAgregar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.textBoxKg = new System.Windows.Forms.TextBox();
-            this.CantidadTiras = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.codigoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descripcionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.kgXPaqueteDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -99,6 +99,14 @@
             this.dataGridViewStock.TabIndex = 1;
             this.dataGridViewStock.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewStock_RowHeaderMouseDoubleClick);
             // 
+            // CantidadTiras
+            // 
+            this.CantidadTiras.DataPropertyName = "CantidadTiras";
+            this.CantidadTiras.HeaderText = "CantidadTiras";
+            this.CantidadTiras.MinimumWidth = 6;
+            this.CantidadTiras.Name = "CantidadTiras";
+            this.CantidadTiras.ReadOnly = true;
+            // 
             // textBoxBuscar
             // 
             this.textBoxBuscar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -136,6 +144,11 @@
             this.numericUpDownTiras.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.numericUpDownTiras.Font = new System.Drawing.Font("Microsoft JhengHei UI", 13F);
             this.numericUpDownTiras.Location = new System.Drawing.Point(903, 41);
+            this.numericUpDownTiras.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
             this.numericUpDownTiras.Name = "numericUpDownTiras";
             this.numericUpDownTiras.Size = new System.Drawing.Size(120, 35);
             this.numericUpDownTiras.TabIndex = 5;
@@ -145,9 +158,15 @@
             this.numericUpDownImporte.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.numericUpDownImporte.Font = new System.Drawing.Font("Microsoft JhengHei UI", 13F);
             this.numericUpDownImporte.Location = new System.Drawing.Point(903, 105);
+            this.numericUpDownImporte.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
             this.numericUpDownImporte.Name = "numericUpDownImporte";
             this.numericUpDownImporte.Size = new System.Drawing.Size(120, 35);
             this.numericUpDownImporte.TabIndex = 6;
+            this.numericUpDownImporte.ThousandsSeparator = true;
             // 
             // label1
             // 
@@ -210,6 +229,7 @@
             this.btnLimpiar.TabIndex = 14;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // btnAgregar
             // 
@@ -244,14 +264,6 @@
             this.textBoxKg.Size = new System.Drawing.Size(121, 34);
             this.textBoxKg.TabIndex = 15;
             this.textBoxKg.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxKg_KeyPress);
-            // 
-            // CantidadTiras
-            // 
-            this.CantidadTiras.DataPropertyName = "CantidadTiras";
-            this.CantidadTiras.HeaderText = "CantidadTiras";
-            this.CantidadTiras.MinimumWidth = 6;
-            this.CantidadTiras.Name = "CantidadTiras";
-            this.CantidadTiras.ReadOnly = true;
             // 
             // codigoDataGridViewTextBoxColumn
             // 

@@ -68,6 +68,11 @@ namespace AluminiosRuta5.Forms
 
         private void LimpiarCampos()
         {
+            textBoxCodigo.DataBindings.Clear();
+            textBoxDescripcion.DataBindings.Clear();
+            textBoxKg.DataBindings.Clear();
+            numericUpDownImporte.DataBindings.Clear();
+            numericUpDownTiras.DataBindings.Clear();
             textBoxCodigo.Text = string.Empty;
             textBoxDescripcion.Text = string.Empty;
             textBoxKg.Text = string.Empty;
@@ -178,11 +183,7 @@ namespace AluminiosRuta5.Forms
 
         private void dataGridViewStock_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            textBoxCodigo.DataBindings.Clear();
-            textBoxDescripcion.DataBindings.Clear();
-            textBoxKg.DataBindings.Clear();
-            numericUpDownImporte.DataBindings.Clear();
-            numericUpDownTiras.DataBindings.Clear();
+            LimpiarCampos();
             dbCommand = "SELECT";
 
             sql = "SELECT * FROM perfiles ORDER BY PerfilId ASC;";
@@ -203,6 +204,11 @@ namespace AluminiosRuta5.Forms
             numericUpDownImporte.DataBindings.Add("Text", bindingSrc[dataGridViewStock.SelectedRows[0].Index], "Import");
             btnAgregar.Text = "Actualizar";
             editando = true;
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            LimpiarCampos();
         }
     }
 }
