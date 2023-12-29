@@ -2,6 +2,7 @@
 using System;
 using System.Data;
 using System.Data.SQLite;
+using System.Drawing;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -86,7 +87,7 @@ namespace AluminiosRuta5.Forms
         {
             dbCommand = "SELECT";
 
-            sql = "SELECT * FROM perfiles WHERE CategoriaId = "+ c.CategoriaId.ToString() + " ORDER BY CategoriaId ASC;";
+            sql = "SELECT * FROM perfiles WHERE CategoriaId = "+ c.CategoriaId.ToString() + " ORDER BY PerfilId ASC;";
 
             if (cmd == null)
             {
@@ -209,6 +210,62 @@ namespace AluminiosRuta5.Forms
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             LimpiarCampos();
+        }
+
+        private void textBoxBuscar_Leave(object sender, EventArgs e)
+        {
+            if (textBoxBuscar.Text.Trim() == "")
+            {
+                textBoxBuscar.Text = "Buscar...";
+                textBoxBuscar.ForeColor = Color.Silver;
+            }
+            UpdateDataBinding();
+        }
+
+        private void textBoxBuscar_Enter(object sender, EventArgs e)
+        {
+            if (textBoxBuscar.Text.Trim() == "Buscar...")
+            {
+                textBoxBuscar.Text = "";
+                textBoxBuscar.ForeColor = Color.Black;
+            }
+        }
+
+        private void textBoxBuscar_TextChanged(object sender, EventArgs e)
+        {
+            OpenConnection();
+            if (string.IsNullOrEmpty(textBoxBuscar.Text.Trim()) || 
+                textBoxBuscar.Text.Trim() == "Buscar...")
+            {
+                UpdateDataBinding();
+                dataGridViewStock.DataSource = bindingSrc;
+                CloseConnection();
+                return;
+            }
+            else if (double.TryParse(textBoxBuscar.Text, out double val))
+            {
+                sql = "SELECT * FROM perfiles";
+                sql += " WHERE Codigo LIKE '" + textBoxBuscar.Text +"%'";
+                sql += " OR Descripcion LIKE '" + textBoxBuscar.Text + "%'";
+                sql += " OR Import = " + val;
+                sql += " OR CantidadTiras = " + val;
+                sql += " OR KgXPaquete = " + val;
+            }
+            else
+            {
+                sql = "SELECT * FROM perfiles";
+                sql += " WHERE Codigo LIKE '" + textBoxBuscar.Text + "%'";
+                sql += " OR Descripcion LIKE '" + textBoxBuscar.Text + "%'";
+            }
+
+            command.CommandType = CommandType.Text;
+            command.CommandText = sql;
+            command.Parameters.Clear();
+
+            UpdateDataBinding(command);
+            dataGridViewStock.DataSource = bindingSrc;
+
+            CloseConnection();
         }
     }
 }

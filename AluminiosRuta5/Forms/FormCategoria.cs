@@ -187,5 +187,48 @@ namespace AluminiosRuta5.Forms
         {
             LimpiarCampos();
         }
+
+        private void textBoxBuscar_Enter(object sender, EventArgs e)
+        {
+            if (textBoxBuscar.Text.Trim() == "Buscar...")
+            {
+                textBoxBuscar.Text = "";
+                textBoxBuscar.ForeColor = Color.Black;
+            }
+        }
+
+        private void textBoxBuscar_Leave(object sender, EventArgs e)
+        {
+            if (textBoxBuscar.Text.Trim() == "")
+            {
+                textBoxBuscar.Text = "Buscar...";
+                textBoxBuscar.ForeColor = Color.Silver;
+            }
+            UpdateDataBinding();
+        }
+
+        private void textBoxBuscar_TextChanged(object sender, EventArgs e)
+        {
+            OpenConnection();
+            if (string.IsNullOrEmpty(textBoxBuscar.Text.Trim()) ||
+                textBoxBuscar.Text.Trim() == "Buscar...")
+            {
+                UpdateDataBinding();
+                dataGridViewStock.DataSource = bindingSrc;
+                CloseConnection();
+                return;
+            }
+            sql = "SELECT * FROM categorias";
+            sql += " WHERE Nombre LIKE '" + textBoxBuscar.Text + "%'";
+
+            command.CommandType = CommandType.Text;
+            command.CommandText = sql;
+            command.Parameters.Clear();
+
+            UpdateDataBinding(command);
+            dataGridViewStock.DataSource = bindingSrc;
+
+            CloseConnection();
+        }
     }
 }

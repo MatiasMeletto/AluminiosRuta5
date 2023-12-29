@@ -103,6 +103,9 @@ namespace AluminiosRuta5.Forms
             this.textBoxBuscar.Size = new System.Drawing.Size(248, 34);
             this.textBoxBuscar.TabIndex = 0;
             this.textBoxBuscar.Text = "Buscar...";
+            this.textBoxBuscar.TextChanged += new System.EventHandler(this.textBoxBuscar_TextChanged);
+            this.textBoxBuscar.Enter += new System.EventHandler(this.textBoxBuscar_Enter);
+            this.textBoxBuscar.Leave += new System.EventHandler(this.textBoxBuscar_Leave);
             // 
             // btnEliminar
             // 
