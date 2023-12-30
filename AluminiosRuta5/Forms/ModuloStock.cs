@@ -12,7 +12,7 @@ namespace AluminiosRuta5.Forms
 {
     public class ModuloStock
     {
-        public static List<Button> CargarCategorias(BindingSource binding,int i = 0)
+        public static List<Button> CargarCategorias(BindingSource binding)
         {
             List<Button> list = new List<Button>();
             foreach (DataRowView b in binding.List)
@@ -21,7 +21,7 @@ namespace AluminiosRuta5.Forms
                 {
                     Width = 180,
                     Height = 50,
-                    Location = new Point(0, 50 * i),
+                    Location = new Point(0, 50 * list.Count()),
                     FlatStyle = FlatStyle.Popup,
                     BackColor = Color.FromArgb(29, 39, 57),
                     ForeColor = Color.Aqua,
@@ -32,7 +32,40 @@ namespace AluminiosRuta5.Forms
                 button.BringToFront();
                 button.Show();
                 list.Add(button);
-                i++;
+            }
+            return list;
+        }
+        public static List<Label> ListaLabels(List<Label> lista, Perfil perfil, int cantidadTiras)
+        {
+            Label label = new Label
+            {
+                Name = lista.Count().ToString(),
+                Text = $"* {perfil.Codigo}, {perfil.Descripcion},  x{cantidadTiras}",
+                Location = new Point(0, 30 * lista.Count()),
+                Font = new Font("Microsoft JhengHei UI", 13),
+                AutoSize = true
+            };
+            label.BringToFront();
+            label.Show();
+            lista.Add(label);
+            return lista;
+        }
+        public static List<Perfil> CargarPerfiles(BindingSource binding)
+        {
+            List<Perfil> list = new List<Perfil>();
+            foreach (DataRowView b in binding.List)
+            {
+                Perfil perfil = new Perfil
+                {
+                    PerfilId = Convert.ToInt16(b[0]),
+                    Codigo = b[1].ToString(),
+                    Descripcion = b[2].ToString(),
+                    KgXPaquete = Convert.ToDouble(b[3]),
+                    Import = Convert.ToDouble(b[4]),
+                    CategoriaId = Convert.ToInt16(b[5]),
+                    CantidadTiras = Convert.ToInt16(b[6]),
+                };
+                list.Add(perfil);
             }
             return list;
         }

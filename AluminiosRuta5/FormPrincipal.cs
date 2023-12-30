@@ -19,7 +19,15 @@ namespace AluminiosRuta5
             form.BringToFront();
             form.Show();
         }
-        public void GetCambiarForm()
+        public void GetCambiarFormStock()
+        {
+            CambiarForm(formElec, new FormStock(this));
+        }
+        public void GetCambiarFormPresupuesto()
+        {
+            CambiarForm(formElec, new FormPresupuesto(this));
+        }
+        public void GetCambiarFormRemito()
         {
             CambiarForm(formElec, new FormStock(this));
         }

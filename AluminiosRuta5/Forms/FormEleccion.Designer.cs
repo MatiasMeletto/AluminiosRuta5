@@ -83,6 +83,7 @@
             this.btnPresupuestos.Text = "Presupuestos";
             this.btnPresupuestos.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnPresupuestos.UseVisualStyleBackColor = false;
+            this.btnPresupuestos.Click += new System.EventHandler(this.btnPresupuestos_Click);
             // 
             // FormEleccion
             // 
