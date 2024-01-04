@@ -13,11 +13,6 @@ namespace AluminiosRuta5.Forms
             f = form;
         }
 
-        private void FormEleccion_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnStock_Click(object sender, EventArgs e)
         {
             f.GetCambiarFormStock();
@@ -26,6 +21,11 @@ namespace AluminiosRuta5.Forms
         private void btnPresupuestos_Click(object sender, EventArgs e)
         {
             f.GetCambiarFormPresupuesto();
+        }
+
+        private void btnRemitos_Click(object sender, EventArgs e)
+        {
+            f.GetCambiarFormRemito();
         }
     }
 }

@@ -35,10 +35,11 @@ namespace AluminiosRuta5.Forms
             }
             return list;
         }
-        public static List<Label> ListaLabels(List<Label> lista, Perfil perfil, int cantidadTiras)
+        public static void ListaLabels(List<Label> lista, Perfil perfil, int cantidadTiras)
         {
             Label label = new Label
             {
+                Tag = perfil.PerfilId,
                 Name = lista.Count().ToString(),
                 Text = $"* {perfil.Codigo}, {perfil.Descripcion},  x{cantidadTiras}",
                 Location = new Point(0, 30 * lista.Count()),
@@ -48,7 +49,6 @@ namespace AluminiosRuta5.Forms
             label.BringToFront();
             label.Show();
             lista.Add(label);
-            return lista;
         }
         public static List<Perfil> CargarPerfiles(BindingSource binding)
         {
@@ -60,10 +60,10 @@ namespace AluminiosRuta5.Forms
                     PerfilId = Convert.ToInt16(b[0]),
                     Codigo = b[1].ToString(),
                     Descripcion = b[2].ToString(),
-                    KgXPaquete = Convert.ToDouble(b[3]),
-                    Import = Convert.ToDouble(b[4]),
-                    CategoriaId = Convert.ToInt16(b[5]),
-                    CantidadTiras = Convert.ToInt16(b[6]),
+                    Import = Convert.ToDecimal(b[3]),
+                    CantidadTiras = Convert.ToInt16(b[4]),
+                    KgXPaquete = Convert.ToDecimal(b[5]),
+                    CategoriaId = Convert.ToInt16(b[6]),
                 };
                 list.Add(perfil);
             }

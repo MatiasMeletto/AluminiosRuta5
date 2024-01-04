@@ -23,6 +23,7 @@ namespace AluminiosRuta5.Forms
 
         private bool editando = false;
         private Categoria c;
+        int indice = -1;
         public FormPerfil(Categoria c)
         {
             InitializeComponent();
@@ -31,7 +32,7 @@ namespace AluminiosRuta5.Forms
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxCodigo.Text.Trim()) || 
+            if (string.IsNullOrEmpty(textBoxCodigo.Text.Trim()) ||
                 string.IsNullOrEmpty(textBoxDescripcion.Text.Trim()) ||
                 string.IsNullOrEmpty(textBoxKg.Text.Trim()) ||
                 numericUpDownImporte.Value == 0)
@@ -40,12 +41,22 @@ namespace AluminiosRuta5.Forms
                 return;
             }
             OpenConnection();
+            sql = "SELECT * FROM perfiles WHERE Codigo = '" + textBoxCodigo.Text+ "'";
+            command.CommandText = sql;
+            SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds, "Perfiles");
+
+            bindingSrc = new BindingSource();
+            bindingSrc.DataSource = ds.Tables["Perfiles"];
+            if (bindingSrc.Count > 0)
+            {
+                MessageBox.Show("El codigo ya existe");
+                return;
+            }
             if (editando)
             {
-                dbCommand = "UPDATE";
-
-                DataRowView dr = bindingSrc[dataGridViewStock.SelectedRows[0].Index] as DataRowView;
-                sql = "UPDATE perfiles SET Codigo = @Codigo, Descripcion = @Descripcion, Import = @Importe, CantidadTiras = @CantidadTiras, KgXPaquete = @KgXPaquete, CategoriaId = @CategoriaId WHERE PerfilId = " + dr[0];
+                sql = "UPDATE perfiles SET Codigo = @Codigo, Descripcion = @Descripcion, Import = @Importe, CantidadTiras = @CantidadTiras, KgXPaquete = @KgXPaquete, CategoriaId = @CategoriaId WHERE PerfilId = " + indice;
             }
             else if (!editando)
             {
@@ -80,6 +91,7 @@ namespace AluminiosRuta5.Forms
             numericUpDownTiras.Value = 0;
             numericUpDownImporte.Value = 0;
             editando = false;
+            indice = -1;
             btnAgregar.Text = "Agregar";
         }
 
@@ -87,7 +99,7 @@ namespace AluminiosRuta5.Forms
         {
             dbCommand = "SELECT";
 
-            sql = "SELECT * FROM perfiles WHERE CategoriaId = "+ c.CategoriaId.ToString() + " ORDER BY PerfilId ASC;";
+            sql = "SELECT * FROM perfiles WHERE CategoriaId = " + c.CategoriaId.ToString() + " ORDER BY PerfilId ASC;";
 
             if (cmd == null)
             {
@@ -140,7 +152,7 @@ namespace AluminiosRuta5.Forms
             OpenConnection();
             UpdateDataBinding();
             dataGridViewStock.DataSource = bindingSrc;
-            CloseConnection();  
+            CloseConnection();
         }
 
         private void textBoxKg_KeyPress(object sender, KeyPressEventArgs e)
@@ -184,27 +196,33 @@ namespace AluminiosRuta5.Forms
 
         private void dataGridViewStock_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            LimpiarCampos();
-            dbCommand = "SELECT";
+            if (dataGridViewStock.SelectedRows.Count > 0)
+            {
+                LimpiarCampos();
+                string codigo = dataGridViewStock.CurrentRow.Cells[0].Value.ToString();
 
-            sql = "SELECT * FROM perfiles ORDER BY PerfilId ASC;";
+                sql = "SELECT * FROM perfiles ";
+                sql += "WHERE Codigo = '" + codigo + "'";
 
-            command.CommandText = sql;
+                command.CommandText = sql;
 
-            SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
-            DataSet ds = new DataSet();
-            adapter.Fill(ds, "Perfiles");
+                SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
+                DataSet ds = new DataSet();
+                adapter.Fill(ds, "Perfiles");
 
-            bindingSrc = new BindingSource();
-            bindingSrc.DataSource = ds.Tables["Perfiles"];
+                bindingSrc = new BindingSource();
+                bindingSrc.DataSource = ds.Tables["Perfiles"];
 
-            textBoxCodigo.DataBindings.Add("Text", bindingSrc[dataGridViewStock.SelectedRows[0].Index], "Codigo");
-            textBoxDescripcion.DataBindings.Add("Text", bindingSrc[dataGridViewStock.SelectedRows[0].Index], "Descripcion");
-            textBoxKg.DataBindings.Add("Text", bindingSrc[dataGridViewStock.SelectedRows[0].Index], "KgXPaquete");
-            numericUpDownTiras.DataBindings.Add("Text", bindingSrc[dataGridViewStock.SelectedRows[0].Index], "CantidadTiras");
-            numericUpDownImporte.DataBindings.Add("Text", bindingSrc[dataGridViewStock.SelectedRows[0].Index], "Import");
-            btnAgregar.Text = "Actualizar";
-            editando = true;
+                textBoxCodigo.DataBindings.Add("Text", bindingSrc[0], "Codigo");
+                textBoxDescripcion.DataBindings.Add("Text", bindingSrc[0], "Descripcion");
+                textBoxKg.DataBindings.Add("Text", bindingSrc[0], "KgXPaquete");
+                numericUpDownTiras.DataBindings.Add("Text", bindingSrc[0], "CantidadTiras");
+                numericUpDownImporte.DataBindings.Add("Text", bindingSrc[0], "Import");
+                btnAgregar.Text = "Actualizar";
+                editando = true;
+                DataRowView dr = bindingSrc[0] as DataRowView;
+                indice = Convert.ToInt16(dr[0]);
+            }
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
@@ -234,7 +252,7 @@ namespace AluminiosRuta5.Forms
         private void textBoxBuscar_TextChanged(object sender, EventArgs e)
         {
             OpenConnection();
-            if (string.IsNullOrEmpty(textBoxBuscar.Text.Trim()) || 
+            if (string.IsNullOrEmpty(textBoxBuscar.Text.Trim()) ||
                 textBoxBuscar.Text.Trim() == "Buscar...")
             {
                 UpdateDataBinding();
@@ -245,7 +263,7 @@ namespace AluminiosRuta5.Forms
             else if (double.TryParse(textBoxBuscar.Text, out double val))
             {
                 sql = "SELECT * FROM perfiles";
-                sql += " WHERE Codigo LIKE '" + textBoxBuscar.Text +"%'";
+                sql += " WHERE Codigo LIKE '" + textBoxBuscar.Text + "%'";
                 sql += " OR Descripcion LIKE '" + textBoxBuscar.Text + "%'";
                 sql += " OR Import = " + val;
                 sql += " OR CantidadTiras = " + val;

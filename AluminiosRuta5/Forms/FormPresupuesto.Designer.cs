@@ -45,14 +45,14 @@
             // 
             this.textBoxCodigo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxCodigo.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
-            this.textBoxCodigo.Location = new System.Drawing.Point(57, 48);
+            this.textBoxCodigo.Location = new System.Drawing.Point(40, 55);
             this.textBoxCodigo.Name = "textBoxCodigo";
             this.textBoxCodigo.Size = new System.Drawing.Size(128, 34);
             this.textBoxCodigo.TabIndex = 0;
             // 
             // btnAgregar
             // 
-            this.btnAgregar.Location = new System.Drawing.Point(57, 117);
+            this.btnAgregar.Location = new System.Drawing.Point(40, 124);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(128, 50);
             this.btnAgregar.TabIndex = 14;
@@ -64,7 +64,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F, System.Drawing.FontStyle.Bold);
-            this.label1.Location = new System.Drawing.Point(53, 26);
+            this.label1.Location = new System.Drawing.Point(36, 33);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 19);
             this.label1.TabIndex = 15;
@@ -77,9 +77,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.AutoScroll = true;
             this.panel1.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.panel1.Location = new System.Drawing.Point(344, 26);
+            this.panel1.Location = new System.Drawing.Point(616, 33);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(880, 543);
+            this.panel1.Size = new System.Drawing.Size(608, 599);
             this.panel1.TabIndex = 16;
             // 
             // labelTotalKg
@@ -87,7 +87,7 @@
             this.labelTotalKg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.labelTotalKg.AutoSize = true;
             this.labelTotalKg.Font = new System.Drawing.Font("Microsoft JhengHei UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTotalKg.Location = new System.Drawing.Point(337, 572);
+            this.labelTotalKg.Location = new System.Drawing.Point(34, 399);
             this.labelTotalKg.Name = "labelTotalKg";
             this.labelTotalKg.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelTotalKg.Size = new System.Drawing.Size(154, 36);
@@ -99,7 +99,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F, System.Drawing.FontStyle.Bold);
-            this.label2.Location = new System.Drawing.Point(195, 28);
+            this.label2.Location = new System.Drawing.Point(178, 35);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(109, 19);
             this.label2.TabIndex = 19;
@@ -108,7 +108,7 @@
             // numericUpDown1
             // 
             this.numericUpDown1.Font = new System.Drawing.Font("Microsoft JhengHei UI", 13F);
-            this.numericUpDown1.Location = new System.Drawing.Point(199, 49);
+            this.numericUpDown1.Location = new System.Drawing.Point(182, 56);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             999999,
             0,
@@ -121,12 +121,14 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Location = new System.Drawing.Point(13, 638);
+            this.button1.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button1.Location = new System.Drawing.Point(0, 624);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(76, 50);
             this.button1.TabIndex = 21;
             this.button1.Text = "Volver";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // labelTotalTiras
@@ -134,7 +136,7 @@
             this.labelTotalTiras.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.labelTotalTiras.AutoSize = true;
             this.labelTotalTiras.Font = new System.Drawing.Font("Microsoft JhengHei UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTotalTiras.Location = new System.Drawing.Point(618, 572);
+            this.labelTotalTiras.Location = new System.Drawing.Point(34, 352);
             this.labelTotalTiras.Name = "labelTotalTiras";
             this.labelTotalTiras.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelTotalTiras.Size = new System.Drawing.Size(171, 36);
@@ -147,7 +149,7 @@
             this.labelTotalImporte.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.labelTotalImporte.AutoSize = true;
             this.labelTotalImporte.Font = new System.Drawing.Font("Microsoft JhengHei UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTotalImporte.Location = new System.Drawing.Point(933, 572);
+            this.labelTotalImporte.Location = new System.Drawing.Point(34, 445);
             this.labelTotalImporte.Name = "labelTotalImporte";
             this.labelTotalImporte.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelTotalImporte.Size = new System.Drawing.Size(221, 36);

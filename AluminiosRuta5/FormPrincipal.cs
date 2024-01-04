@@ -29,7 +29,7 @@ namespace AluminiosRuta5
         }
         public void GetCambiarFormRemito()
         {
-            CambiarForm(formElec, new FormStock(this));
+            CambiarForm(formElec, new FormRemito(this));
         }
         public FormPrincipal()
         {

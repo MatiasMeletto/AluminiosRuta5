@@ -67,6 +67,7 @@
             this.btnRemitos.Text = "Remitos";
             this.btnRemitos.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnRemitos.UseVisualStyleBackColor = false;
+            this.btnRemitos.Click += new System.EventHandler(this.btnRemitos_Click);
             // 
             // btnPresupuestos
             // 
@@ -97,7 +98,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormEleccion";
             this.Text = "FormEleccion";
-            this.Load += new System.EventHandler(this.FormEleccion_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
