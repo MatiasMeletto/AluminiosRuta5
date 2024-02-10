@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Common;
 using System.Data.SQLite;
 using System.Drawing;
 using System.Globalization;
@@ -13,9 +14,8 @@ using System.Windows.Forms;
 
 namespace AluminiosRuta5.Forms
 {
-    public partial class FormRemito : Form
+    public partial class FormAgregar : Form
     {
-        private static string dbCommand = "";
         private static BindingSource bindingSrc;
 
         private static string dbPath = Application.StartupPath + "\\" + "aluminioStock.db;";
@@ -26,12 +26,12 @@ namespace AluminiosRuta5.Forms
 
         private static string sql;
         private List<Label> listaLabels = new List<Label>();
-        private FormPrincipal form;
+        private FormStock form;
         private List<Perfil> listaPerfiles = new List<Perfil>();
         private List<Perfil> listaPerfilesPresupuestados = new List<Perfil>();
+
         private void CargarPerfiles(SQLiteCommand cmd = null)
         {
-            dbCommand = "SELECT";
 
             sql = "SELECT * FROM perfiles ORDER BY PerfilId ASC;";
 
@@ -103,21 +103,48 @@ namespace AluminiosRuta5.Forms
             listaPerfilesPresupuestados.Remove(perfil);
             CargarLabels(listaLabels);
             SumarCantidades();
-            if (listaLabels.Count == 0)
-            {
-                btnConfirmar.Enabled = false;
-            }
         }
-        public FormRemito(FormPrincipal f)
+        private void SumarCantidades()
+        {
+            decimal sumaTiras = 0;
+            decimal importe = 0;
+            decimal kg = 0;
+            foreach (var item in listaLabels)
+            {
+                char[] chars = item.Text.ToCharArray();
+                Array.Reverse(chars);
+                string a = "";
+                foreach (char c in chars)
+                {
+                    if (char.IsDigit(c))
+                        a += c;
+                    else
+                        break;
+                }
+                if (a.Length > 1)
+                {
+                    char[] chars2 = a.ToCharArray();
+                    Array.Reverse(chars2);
+                    a = new string(chars2);
+                }
+                sumaTiras += Convert.ToDecimal(a);
+                importe += Convert.ToDecimal(listaPerfilesPresupuestados[listaLabels.IndexOf(item)].Import) * Convert.ToDecimal(a);
+                kg += Convert.ToDecimal(listaPerfilesPresupuestados[listaLabels.IndexOf(item)].KgXPaquete) * Convert.ToDecimal(a);
+            }
+            labelTotalTiras.Text = "Total tiras = " + sumaTiras.ToString();
+            labelTotalKg.Text = "Total KG = " + kg.ToString();
+        }
+
+
+        public FormAgregar(FormStock f)
         {
             InitializeComponent();
             form = f;
-            btnConfirmar.Enabled = false;
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxCodigo.Text.Trim()) || numericUpDownCantTiras.Value == 0)
+            if (string.IsNullOrEmpty(textBoxCodigo.Text.Trim()) || numericUpDown1.Value == 0)
             {
                 MessageBox.Show("Complete los campos por favor");
                 return;
@@ -126,24 +153,44 @@ namespace AluminiosRuta5.Forms
             try
             {
                 Perfil p = listaPerfiles.Where(l => l.Codigo == textBoxCodigo.Text).SingleOrDefault();
-
                 if (p != null)
                 {
-                    p.Import = numericUpDownImporte.Value.ToString();
-                    p.KgXPaquete = numericUpDownKilos.Value.ToString();
-                    ModuloStock.ListaLabels(listaLabels, p, Convert.ToInt16(numericUpDownCantTiras.Value));
-                    p.CantidadTiras = Convert.ToInt16(numericUpDownCantTiras.Value);
-                    listaPerfilesPresupuestados.Add(p);
-
+                    p.CantidadTiras = Convert.ToInt16(numericUpDown1.Value);
+                    Label l = listaLabels.Where(la => Convert.ToInt16(la.Tag) == p.PerfilId).SingleOrDefault();
+                    if (l != null)
+                    {
+                        char[] chars = listaLabels[listaLabels.IndexOf(l)].Text.ToCharArray();
+                        Array.Reverse(chars);
+                        string a = "";
+                        List<char> lisTemp = chars.ToList();
+                        foreach (char c in chars)
+                        {
+                            if (char.IsDigit(c))
+                            {
+                                a += c;
+                                lisTemp.RemoveAt(lisTemp.IndexOf(c));
+                            }
+                            else
+                                break;
+                        }
+                        chars = lisTemp.ToArray();
+                        Array.Reverse(chars);
+                        if (a.Length > 1)
+                        {
+                            char[] chars2 = a.ToCharArray();
+                            Array.Reverse(chars2);
+                            a = new string(chars2);
+                        }
+                        listaLabels[listaLabels.IndexOf(l)].Text = new string(chars) + (Convert.ToInt16(a) + numericUpDown1.Value).ToString();
+                    }
+                    else
+                    {
+                        ModuloStock.ListaLabels(listaLabels, p, Convert.ToInt16(numericUpDown1.Value));
+                        listaPerfilesPresupuestados.Add(p);
+                    }
                     CargarLabels(listaLabels);
                     textBoxCodigo.Text = string.Empty;
-                    numericUpDownCantTiras.Value = 0;
-                    numericUpDownKilos.Value = 0;
-                    numericUpDownImporte.Value = 0;
-                    if (!btnConfirmar.Enabled)
-                    {
-                        btnConfirmar.Enabled = true;
-                    }
+                    numericUpDown1.Value = 0;
                 }
                 else
                 {
@@ -162,34 +209,19 @@ namespace AluminiosRuta5.Forms
             }
             SumarCantidades();
         }
-        private void SumarCantidades()
-        {
-            decimal sumaTiras = 0;
-            decimal importe = 0;
-            decimal kg = 0;
-            foreach (var item in listaPerfilesPresupuestados)
-            {
-                sumaTiras += item.CantidadTiras;
-                importe += Convert.ToDecimal(item.Import) * Convert.ToDecimal(item.KgXPaquete);
-                kg += Convert.ToDecimal(item.KgXPaquete);
-            }
-            labelTotalImporte.Text = "Total importe = " + importe.ToString("C", CultureInfo.CreateSpecificCulture("en-US"));
-            labelTotalTiras.Text = "Total tiras = " + sumaTiras.ToString();
-            labelTotalKg.Text = "Total KG = " + kg.ToString();
-        }
-
-        private void FormRemito_Load(object sender, EventArgs e)
-        {
-            CargarPerfiles();
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
-            form.ResetearEleccion();
+            form.ResetForm();
         }
 
-        private void btnConfirmar_Click(object sender, EventArgs e)
+        private void FormAgregar_Load(object sender, EventArgs e)
+        {
+            CargarPerfiles();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
         {
             OpenConnection();
             foreach (var p in listaPerfilesPresupuestados)
@@ -207,17 +239,10 @@ namespace AluminiosRuta5.Forms
                 bindingSrc.DataSource = ds.Tables["Perfiles"];
                 DataRowView dr = bindingSrc[0] as DataRowView;
 
-                if ((Convert.ToInt16(dr[3]) - p.CantidadTiras) >= 0)
-                {
-                    sql = $"UPDATE perfiles SET CantidadTiras = {Convert.ToInt16(dr[3]) - p.CantidadTiras} WHERE PerfilId = {dr[0]}";
-                    command.CommandText = sql;
-                    command.ExecuteNonQuery();
-                }
-                else
-                {
-                    MessageBox.Show("No hay sufientes tiras de " + dr[1].ToString());
-                    return;
-                }
+                sql = $"UPDATE perfiles SET CantidadTiras = {Convert.ToInt16(dr[3]) + p.CantidadTiras} WHERE PerfilId = {dr[0]}";
+                command.CommandText = sql;
+                command.ExecuteNonQuery();
+
             }
             listaLabels.Clear();
             listaPerfilesPresupuestados.Clear();

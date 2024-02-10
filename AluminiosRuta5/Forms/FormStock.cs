@@ -40,7 +40,10 @@ namespace AluminiosRuta5.Forms
             this.Close();
             form.ResetearEleccion();
         }
-
+        public void ResetForm()
+        {
+            form.ResetForm();
+        }
         private void FormStock_Load(object sender, EventArgs e)
         {
             OpenConnection();
@@ -157,7 +160,7 @@ namespace AluminiosRuta5.Forms
             if (btnActual != null)
                 btnActual = ModuloPrincipal.CambioColor(btnActual, btnActual, false);
             panelDecorativo.Location = new Point(0, 60);
-            panelDecorativo.Height = 50 * Convert.ToInt16(bindingSrc.Count.ToString()); 
+            panelDecorativo.Height = 50 * Convert.ToInt16(bindingSrc.Count.ToString());
             if (btnActual != null)
                 btnActual = ModuloPrincipal.CambioColor(btnActual, btnActual, false);
         }
@@ -169,7 +172,7 @@ namespace AluminiosRuta5.Forms
 
         private void panelDefault_Click(object sender, EventArgs e)
         {
-            if(formularioActivo != null)
+            if (formularioActivo != null)
                 formularioActivo.Close();
             if (btnActual != null)
                 btnActual = ModuloPrincipal.CambioColor(btnActual, btnActual, false);
@@ -177,6 +180,18 @@ namespace AluminiosRuta5.Forms
             panelDecorativo.Height = 50 * Convert.ToInt16(bindingSrc.Count.ToString());
             if (btnActual != null)
                 btnActual = ModuloPrincipal.CambioColor(btnActual, btnActual, false);
+        }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            FormAgregar formN = new FormAgregar(this);
+            this.SuspendLayout();
+            formN.TopLevel = false;
+            formN.FormBorderStyle = FormBorderStyle.None;
+            formN.Dock = DockStyle.Fill;
+            form.Controls.Add(formN);
+            formN.BringToFront();
+            formN.Show();
         }
     }
 }

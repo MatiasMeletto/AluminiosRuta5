@@ -53,5 +53,10 @@ namespace AluminiosRuta5
             formEleccion.Show();
             formElec = formEleccion;
         }
+
+        internal void ResetForm()
+        {
+            CambiarForm(formElec, new FormStock(this));
+        }
     }
 }

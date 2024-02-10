@@ -60,9 +60,9 @@ namespace AluminiosRuta5.Forms
                     PerfilId = Convert.ToInt16(b[0]),
                     Codigo = b[1].ToString(),
                     Descripcion = b[2].ToString(),
-                    Import = Convert.ToDecimal(b[3]),
-                    CantidadTiras = Convert.ToInt16(b[4]),
-                    KgXPaquete = Convert.ToDecimal(b[5]),
+                    CantidadTiras = Convert.ToInt16(b[3]),
+                    KgXPaquete = b[4].ToString(),
+                    KgXTira = b[5].ToString(),
                     CategoriaId = Convert.ToInt16(b[6]),
                 };
                 list.Add(perfil);

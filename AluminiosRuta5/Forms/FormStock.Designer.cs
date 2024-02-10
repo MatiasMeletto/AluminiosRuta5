@@ -34,9 +34,11 @@
             this.btnCategorias = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
             this.panelDefault = new System.Windows.Forms.Panel();
+            this.btnAgregar = new System.Windows.Forms.Button();
             this.panelDecorativo = new System.Windows.Forms.Panel();
             this.panelPerfiles = new System.Windows.Forms.Panel();
             this.panelSalida.SuspendLayout();
+            this.panelDefault.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelSeleccion
@@ -72,9 +74,18 @@
             // panelDefault
             // 
             this.panelDefault.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(39)))), ((int)(((byte)(57)))));
+            this.panelDefault.Controls.Add(this.btnAgregar);
             resources.ApplyResources(this.panelDefault, "panelDefault");
             this.panelDefault.Name = "panelDefault";
             this.panelDefault.Click += new System.EventHandler(this.panelDefault_Click);
+            // 
+            // btnAgregar
+            // 
+            resources.ApplyResources(this.btnAgregar, "btnAgregar");
+            this.btnAgregar.ForeColor = System.Drawing.Color.Aqua;
+            this.btnAgregar.Name = "btnAgregar";
+            this.btnAgregar.UseVisualStyleBackColor = true;
+            this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
             // 
             // panelDecorativo
             // 
@@ -102,6 +113,7 @@
             this.Name = "FormStock";
             this.Load += new System.EventHandler(this.FormStock_Load);
             this.panelSalida.ResumeLayout(false);
+            this.panelDefault.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -115,5 +127,6 @@
         private System.Windows.Forms.Button btnCategorias;
         private System.Windows.Forms.Panel panelDecorativo;
         private System.Windows.Forms.Panel panelPerfiles;
+        private System.Windows.Forms.Button btnAgregar;
     }
 }

@@ -35,7 +35,7 @@ namespace AluminiosRuta5.Forms
             if (string.IsNullOrEmpty(textBoxCodigo.Text.Trim()) ||
                 string.IsNullOrEmpty(textBoxDescripcion.Text.Trim()) ||
                 string.IsNullOrEmpty(textBoxKg.Text.Trim()) ||
-                numericUpDownImporte.Value == 0)
+                string.IsNullOrEmpty(textBox1Tira.Text.Trim()))
             {
                 MessageBox.Show("Complete los campos por favor");
                 return;
@@ -56,14 +56,14 @@ namespace AluminiosRuta5.Forms
             }
             if (editando)
             {
-                sql = "UPDATE perfiles SET Codigo = @Codigo, Descripcion = @Descripcion, Import = @Importe, CantidadTiras = @CantidadTiras, KgXPaquete = @KgXPaquete, CategoriaId = @CategoriaId WHERE PerfilId = " + indice;
+                sql = "UPDATE perfiles SET Codigo = @Codigo, Descripcion = @Descripcion, CantidadTiras = @CantidadTiras, KgXPaquete = @KgXPaquete, KgXTira = @KgXTira, CategoriaId = @CategoriaId WHERE PerfilId = " + indice;
             }
             else if (!editando)
             {
                 dbCommand = "INSERT";
 
-                sql = "INSERT INTO perfiles (Codigo,Descripcion,Import,CantidadTiras,KgXPaquete,CategoriaId) " +
-                    "VALUES (@Codigo,@Descripcion,@Importe,@CantidadTiras,@KgXPaquete,@CategoriaId)";
+                sql = "INSERT INTO perfiles (Codigo,Descripcion,CantidadTiras,KgXPaquete,KgXTira,CategoriaId) " +
+                    "VALUES (@Codigo,@Descripcion,@CantidadTiras,@KgXPaquete,@KgXTira,@CategoriaId)";
             }
             AddCmdParameters();
             int executeResult = command.ExecuteNonQuery();
@@ -83,13 +83,13 @@ namespace AluminiosRuta5.Forms
             textBoxCodigo.DataBindings.Clear();
             textBoxDescripcion.DataBindings.Clear();
             textBoxKg.DataBindings.Clear();
-            numericUpDownImporte.DataBindings.Clear();
+            textBox1Tira.DataBindings.Clear();
             numericUpDownTiras.DataBindings.Clear();
             textBoxCodigo.Text = string.Empty;
             textBoxDescripcion.Text = string.Empty;
             textBoxKg.Text = string.Empty;
             numericUpDownTiras.Value = 0;
-            numericUpDownImporte.Value = 0;
+            textBox1Tira.Text = string.Empty;
             editando = false;
             indice = -1;
             btnAgregar.Text = "Agregar";
@@ -141,9 +141,9 @@ namespace AluminiosRuta5.Forms
 
             command.Parameters.AddWithValue("Codigo", textBoxCodigo.Text.Trim());
             command.Parameters.AddWithValue("Descripcion", textBoxDescripcion.Text.Trim());
-            command.Parameters.AddWithValue("Importe", Convert.ToDecimal(numericUpDownImporte.Value.ToString()));
+            command.Parameters.AddWithValue("KgXTira", Convert.ToDecimal(textBox1Tira.Text.Trim()));
             command.Parameters.AddWithValue("CantidadTiras", numericUpDownTiras.Value);
-            command.Parameters.AddWithValue("KgXPaquete", Convert.ToDecimal(textBoxKg.Text));
+            command.Parameters.AddWithValue("KgXPaquete", Convert.ToDecimal(textBoxKg.Text.Trim()));
             command.Parameters.AddWithValue("CategoriaId", c.CategoriaId);
         }
 
@@ -217,7 +217,7 @@ namespace AluminiosRuta5.Forms
                 textBoxDescripcion.DataBindings.Add("Text", bindingSrc[0], "Descripcion");
                 textBoxKg.DataBindings.Add("Text", bindingSrc[0], "KgXPaquete");
                 numericUpDownTiras.DataBindings.Add("Text", bindingSrc[0], "CantidadTiras");
-                numericUpDownImporte.DataBindings.Add("Text", bindingSrc[0], "Import");
+                textBox1Tira.DataBindings.Add("Text", bindingSrc[0], "KgXTira");
                 btnAgregar.Text = "Actualizar";
                 editando = true;
                 DataRowView dr = bindingSrc[0] as DataRowView;
@@ -265,7 +265,7 @@ namespace AluminiosRuta5.Forms
                 sql = "SELECT * FROM perfiles";
                 sql += " WHERE Codigo LIKE '" + textBoxBuscar.Text + "%'";
                 sql += " OR Descripcion LIKE '" + textBoxBuscar.Text + "%'";
-                sql += " OR Import = " + val;
+                sql += " OR KgXTira = " + val;
                 sql += " OR CantidadTiras = " + val;
                 sql += " OR KgXPaquete = " + val;
             }

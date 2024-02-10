@@ -115,7 +115,7 @@ namespace AluminiosRuta5.Forms
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxCodigo.Text.Trim()) || numericUpDown1.Value == 0)
+            if (string.IsNullOrEmpty(textBoxCodigo.Text.Trim()) || numericUpDown1.Value == 0 || numericUpDownImporte.Value == 0)
             {
                 MessageBox.Show("Complete los campos por favor");
                 return;
@@ -156,11 +156,13 @@ namespace AluminiosRuta5.Forms
                     else
                     {
                         ModuloStock.ListaLabels(listaLabels, p, Convert.ToInt16(numericUpDown1.Value));
+                        p.Import = numericUpDownImporte.Value.ToString();
                         listaPerfilesPresupuestados.Add(p);
                     }
                     CargarLabels(listaLabels);
                     textBoxCodigo.Text = string.Empty;
                     numericUpDown1.Value = 0;
+                    numericUpDownImporte.Value = 0;
                 }
                 else
                 {
@@ -204,8 +206,8 @@ namespace AluminiosRuta5.Forms
                     a = new string(chars2);
                 }
                 sumaTiras += Convert.ToDecimal(a);
-                importe += listaPerfilesPresupuestados[listaLabels.IndexOf(item)].Import * Convert.ToDecimal(a);
-                kg += listaPerfilesPresupuestados[listaLabels.IndexOf(item)].KgXPaquete * Convert.ToDecimal(a);
+                importe += Convert.ToDecimal(listaPerfilesPresupuestados[listaLabels.IndexOf(item)].Import) * Convert.ToDecimal(a);
+                kg += Convert.ToDecimal(listaPerfilesPresupuestados[listaLabels.IndexOf(item)].KgXPaquete) * Convert.ToDecimal(a);
             }
             labelTotalImporte.Text = "Total importe = " + importe.ToString("C", CultureInfo.CreateSpecificCulture("en-US"));
             labelTotalTiras.Text = "Total tiras = " + sumaTiras.ToString();
