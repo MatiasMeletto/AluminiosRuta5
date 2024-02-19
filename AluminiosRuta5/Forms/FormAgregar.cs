@@ -242,8 +242,8 @@ namespace AluminiosRuta5.Forms
                 sql = $"UPDATE perfiles SET CantidadTiras = {Convert.ToInt16(dr[3]) + p.CantidadTiras} WHERE PerfilId = {dr[0]}";
                 command.CommandText = sql;
                 command.ExecuteNonQuery();
-
             }
+            MessageBox.Show("Se agrego correctamente");
             listaLabels.Clear();
             listaPerfilesPresupuestados.Clear();
             CargarPerfiles();

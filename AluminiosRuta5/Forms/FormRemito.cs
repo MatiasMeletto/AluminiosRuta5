@@ -219,6 +219,7 @@ namespace AluminiosRuta5.Forms
                     return;
                 }
             }
+            MessageBox.Show("Se resto correctamente del stock");
             listaLabels.Clear();
             listaPerfilesPresupuestados.Clear();
             CargarPerfiles();

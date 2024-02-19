@@ -227,6 +227,7 @@
             // 
             // panel2
             // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.panel2.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.panel2.Location = new System.Drawing.Point(31, 247);
             this.panel2.Name = "panel2";
