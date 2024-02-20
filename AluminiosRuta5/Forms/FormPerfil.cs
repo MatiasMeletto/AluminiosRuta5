@@ -49,7 +49,7 @@ namespace AluminiosRuta5.Forms
 
             bindingSrc = new BindingSource();
             bindingSrc.DataSource = ds.Tables["Perfiles"];
-            if (bindingSrc.Count > 0)
+            if (bindingSrc.Count > 0 && editando == false)
             {
                 MessageBox.Show("El codigo ya existe");
                 return;
@@ -158,13 +158,13 @@ namespace AluminiosRuta5.Forms
         private void textBoxKg_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
-        (e.KeyChar != '.'))
+        (e.KeyChar != '.') && (e.KeyChar != ','))
             {
                 e.Handled = true;
             }
 
             // only allow one decimal point
-            if ((e.KeyChar == '.') && ((sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1))
+            if ((e.KeyChar == '.' || e.KeyChar == ',') && ((sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1))
             {
                 e.Handled = true;
             }
