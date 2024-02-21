@@ -178,8 +178,7 @@ namespace AluminiosRuta5.Forms
 
                 dbCommand = "DELETE";
 
-                DataRowView dr = bindingSrc[dataGridViewStock.SelectedRows[0].Index] as DataRowView;
-                sql = "DELETE FROM perfiles WHERE PerfilId = " + dr[0];
+                sql = "DELETE FROM perfiles WHERE PerfilId = " + indice;
                 command.Parameters.Clear();
                 command.CommandText = sql;
 

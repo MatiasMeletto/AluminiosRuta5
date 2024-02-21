@@ -41,6 +41,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.numericUpDownImporte = new System.Windows.Forms.NumericUpDown();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.buttonReset = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownImporte)).BeginInit();
             this.SuspendLayout();
@@ -196,12 +197,24 @@
             this.panel2.Size = new System.Drawing.Size(525, 157);
             this.panel2.TabIndex = 41;
             // 
+            // buttonReset
+            // 
+            this.buttonReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonReset.Location = new System.Drawing.Point(22, 505);
+            this.buttonReset.Name = "buttonReset";
+            this.buttonReset.Size = new System.Drawing.Size(128, 50);
+            this.buttonReset.TabIndex = 42;
+            this.buttonReset.Text = "Reiniciar lista";
+            this.buttonReset.UseVisualStyleBackColor = true;
+            this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
+            // 
             // FormPresupuesto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1262, 673);
+            this.Controls.Add(this.buttonReset);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.numericUpDownImporte);
             this.Controls.Add(this.labelTotalImporte);
@@ -241,5 +254,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown numericUpDownImporte;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button buttonReset;
     }
 }
