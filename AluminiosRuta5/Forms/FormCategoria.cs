@@ -14,7 +14,6 @@ namespace AluminiosRuta5.Forms
 {
     public partial class FormCategoria : Form
     {
-        private static string dbCommand = "";
         private static BindingSource bindingSrc;
 
         private static string dbPath = Application.StartupPath + "\\" + "aluminioStock.db;";
@@ -67,7 +66,6 @@ namespace AluminiosRuta5.Forms
         private void dataGridViewStock_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             textBox1.DataBindings.Clear();
-            dbCommand = "SELECT";
 
             sql = "SELECT * FROM categorias ORDER BY CategoriaId ASC;";
 
@@ -97,7 +95,6 @@ namespace AluminiosRuta5.Forms
             OpenConnection();
             if (editando)
             {
-                dbCommand = "UPDATE";
 
                 DataRowView dr = bindingSrc[dataGridViewStock.SelectedRows[0].Index] as DataRowView;
                 sql = "UPDATE categorias SET Nombre = @Nombre WHERE CategoriaId = " + dr[0];
@@ -106,7 +103,6 @@ namespace AluminiosRuta5.Forms
             }
             else if (!editando)
             {
-                dbCommand = "INSERT";
 
                 sql = "INSERT INTO categorias (Nombre) " +
                     "VALUES (@Nombre)";
@@ -128,7 +124,6 @@ namespace AluminiosRuta5.Forms
 
         private void UpdateDataBinding(SQLiteCommand cmd = null)
         {
-            dbCommand = "SELECT";
 
             sql = "SELECT * FROM categorias ORDER BY CategoriaId ASC;";
 
@@ -163,7 +158,6 @@ namespace AluminiosRuta5.Forms
             {
                 OpenConnection();
 
-                dbCommand = "DELETE";
 
                 DataRowView dr = bindingSrc[dataGridViewStock.SelectedRows[0].Index] as DataRowView;
                 sql = "DELETE FROM categorias WHERE CategoriaId = " + dr[0];

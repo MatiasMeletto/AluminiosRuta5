@@ -16,7 +16,6 @@ namespace AluminiosRuta5.Forms
 {
     public partial class FormPresupuesto : Form
     {
-        private static string dbCommand = "";
         private static BindingSource bindingSrc;
 
         private static string dbPath = Application.StartupPath + "\\" + "aluminioStock.db;";
@@ -33,7 +32,6 @@ namespace AluminiosRuta5.Forms
 
         private void CargarPerfiles(SQLiteCommand cmd = null)
         {
-            dbCommand = "SELECT";
 
             sql = "SELECT * FROM perfiles ORDER BY PerfilId ASC;";
 

@@ -10,7 +10,6 @@ namespace AluminiosRuta5.Forms
 {
     public partial class FormPerfil : Form
     {
-        private static string dbCommand = "";
         private static BindingSource bindingSrc;
 
         private static string dbPath = Application.StartupPath + "\\" + "aluminioStock.db;";
@@ -60,7 +59,6 @@ namespace AluminiosRuta5.Forms
             }
             else if (!editando)
             {
-                dbCommand = "INSERT";
 
                 sql = "INSERT INTO perfiles (Codigo,Descripcion,CantidadTiras,KgXPaquete,KgXTira,CategoriaId) " +
                     "VALUES (@Codigo,@Descripcion,@CantidadTiras,@KgXPaquete,@KgXTira,@CategoriaId)";
@@ -97,7 +95,6 @@ namespace AluminiosRuta5.Forms
 
         private void UpdateDataBinding(SQLiteCommand cmd = null)
         {
-            dbCommand = "SELECT";
 
             sql = "SELECT * FROM perfiles WHERE CategoriaId = " + c.CategoriaId.ToString() + " ORDER BY PerfilId ASC;";
 
@@ -176,7 +173,6 @@ namespace AluminiosRuta5.Forms
             {
                 OpenConnection();
 
-                dbCommand = "DELETE";
 
                 sql = "DELETE FROM perfiles WHERE PerfilId = " + indice;
                 command.Parameters.Clear();
