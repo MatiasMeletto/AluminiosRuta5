@@ -232,6 +232,7 @@ namespace AluminiosRuta5.Forms
             CargarLabels(listaLabels);
             SumarCantidades();
             buttonReset.Enabled = false;
+            MessageBox.Show("Se limpiaron los campos");
         }
     }
 }

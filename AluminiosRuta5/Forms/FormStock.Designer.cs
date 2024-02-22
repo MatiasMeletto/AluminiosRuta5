@@ -101,7 +101,7 @@
             // FormStock
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.Controls.Add(this.panelPerfiles);
             this.Controls.Add(this.panelDecorativo);
