@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AluminiosRuta5", "AluminiosRuta5\AluminiosRuta5.csproj", "{D384FDE3-9075-47BE-8523-EBE55E0A0FDD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccesorioRuta5", "..\..\..\..\..\OneDrive\Escritorio\AccesoriosRuta5\AccesorioRuta5\AccesorioRuta5\AccesorioRuta5.csproj", "{79357B3B-BEF3-4FD9-A4C4-5B27BA30F20F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D384FDE3-9075-47BE-8523-EBE55E0A0FDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D384FDE3-9075-47BE-8523-EBE55E0A0FDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D384FDE3-9075-47BE-8523-EBE55E0A0FDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79357B3B-BEF3-4FD9-A4C4-5B27BA30F20F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79357B3B-BEF3-4FD9-A4C4-5B27BA30F20F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79357B3B-BEF3-4FD9-A4C4-5B27BA30F20F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79357B3B-BEF3-4FD9-A4C4-5B27BA30F20F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
