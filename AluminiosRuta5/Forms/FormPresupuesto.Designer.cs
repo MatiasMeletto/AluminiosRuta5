@@ -60,7 +60,7 @@
             this.btnAgregar.Location = new System.Drawing.Point(40, 124);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(128, 50);
-            this.btnAgregar.TabIndex = 14;
+            this.btnAgregar.TabIndex = 3;
             this.btnAgregar.Text = "Agregar";
             this.btnAgregar.UseVisualStyleBackColor = true;
             this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
@@ -122,7 +122,7 @@
             0});
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(120, 35);
-            this.numericUpDown1.TabIndex = 20;
+            this.numericUpDown1.TabIndex = 1;
             // 
             // button1
             // 
@@ -186,7 +186,7 @@
             0});
             this.numericUpDownImporte.Name = "numericUpDownImporte";
             this.numericUpDownImporte.Size = new System.Drawing.Size(120, 35);
-            this.numericUpDownImporte.TabIndex = 39;
+            this.numericUpDownImporte.TabIndex = 2;
             // 
             // panel2
             // 

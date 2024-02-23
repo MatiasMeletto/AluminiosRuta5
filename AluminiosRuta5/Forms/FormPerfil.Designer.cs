@@ -31,12 +31,8 @@
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dataGridViewStock = new System.Windows.Forms.DataGridView();
-            this.codigoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.descripcionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.kgXPaqueteDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CantidadTiras = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.KgXTira = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.perfilBindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.textBoxBuscar = new System.Windows.Forms.TextBox();
             this.textBoxCodigo = new System.Windows.Forms.TextBox();
             this.textBoxDescripcion = new System.Windows.Forms.TextBox();
@@ -51,12 +47,16 @@
             this.textBoxKg = new System.Windows.Forms.TextBox();
             this.textBox1Tira = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.codigoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.descripcionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.kgXPaqueteDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.perfilBindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.perfilBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.perfilBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStock)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.perfilBindingSource2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTiras)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.perfilBindingSource2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.perfilBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.perfilBindingSource1)).BeginInit();
             this.SuspendLayout();
@@ -100,30 +100,6 @@
             this.dataGridViewStock.TabIndex = 1;
             this.dataGridViewStock.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewStock_RowHeaderMouseDoubleClick);
             // 
-            // codigoDataGridViewTextBoxColumn
-            // 
-            this.codigoDataGridViewTextBoxColumn.DataPropertyName = "Codigo";
-            this.codigoDataGridViewTextBoxColumn.HeaderText = "Codigo";
-            this.codigoDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.codigoDataGridViewTextBoxColumn.Name = "codigoDataGridViewTextBoxColumn";
-            this.codigoDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // descripcionDataGridViewTextBoxColumn
-            // 
-            this.descripcionDataGridViewTextBoxColumn.DataPropertyName = "Descripcion";
-            this.descripcionDataGridViewTextBoxColumn.HeaderText = "Descripcion";
-            this.descripcionDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.descripcionDataGridViewTextBoxColumn.Name = "descripcionDataGridViewTextBoxColumn";
-            this.descripcionDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // kgXPaqueteDataGridViewTextBoxColumn
-            // 
-            this.kgXPaqueteDataGridViewTextBoxColumn.DataPropertyName = "KgXPaquete";
-            this.kgXPaqueteDataGridViewTextBoxColumn.HeaderText = "KgXPaquete";
-            this.kgXPaqueteDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.kgXPaqueteDataGridViewTextBoxColumn.Name = "kgXPaqueteDataGridViewTextBoxColumn";
-            this.kgXPaqueteDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
             // CantidadTiras
             // 
             this.CantidadTiras.DataPropertyName = "CantidadTiras";
@@ -139,10 +115,6 @@
             this.KgXTira.MinimumWidth = 6;
             this.KgXTira.Name = "KgXTira";
             this.KgXTira.ReadOnly = true;
-            // 
-            // perfilBindingSource2
-            // 
-            this.perfilBindingSource2.DataSource = typeof(AluminiosRuta5.Objects.Perfil);
             // 
             // textBoxBuscar
             // 
@@ -251,7 +223,7 @@
             this.btnAgregar.Location = new System.Drawing.Point(761, 209);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(128, 50);
-            this.btnAgregar.TabIndex = 13;
+            this.btnAgregar.TabIndex = 7;
             this.btnAgregar.Text = "Agregar";
             this.btnAgregar.UseVisualStyleBackColor = true;
             this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
@@ -276,7 +248,7 @@
             this.textBoxKg.Location = new System.Drawing.Point(717, 42);
             this.textBoxKg.Name = "textBoxKg";
             this.textBoxKg.Size = new System.Drawing.Size(121, 34);
-            this.textBoxKg.TabIndex = 15;
+            this.textBoxKg.TabIndex = 4;
             this.textBoxKg.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxKg_KeyPress);
             // 
             // textBox1Tira
@@ -288,7 +260,7 @@
             this.textBox1Tira.Location = new System.Drawing.Point(903, 106);
             this.textBox1Tira.Name = "textBox1Tira";
             this.textBox1Tira.Size = new System.Drawing.Size(121, 34);
-            this.textBox1Tira.TabIndex = 17;
+            this.textBox1Tira.TabIndex = 6;
             // 
             // label6
             // 
@@ -300,6 +272,34 @@
             this.label6.Size = new System.Drawing.Size(66, 19);
             this.label6.TabIndex = 16;
             this.label6.Text = "Kg x tira";
+            // 
+            // codigoDataGridViewTextBoxColumn
+            // 
+            this.codigoDataGridViewTextBoxColumn.DataPropertyName = "Codigo";
+            this.codigoDataGridViewTextBoxColumn.HeaderText = "Codigo";
+            this.codigoDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.codigoDataGridViewTextBoxColumn.Name = "codigoDataGridViewTextBoxColumn";
+            this.codigoDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // descripcionDataGridViewTextBoxColumn
+            // 
+            this.descripcionDataGridViewTextBoxColumn.DataPropertyName = "Descripcion";
+            this.descripcionDataGridViewTextBoxColumn.HeaderText = "Descripcion";
+            this.descripcionDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.descripcionDataGridViewTextBoxColumn.Name = "descripcionDataGridViewTextBoxColumn";
+            this.descripcionDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // kgXPaqueteDataGridViewTextBoxColumn
+            // 
+            this.kgXPaqueteDataGridViewTextBoxColumn.DataPropertyName = "KgXPaquete";
+            this.kgXPaqueteDataGridViewTextBoxColumn.HeaderText = "KgXPaquete";
+            this.kgXPaqueteDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.kgXPaqueteDataGridViewTextBoxColumn.Name = "kgXPaqueteDataGridViewTextBoxColumn";
+            this.kgXPaqueteDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // perfilBindingSource2
+            // 
+            this.perfilBindingSource2.DataSource = typeof(AluminiosRuta5.Objects.Perfil);
             // 
             // perfilBindingSource
             // 
@@ -336,8 +336,8 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStock)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.perfilBindingSource2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTiras)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.perfilBindingSource2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.perfilBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.perfilBindingSource1)).EndInit();
             this.ResumeLayout(false);

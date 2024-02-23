@@ -101,7 +101,7 @@
             0});
             this.numericUpDownCantTiras.Name = "numericUpDownCantTiras";
             this.numericUpDownCantTiras.Size = new System.Drawing.Size(120, 35);
-            this.numericUpDownCantTiras.TabIndex = 31;
+            this.numericUpDownCantTiras.TabIndex = 1;
             // 
             // label2
             // 
@@ -154,7 +154,7 @@
             this.btnAgregar.Location = new System.Drawing.Point(42, 123);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(128, 50);
-            this.btnAgregar.TabIndex = 26;
+            this.btnAgregar.TabIndex = 4;
             this.btnAgregar.Text = "Agregar";
             this.btnAgregar.UseVisualStyleBackColor = true;
             this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
@@ -166,7 +166,7 @@
             this.textBoxCodigo.Location = new System.Drawing.Point(42, 54);
             this.textBoxCodigo.Name = "textBoxCodigo";
             this.textBoxCodigo.Size = new System.Drawing.Size(128, 34);
-            this.textBoxCodigo.TabIndex = 25;
+            this.textBoxCodigo.TabIndex = 0;
             // 
             // btnConfirmar
             // 
@@ -190,7 +190,7 @@
             0});
             this.numericUpDownImporte.Name = "numericUpDownImporte";
             this.numericUpDownImporte.Size = new System.Drawing.Size(120, 35);
-            this.numericUpDownImporte.TabIndex = 36;
+            this.numericUpDownImporte.TabIndex = 2;
             // 
             // numericUpDownKilos
             // 
@@ -203,7 +203,7 @@
             0});
             this.numericUpDownKilos.Name = "numericUpDownKilos";
             this.numericUpDownKilos.Size = new System.Drawing.Size(120, 35);
-            this.numericUpDownKilos.TabIndex = 37;
+            this.numericUpDownKilos.TabIndex = 3;
             // 
             // label3
             // 
