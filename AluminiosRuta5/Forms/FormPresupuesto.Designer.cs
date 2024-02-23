@@ -171,9 +171,9 @@
             this.label3.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
             this.label3.Location = new System.Drawing.Point(308, 35);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(64, 19);
+            this.label3.Size = new System.Drawing.Size(121, 19);
             this.label3.TabIndex = 40;
-            this.label3.Text = "Importe";
+            this.label3.Text = "Importe por kilo";
             // 
             // numericUpDownImporte
             // 

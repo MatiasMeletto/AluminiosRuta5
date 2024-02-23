@@ -173,7 +173,7 @@
             this.btnConfirmar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnConfirmar.Location = new System.Drawing.Point(42, 542);
             this.btnConfirmar.Name = "btnConfirmar";
-            this.btnConfirmar.Size = new System.Drawing.Size(128, 51);
+            this.btnConfirmar.Size = new System.Drawing.Size(135, 51);
             this.btnConfirmar.TabIndex = 35;
             this.btnConfirmar.Text = "Confirmar remito";
             this.btnConfirmar.UseVisualStyleBackColor = true;
@@ -211,9 +211,9 @@
             this.label3.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
             this.label3.Location = new System.Drawing.Point(306, 34);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(64, 19);
+            this.label3.Size = new System.Drawing.Size(121, 19);
             this.label3.TabIndex = 38;
-            this.label3.Text = "Importe";
+            this.label3.Text = "Importe por kilo";
             // 
             // label4
             // 

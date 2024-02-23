@@ -1,15 +1,18 @@
 ﻿using AluminiosRuta5.Objects;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SQLite;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp.tool.xml;
+using System.IO;
+using iTextSharp.text.pdf.parser;
+
 
 namespace AluminiosRuta5.Forms
 {
@@ -24,6 +27,7 @@ namespace AluminiosRuta5.Forms
         private static SQLiteConnection connection = new SQLiteConnection(conString);
         private static SQLiteCommand command = new SQLiteCommand("", connection);
 
+        string paginahtml_texto;
         private static string sql;
         private List<Label> listaLabels = new List<Label>();
         private FormPrincipal form;
@@ -67,6 +71,16 @@ namespace AluminiosRuta5.Forms
                 connection.Open();
             }
         }
+        public static string ReplaceFirst(string str, string term, string replace)
+        {
+            int position = str.IndexOf(term);
+            if (position < 0)
+            {
+                return str;
+            }
+            str = str.Substring(0, position) + replace + str.Substring(position + term.Length);
+            return str;
+        }
         private void CargarLabels(List<Label> labels)
         {
             panel1.Controls.Clear();
@@ -82,7 +96,7 @@ namespace AluminiosRuta5.Forms
                 {
                     Name = label.Name,
                     Text = "X",
-                    Font = new Font("Microsoft JhengHei UI", 10),
+                    Font = new System.Drawing.Font("Microsoft JhengHei UI", 10),
                     Size = new Size(20, 20),
                     AutoSize = true,
                     FlatStyle = FlatStyle.Popup,
@@ -117,7 +131,7 @@ namespace AluminiosRuta5.Forms
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxCodigo.Text.Trim()) || numericUpDownCantTiras.Value == 0)
+            if (string.IsNullOrEmpty(textBoxCodigo.Text.Trim()) || numericUpDownCantTiras.Value == 0 || numericUpDownKilos.Value == 0)
             {
                 MessageBox.Show("Complete los campos por favor");
                 return;
@@ -209,9 +223,7 @@ namespace AluminiosRuta5.Forms
 
                 if ((Convert.ToInt16(dr[3]) - p.CantidadTiras) >= 0)
                 {
-                    sql = $"UPDATE perfiles SET CantidadTiras = {Convert.ToInt16(dr[3]) - p.CantidadTiras} WHERE PerfilId = {dr[0]}";
-                    command.CommandText = sql;
-                    command.ExecuteNonQuery();
+                    continue;
                 }
                 else
                 {
@@ -219,6 +231,82 @@ namespace AluminiosRuta5.Forms
                     return;
                 }
             }
+            foreach (var p in listaPerfilesPresupuestados)
+            {
+                sql = "SELECT * FROM perfiles ";
+                sql += "WHERE PerfilId = " + p.PerfilId;
+
+                command.CommandText = sql;
+
+                SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
+                DataSet ds = new DataSet();
+                adapter.Fill(ds, "Perfiles");
+
+                bindingSrc = new BindingSource();
+                bindingSrc.DataSource = ds.Tables["Perfiles"];
+                DataRowView dr = bindingSrc[0] as DataRowView;
+
+                sql = $"UPDATE perfiles SET CantidadTiras = {Convert.ToInt16(dr[3]) - p.CantidadTiras} WHERE PerfilId = {dr[0]}";
+                command.CommandText = sql;
+                command.ExecuteNonQuery();
+
+                string paginahtml = Application.StartupPath + "\\HTMLModelo\\html.html";
+                paginahtml_texto = Application.StartupPath + "\\HTMLModelo\\htmlModificado.txt";
+
+                StreamReader str = new StreamReader(paginahtml);
+                StreamWriter sw = new StreamWriter(paginahtml_texto);
+
+                string line = str.ReadLine();
+
+                while (line != null)
+                {
+                    if (line.Contains("id=\"tabla\""))
+                    {
+                        line = str.ReadLine();
+                        line = str.ReadLine();
+                        line = str.ReadLine();
+                        line = str.ReadLine();
+                        line = str.ReadLine();
+                        line = str.ReadLine();
+                        line = str.ReadLine();
+                        foreach (var l in listaPerfilesPresupuestados)
+                        {
+                            sw.WriteLine("<tr style=\"height: 30px;\">");
+                            sw.WriteLine("<td>" + l.CantidadTiras + "</td>");
+                            sw.WriteLine("<td>" + l.Codigo + "</td>");
+                            sw.WriteLine("<td>" + l.Import + "</td>");
+                            sw.WriteLine("<td>" + l.KgXPaquete + "</td>");
+                            sw.WriteLine("<td>" + Convert.ToDecimal(l.KgXPaquete) * Convert.ToDecimal(l.Import) + "</td>");
+                            sw.WriteLine("</tr>");
+                        }
+                    }
+                    sw.WriteLine(line);
+                    line = str.ReadLine();
+                }
+                str.Close();
+                sw.Close();
+            }
+            SaveFileDialog guardar = new SaveFileDialog();
+            guardar.FileName = "remitonr.pdf";
+
+            if (guardar.ShowDialog() == DialogResult.OK)
+            {
+                using (FileStream stream = new FileStream(guardar.FileName, FileMode.Create))
+                {
+                    Document pdfDoc = new Document(PageSize.A4);
+                    PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
+                    pdfDoc.Open();
+                    pdfDoc.Add(new Phrase(""));
+
+                    using (StreamReader sr = new StreamReader(paginahtml_texto))
+                    {
+                        XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
+                    }
+                    pdfDoc.Close();
+                    stream.Close();
+                }
+            }
+            btnConfirmar.Enabled = false;
             MessageBox.Show("Se resto correctamente del stock");
             listaLabels.Clear();
             listaPerfilesPresupuestados.Clear();
