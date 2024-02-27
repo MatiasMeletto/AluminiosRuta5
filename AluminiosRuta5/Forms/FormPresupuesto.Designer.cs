@@ -233,7 +233,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormPresupuesto";
             this.Text = "FormPresupuesto";
-            this.Load += new System.EventHandler(this.FormPresupuesto_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownImporte)).EndInit();
             this.ResumeLayout(false);

@@ -144,6 +144,7 @@ namespace AluminiosRuta5.Forms
         {
             InitializeComponent();
             form = f;
+            CargarPerfiles();
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -218,11 +219,6 @@ namespace AluminiosRuta5.Forms
         {
             this.Close();
             form.ResetForm();
-        }
-
-        private void FormAgregar_Load(object sender, EventArgs e)
-        {
-            CargarPerfiles();
         }
 
         private void button2_Click(object sender, EventArgs e)

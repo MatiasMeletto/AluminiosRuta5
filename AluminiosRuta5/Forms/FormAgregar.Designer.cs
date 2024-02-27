@@ -189,7 +189,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormAgregar";
             this.Text = "FormAgregar";
-            this.Load += new System.EventHandler(this.FormAgregar_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

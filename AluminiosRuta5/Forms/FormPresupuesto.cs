@@ -115,6 +115,7 @@ namespace AluminiosRuta5.Forms
             InitializeComponent();
             form = f;
             buttonReset.Enabled = false;
+            CargarPerfiles();
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -223,11 +224,6 @@ namespace AluminiosRuta5.Forms
         {
             this.Close();
             form.ResetearEleccion();
-        }
-
-        private void FormPresupuesto_Load(object sender, EventArgs e)
-        {
-            CargarPerfiles();
         }
 
         private void buttonReset_Click(object sender, EventArgs e)
