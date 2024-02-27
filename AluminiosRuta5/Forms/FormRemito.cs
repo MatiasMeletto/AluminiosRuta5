@@ -324,7 +324,7 @@ namespace AluminiosRuta5.Forms
                 {
                     line = line.Replace("@NRO", (Convert.ToDecimal(nroRemitoActual)).ToString("0000"));
                 }
-                if (line.Contains("@NOMBRECLIENTEEEEEEEEEEEEEEEEEE"))
+                else if (line.Contains("@NOMBRECLIENTEEEEEEEEEEEEEEEEEE"))
                 {
                     char[] chars = textBoxNombre.Text.ToCharArray();
                     if (textBoxNombre.Text.Trim().Length == 31)
@@ -352,7 +352,7 @@ namespace AluminiosRuta5.Forms
                         }
                     }
                 }
-                if (line.Contains("id=\"tabla\""))
+                else if (line.Contains("id=\"tabla\""))
                 {
                     line = str.ReadLine();
                     line = str.ReadLine();
@@ -371,6 +371,14 @@ namespace AluminiosRuta5.Forms
                         sw.WriteLine("<td>" + (Convert.ToDecimal(l.KgXPaquete) * Convert.ToDecimal(l.Import)).ToString("C", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
                         sw.WriteLine("</tr>");
                     }
+                }
+                else if (line.Contains("@TOTALKG"))
+                {
+                    line = line.Replace("@TOTALKG", kg.ToString("#,#", CultureInfo.CreateSpecificCulture("en-US")));
+                }
+                else if (line.Contains("@TOTALPESOS"))
+                {
+                    line = line.Replace("@TOTALPESOS", (Convert.ToDecimal(importe)).ToString("C", CultureInfo.CreateSpecificCulture("en-US")));
                 }
                 sw.WriteLine(line);
                 line = str.ReadLine();
