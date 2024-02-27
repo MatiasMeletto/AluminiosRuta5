@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBoxCodigo = new System.Windows.Forms.TextBox();
             this.btnAgregar = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -42,18 +41,10 @@
             this.numericUpDownImporte = new System.Windows.Forms.NumericUpDown();
             this.panel2 = new System.Windows.Forms.Panel();
             this.buttonReset = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownImporte)).BeginInit();
             this.SuspendLayout();
-            // 
-            // textBoxCodigo
-            // 
-            this.textBoxCodigo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxCodigo.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
-            this.textBoxCodigo.Location = new System.Drawing.Point(40, 55);
-            this.textBoxCodigo.Name = "textBoxCodigo";
-            this.textBoxCodigo.Size = new System.Drawing.Size(128, 34);
-            this.textBoxCodigo.TabIndex = 0;
             // 
             // btnAgregar
             // 
@@ -208,12 +199,24 @@
             this.buttonReset.UseVisualStyleBackColor = true;
             this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
             // 
+            // textBox1
+            // 
+            this.textBox1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.textBox1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
+            this.textBox1.Location = new System.Drawing.Point(40, 56);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(128, 34);
+            this.textBox1.TabIndex = 43;
+            // 
             // FormPresupuesto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1262, 673);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.buttonReset);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.numericUpDownImporte);
@@ -226,7 +229,6 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnAgregar);
-            this.Controls.Add(this.textBoxCodigo);
             this.Controls.Add(this.panel2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormPresupuesto";
@@ -240,8 +242,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox textBoxCodigo;
         private System.Windows.Forms.Button btnAgregar;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel1;
@@ -255,5 +255,6 @@
         private System.Windows.Forms.NumericUpDown numericUpDownImporte;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button buttonReset;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

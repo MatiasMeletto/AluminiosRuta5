@@ -52,6 +52,10 @@ namespace AluminiosRuta5.Forms
             bindingSrc.DataSource = ds.Tables["Perfiles"];
 
             listaPerfiles = ModuloStock.CargarPerfiles(bindingSrc);
+            foreach (DataRowView b in bindingSrc.List)
+            {
+                textBoxCodigo.AutoCompleteCustomSource.Add(b[1].ToString());
+            }
         }
         private void CloseConnection()
         {

@@ -140,6 +140,8 @@
             // 
             // textBoxCodigo
             // 
+            this.textBoxCodigo.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.textBoxCodigo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.textBoxCodigo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxCodigo.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
             this.textBoxCodigo.Location = new System.Drawing.Point(40, 54);

@@ -24,6 +24,7 @@ namespace AluminiosRuta5.Forms
         private static SQLiteConnection connection = new SQLiteConnection(conString);
         private static SQLiteCommand command = new SQLiteCommand("", connection);
 
+        private DataTable dt = null;
         private static string sql;
         private List<Label> listaLabels = new List<Label>();
         private FormPrincipal form;
@@ -52,6 +53,10 @@ namespace AluminiosRuta5.Forms
             bindingSrc.DataSource = ds.Tables["Perfiles"];
 
             listaPerfiles = ModuloStock.CargarPerfiles(bindingSrc);
+            foreach (DataRowView b in bindingSrc.List)
+            {
+                textBox1.AutoCompleteCustomSource.Add(b[1].ToString());
+            }
         }
         private void CloseConnection()
         {
@@ -114,7 +119,7 @@ namespace AluminiosRuta5.Forms
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxCodigo.Text.Trim()) || numericUpDown1.Value == 0 || numericUpDownImporte.Value == 0)
+            if (string.IsNullOrEmpty(textBox1.Text.Trim()) || numericUpDown1.Value == 0 || numericUpDownImporte.Value == 0)
             {
                 MessageBox.Show("Complete los campos por favor");
                 return;
@@ -122,7 +127,7 @@ namespace AluminiosRuta5.Forms
             OpenConnection();
             try
             {
-                Perfil p = listaPerfiles.Where(l => l.Codigo == textBoxCodigo.Text).SingleOrDefault();
+                Perfil p = listaPerfiles.Where(l => l.Codigo == textBox1.Text).SingleOrDefault();
                 if (p != null)
                 {
                     Label l = listaLabels.Where(la => Convert.ToInt16(la.Tag) == p.PerfilId).SingleOrDefault();
@@ -159,7 +164,7 @@ namespace AluminiosRuta5.Forms
                         listaPerfilesPresupuestados.Add(p);
                     }
                     CargarLabels(listaLabels);
-                    textBoxCodigo.Text = string.Empty;
+                    textBox1.Text = string.Empty;
                     numericUpDown1.Value = 0;
                     numericUpDownImporte.Value = 0;
                     buttonReset.Enabled = true;
@@ -234,5 +239,6 @@ namespace AluminiosRuta5.Forms
             buttonReset.Enabled = false;
             MessageBox.Show("Se limpiaron los campos");
         }
+
     }
 }

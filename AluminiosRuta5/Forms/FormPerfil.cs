@@ -213,6 +213,8 @@ namespace AluminiosRuta5.Forms
                 textBoxKg.DataBindings.Add("Text", bindingSrc[0], "KgXPaquete");
                 numericUpDownTiras.DataBindings.Add("Text", bindingSrc[0], "CantidadTiras");
                 textBox1Tira.DataBindings.Add("Text", bindingSrc[0], "KgXTira");
+                textBox1Tira.Text = textBox1Tira.Text.Replace(".", ",");
+                textBoxKg.Text = textBoxKg.Text.Replace(".", ",");
                 btnAgregar.Text = "Actualizar";
                 editando = true;
                 DataRowView dr = bindingSrc[0] as DataRowView;

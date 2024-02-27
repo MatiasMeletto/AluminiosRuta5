@@ -11,7 +11,6 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.tool.xml;
 using System.IO;
-using iTextSharp.text.pdf.parser;
 
 
 namespace AluminiosRuta5.Forms
@@ -28,6 +27,9 @@ namespace AluminiosRuta5.Forms
         private static SQLiteCommand command = new SQLiteCommand("", connection);
 
         string paginahtml_texto;
+        string nroRemitoActual;
+        decimal importe = 0;
+        decimal kg = 0;
         private static string sql;
         private List<Label> listaLabels = new List<Label>();
         private FormPrincipal form;
@@ -56,6 +58,10 @@ namespace AluminiosRuta5.Forms
             bindingSrc.DataSource = ds.Tables["Perfiles"];
 
             listaPerfiles = ModuloStock.CargarPerfiles(bindingSrc);
+            foreach (DataRowView b in bindingSrc.List)
+            {
+                textBoxCodigo.AutoCompleteCustomSource.Add(b[1].ToString());
+            }
         }
         private void CloseConnection()
         {
@@ -70,16 +76,6 @@ namespace AluminiosRuta5.Forms
             {
                 connection.Open();
             }
-        }
-        public static string ReplaceFirst(string str, string term, string replace)
-        {
-            int position = str.IndexOf(term);
-            if (position < 0)
-            {
-                return str;
-            }
-            str = str.Substring(0, position) + replace + str.Substring(position + term.Length);
-            return str;
         }
         private void CargarLabels(List<Label> labels)
         {
@@ -107,7 +103,51 @@ namespace AluminiosRuta5.Forms
                 panel1.Controls.Add(button);
             }
         }
+        private void AddCmdParameters(int n)
+        {
+            command.Parameters.Clear();
+            command.CommandText = sql;
 
+            command.Parameters.AddWithValue("Fecha", DateTime.Now.ToString("ddMMyyyy"));
+            command.Parameters.AddWithValue("TotalPesos", importe.ToString());
+            command.Parameters.AddWithValue("TotalKilos", kg.ToString());
+            command.Parameters.AddWithValue("NroRemito", n + 1);
+        }
+        private void CrearRemito()
+        {
+            sql = "SELECT NroRemito,MAX(RemitoId) FROM remitos";
+            command.CommandText = sql;
+            SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds, "Remitos");
+
+            bindingSrc = new BindingSource();
+            bindingSrc.DataSource = ds.Tables["Remitos"];
+
+
+            sql = "INSERT INTO remitos (Fecha,TotalPesos,TotalKilos,NroRemito) " +
+                "VALUES (@Fecha,@TotalPesos,@TotalKilos,@NroRemito)";
+            if (bindingSrc.Count > 0)
+            {
+                DataRowView dr = bindingSrc[0] as DataRowView;
+                if (Convert.ToInt16(dr[0]) != 9999)
+                {
+                    AddCmdParameters(Convert.ToInt16(dr[0]));
+                    nroRemitoActual = Convert.ToString(Convert.ToInt16(dr[0]) + 1);
+                }
+                else
+                { 
+                    AddCmdParameters(0);
+                    nroRemitoActual = "0";
+                }
+            }
+            else
+            {
+                AddCmdParameters(0);
+                nroRemitoActual = "0";
+            }
+            command.ExecuteNonQuery();
+        }
         private void EliminarLabel(object sender, EventArgs e)
         {
             Button button = sender as Button;
@@ -120,13 +160,16 @@ namespace AluminiosRuta5.Forms
             if (listaLabels.Count == 0)
             {
                 btnConfirmar.Enabled = false;
+                textBoxNombre.Enabled = false;
             }
         }
         public FormRemito(FormPrincipal f)
         {
             InitializeComponent();
+            CargarPerfiles();
             form = f;
             btnConfirmar.Enabled = false;
+            textBoxNombre.Enabled = false;
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -143,11 +186,45 @@ namespace AluminiosRuta5.Forms
 
                 if (p != null)
                 {
-                    p.Import = numericUpDownImporte.Value.ToString();
-                    p.KgXPaquete = numericUpDownKilos.Value.ToString();
-                    ModuloStock.ListaLabels(listaLabels, p, Convert.ToInt16(numericUpDownCantTiras.Value));
-                    p.CantidadTiras = Convert.ToInt16(numericUpDownCantTiras.Value);
-                    listaPerfilesPresupuestados.Add(p);
+                    Label l = listaLabels.Where(la => Convert.ToInt16(la.Tag) == p.PerfilId).SingleOrDefault();
+                    if (l != null)
+                    {
+                        Perfil pe = listaPerfilesPresupuestados.Where(le => le.Codigo == textBoxCodigo.Text).SingleOrDefault();
+                        char[] chars = listaLabels[listaLabels.IndexOf(l)].Text.ToCharArray();
+                        Array.Reverse(chars);
+                        string a = "";
+                        List<char> lisTemp = chars.ToList();
+                        foreach (char c in chars)
+                        {
+                            if (char.IsDigit(c))
+                            {
+                                a += c;
+                                lisTemp.RemoveAt(lisTemp.IndexOf(c));
+                            }
+                            else
+                                break;
+                        }
+                        chars = lisTemp.ToArray();
+                        Array.Reverse(chars);
+                        if (a.Length > 1)
+                        {
+                            char[] chars2 = a.ToCharArray();
+                            Array.Reverse(chars2);
+                            a = new string(chars2);
+                        }
+                        listaLabels[listaLabels.IndexOf(l)].Text = new string(chars) + (Convert.ToInt16(a) + numericUpDownCantTiras.Value).ToString();
+                        pe.Import = numericUpDownImporte.Value.ToString();
+                        pe.KgXPaquete = (Convert.ToDecimal(pe.KgXPaquete) + numericUpDownKilos.Value).ToString();
+                        pe.CantidadTiras += Convert.ToInt16(numericUpDownCantTiras.Value);
+                    }
+                    else
+                    {
+                        p.Import = numericUpDownImporte.Value.ToString();
+                        p.KgXPaquete = numericUpDownKilos.Value.ToString();
+                        ModuloStock.ListaLabels(listaLabels, p, Convert.ToInt16(numericUpDownCantTiras.Value));
+                        p.CantidadTiras = Convert.ToInt16(numericUpDownCantTiras.Value);
+                        listaPerfilesPresupuestados.Add(p);
+                    }
 
                     CargarLabels(listaLabels);
                     textBoxCodigo.Text = string.Empty;
@@ -157,6 +234,7 @@ namespace AluminiosRuta5.Forms
                     if (!btnConfirmar.Enabled)
                     {
                         btnConfirmar.Enabled = true;
+                        textBoxNombre.Enabled = true;
                     }
                 }
                 else
@@ -179,8 +257,9 @@ namespace AluminiosRuta5.Forms
         private void SumarCantidades()
         {
             decimal sumaTiras = 0;
-            decimal importe = 0;
-            decimal kg = 0;
+            importe = 0;
+            kg = 0;
+
             foreach (var item in listaPerfilesPresupuestados)
             {
                 sumaTiras += item.CantidadTiras;
@@ -192,11 +271,6 @@ namespace AluminiosRuta5.Forms
             labelTotalKg.Text = "Total KG = " + kg.ToString();
         }
 
-        private void FormRemito_Load(object sender, EventArgs e)
-        {
-            CargarPerfiles();
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -205,6 +279,10 @@ namespace AluminiosRuta5.Forms
 
         private void btnConfirmar_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(textBoxNombre.Text.Trim()))
+            {
+                MessageBox.Show("Ingrese un nombre por favor");
+            }
             OpenConnection();
             foreach (var p in listaPerfilesPresupuestados)
             {
@@ -231,63 +309,77 @@ namespace AluminiosRuta5.Forms
                     return;
                 }
             }
-            foreach (var p in listaPerfilesPresupuestados)
+            CrearRemito();
+            string paginahtml = Application.StartupPath + "\\HTMLModelo\\html.html";
+            paginahtml_texto = Application.StartupPath + "\\HTMLModelo\\htmlModificado.txt";
+
+            StreamReader str = new StreamReader(paginahtml);
+            StreamWriter sw = new StreamWriter(paginahtml_texto);
+
+            string line = str.ReadLine();
+
+            while (line != null)
             {
-                sql = "SELECT * FROM perfiles ";
-                sql += "WHERE PerfilId = " + p.PerfilId;
-
-                command.CommandText = sql;
-
-                SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
-                DataSet ds = new DataSet();
-                adapter.Fill(ds, "Perfiles");
-
-                bindingSrc = new BindingSource();
-                bindingSrc.DataSource = ds.Tables["Perfiles"];
-                DataRowView dr = bindingSrc[0] as DataRowView;
-
-                sql = $"UPDATE perfiles SET CantidadTiras = {Convert.ToInt16(dr[3]) - p.CantidadTiras} WHERE PerfilId = {dr[0]}";
-                command.CommandText = sql;
-                command.ExecuteNonQuery();
-
-                string paginahtml = Application.StartupPath + "\\HTMLModelo\\html.html";
-                paginahtml_texto = Application.StartupPath + "\\HTMLModelo\\htmlModificado.txt";
-
-                StreamReader str = new StreamReader(paginahtml);
-                StreamWriter sw = new StreamWriter(paginahtml_texto);
-
-                string line = str.ReadLine();
-
-                while (line != null)
+                if (line.Contains("@NRO"))
                 {
-                    if (line.Contains("id=\"tabla\""))
+                    line = line.Replace("@NRO", (Convert.ToDecimal(nroRemitoActual)).ToString("0000"));
+                }
+                if (line.Contains("@NOMBRECLIENTEEEEEEEEEEEEEEEEEE"))
+                {
+                    char[] chars = textBoxNombre.Text.ToCharArray();
+                    if (textBoxNombre.Text.Trim().Length == 31)
                     {
-                        line = str.ReadLine();
-                        line = str.ReadLine();
-                        line = str.ReadLine();
-                        line = str.ReadLine();
-                        line = str.ReadLine();
-                        line = str.ReadLine();
-                        line = str.ReadLine();
-                        foreach (var l in listaPerfilesPresupuestados)
+                        line = line.Replace("@NOMBRECLIENTEEEEEEEEEEEEEEEEEE", textBoxNombre.Text);
+                    }
+                    if (textBoxNombre.Text.Trim().Length < 31)
+                    {
+                        char[] chars2 = line.ToCharArray();
+                        line = "";
+                        for (int i = 0; i < 105; i++)
                         {
-                            sw.WriteLine("<tr style=\"height: 30px;\">");
-                            sw.WriteLine("<td>" + l.CantidadTiras + "</td>");
-                            sw.WriteLine("<td>" + l.Codigo + "</td>");
-                            sw.WriteLine("<td>" + l.Import + "</td>");
-                            sw.WriteLine("<td>" + l.KgXPaquete + "</td>");
-                            sw.WriteLine("<td>" + Convert.ToDecimal(l.KgXPaquete) * Convert.ToDecimal(l.Import) + "</td>");
-                            sw.WriteLine("</tr>");
+                            if (i > 49 && i < chars.Length + 50)
+                            {
+                                line += chars[i - 50];
+                            }
+                            else if (i < 50 || i > 80)
+                            {
+                                line += chars2[i];
+                            }
+                            else
+                            {
+                                line += "&nbsp;";
+                            }
                         }
                     }
-                    sw.WriteLine(line);
-                    line = str.ReadLine();
                 }
-                str.Close();
-                sw.Close();
+                if (line.Contains("id=\"tabla\""))
+                {
+                    line = str.ReadLine();
+                    line = str.ReadLine();
+                    line = str.ReadLine();
+                    line = str.ReadLine();
+                    line = str.ReadLine();
+                    line = str.ReadLine();
+                    line = str.ReadLine();
+                    foreach (var l in listaPerfilesPresupuestados)
+                    {
+                        sw.WriteLine("<tr style=\"height: 30px;\">");
+                        sw.WriteLine("<td>" + l.CantidadTiras + "</td>");
+                        sw.WriteLine("<td>" + l.Codigo + "</td>");
+                        sw.WriteLine("<td>" + Convert.ToDecimal(l.Import).ToString("C", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
+                        sw.WriteLine("<td>" + l.KgXPaquete + "</td>");
+                        sw.WriteLine("<td>" + (Convert.ToDecimal(l.KgXPaquete) * Convert.ToDecimal(l.Import)).ToString("C", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
+                        sw.WriteLine("</tr>");
+                    }
+                }
+                sw.WriteLine(line);
+                line = str.ReadLine();
             }
+            str.Close();
+            sw.Close();
+
             SaveFileDialog guardar = new SaveFileDialog();
-            guardar.FileName = "remitonr.pdf";
+            guardar.FileName = DateTime.Now.Day.ToString()+"_" + DateTime.Now.Month.ToString() + "_" + DateTime.Now.Year.ToString() + "-" + (Convert.ToDecimal(nroRemitoActual)).ToString("0000") + ".pdf";
 
             if (guardar.ShowDialog() == DialogResult.OK)
             {
@@ -306,11 +398,36 @@ namespace AluminiosRuta5.Forms
                     stream.Close();
                 }
             }
+            else
+            {
+                return;
+            }
+            foreach (var p in listaPerfilesPresupuestados)
+            {
+
+                sql = "SELECT * FROM perfiles ";
+                sql += "WHERE PerfilId = " + p.PerfilId;
+
+                command.CommandText = sql;
+
+                SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
+                DataSet ds = new DataSet();
+                adapter.Fill(ds, "Perfiles");
+
+                bindingSrc = new BindingSource();
+                bindingSrc.DataSource = ds.Tables["Perfiles"];
+                DataRowView dr = bindingSrc[0] as DataRowView;
+
+                sql = $"UPDATE perfiles SET CantidadTiras = {Convert.ToInt16(dr[3]) - p.CantidadTiras} WHERE PerfilId = {dr[0]}";
+                command.CommandText = sql;
+                command.ExecuteNonQuery();
+            }
             btnConfirmar.Enabled = false;
+            textBoxNombre.Enabled = false;
+            textBoxNombre.Text = string.Empty;
             MessageBox.Show("Se resto correctamente del stock");
             listaLabels.Clear();
             listaPerfilesPresupuestados.Clear();
-            CargarPerfiles();
             panel1.Controls.Clear();
             SumarCantidades();
             CloseConnection();

@@ -44,6 +44,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.textBoxNombre = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCantTiras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownImporte)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownKilos)).BeginInit();
@@ -161,6 +163,8 @@
             // 
             // textBoxCodigo
             // 
+            this.textBoxCodigo.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.textBoxCodigo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.textBoxCodigo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxCodigo.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
             this.textBoxCodigo.Location = new System.Drawing.Point(42, 54);
@@ -234,12 +238,37 @@
             this.panel2.Size = new System.Drawing.Size(525, 157);
             this.panel2.TabIndex = 40;
             // 
+            // textBoxNombre
+            // 
+            this.textBoxNombre.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textBoxNombre.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.textBoxNombre.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.textBoxNombre.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
+            this.textBoxNombre.Location = new System.Drawing.Point(310, 559);
+            this.textBoxNombre.Name = "textBoxNombre";
+            this.textBoxNombre.Size = new System.Drawing.Size(246, 34);
+            this.textBoxNombre.TabIndex = 41;
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
+            this.label5.Location = new System.Drawing.Point(306, 537);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(143, 19);
+            this.label5.TabIndex = 42;
+            this.label5.Text = "Nombre del remito";
+            // 
             // FormRemito
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1262, 673);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.textBoxNombre);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.numericUpDownKilos);
@@ -259,7 +288,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormRemito";
             this.Text = "FormRemito";
-            this.Load += new System.EventHandler(this.FormRemito_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCantTiras)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownImporte)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownKilos)).EndInit();
@@ -286,5 +314,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TextBox textBoxNombre;
+        private System.Windows.Forms.Label label5;
     }
 }
