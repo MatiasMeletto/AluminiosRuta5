@@ -15,7 +15,6 @@ namespace AluminiosRuta5.Forms
 {
     public partial class FormStock : Form
     {
-        private static string dbCommand = "";
         private static BindingSource bindingSrc;
 
         private static string dbPath = Application.StartupPath + "\\" + "aluminioStock.db;";
@@ -55,7 +54,6 @@ namespace AluminiosRuta5.Forms
         {
             try
             {
-                dbCommand = "SELECT";
 
                 sql = "SELECT * FROM categorias ORDER BY CategoriaId ASC;";
 
@@ -112,7 +110,6 @@ namespace AluminiosRuta5.Forms
         {
             Button button = sender as Button;
             OpenConnection();
-            dbCommand = "SELECT";
 
             sql = "SELECT * FROM categorias ORDER BY CategoriaId ASC;";
 

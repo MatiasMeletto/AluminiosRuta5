@@ -82,11 +82,11 @@ namespace AluminiosRuta5.Forms
             textBoxDescripcion.DataBindings.Clear();
             textBoxKg.DataBindings.Clear();
             textBox1Tira.DataBindings.Clear();
-            numericUpDownTiras.DataBindings.Clear();
+            textBoxTiras.DataBindings.Clear();
             textBoxCodigo.Text = string.Empty;
             textBoxDescripcion.Text = string.Empty;
             textBoxKg.Text = string.Empty;
-            numericUpDownTiras.Value = 0;
+            textBoxTiras.Text = string.Empty;
             textBox1Tira.Text = string.Empty;
             editando = false;
             indice = -1;
@@ -139,7 +139,7 @@ namespace AluminiosRuta5.Forms
             command.Parameters.AddWithValue("Codigo", textBoxCodigo.Text.Trim());
             command.Parameters.AddWithValue("Descripcion", textBoxDescripcion.Text.Trim());
             command.Parameters.AddWithValue("KgXTira", Convert.ToDecimal(textBox1Tira.Text.Trim()));
-            command.Parameters.AddWithValue("CantidadTiras", numericUpDownTiras.Value);
+            command.Parameters.AddWithValue("CantidadTiras", Convert.ToInt16(textBoxTiras.Text.Trim()));
             command.Parameters.AddWithValue("KgXPaquete", Convert.ToDecimal(textBoxKg.Text.Trim()));
             command.Parameters.AddWithValue("CategoriaId", c.CategoriaId);
         }
@@ -211,7 +211,7 @@ namespace AluminiosRuta5.Forms
                 textBoxCodigo.DataBindings.Add("Text", bindingSrc[0], "Codigo");
                 textBoxDescripcion.DataBindings.Add("Text", bindingSrc[0], "Descripcion");
                 textBoxKg.DataBindings.Add("Text", bindingSrc[0], "KgXPaquete");
-                numericUpDownTiras.DataBindings.Add("Text", bindingSrc[0], "CantidadTiras");
+                textBoxTiras.DataBindings.Add("Text", bindingSrc[0], "CantidadTiras");
                 textBox1Tira.DataBindings.Add("Text", bindingSrc[0], "KgXTira");
                 textBox1Tira.Text = textBox1Tira.Text.Replace(".", ",");
                 textBoxKg.Text = textBoxKg.Text.Replace(".", ",");

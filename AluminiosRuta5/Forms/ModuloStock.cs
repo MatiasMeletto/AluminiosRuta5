@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,7 +42,7 @@ namespace AluminiosRuta5.Forms
             {
                 Tag = perfil.PerfilId,
                 Name = lista.Count().ToString(),
-                Text = $"* {perfil.Codigo}, {perfil.Descripcion},  x{cantidadTiras}",
+                Text = $"* {perfil.Codigo} --- {perfil.Descripcion} ---  KG: {Convert.ToDecimal(perfil.KgXTira) * cantidadTiras} ---  $ por kilo: {perfil.Import} --- total $: {(Convert.ToDecimal(perfil.KgXTira) * cantidadTiras * Convert.ToDecimal(perfil.Import)).ToString("C", CultureInfo.CreateSpecificCulture("en-US"))} ---  x{cantidadTiras}",
                 Location = new Point(0, 30 * lista.Count()),
                 Font = new Font("Microsoft JhengHei UI", 13),
                 AutoSize = true

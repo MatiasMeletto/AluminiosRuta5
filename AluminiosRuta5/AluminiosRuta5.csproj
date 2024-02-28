@@ -27,7 +27,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>15</ApplicationRevision>
+    <ApplicationRevision>16</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -74,6 +74,8 @@
     <CollectSQLiteInteropFiles>false</CollectSQLiteInteropFiles>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Assets\investigacion%281%29.png" />
+    <Content Include="Assets\investigacion.png" />
     <Content Include="Assets\logo.png" />
     <Content Include="Assets\original.png" />
     <Content Include="Assets\plata.jpg" />
@@ -143,6 +145,12 @@
     <Compile Include="Forms\FormCategoria.Designer.cs">
       <DependentUpon>FormCategoria.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormEstadisticas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormEstadisticas.Designer.cs">
+      <DependentUpon>FormEstadisticas.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormPerfil.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -187,6 +195,9 @@
     <EmbeddedResource Include="Forms\FormCategoria.resx">
       <DependentUpon>FormCategoria.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormEstadisticas.resx">
+      <DependentUpon>FormEstadisticas.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormPerfil.resx">
       <DependentUpon>FormPerfil.cs</DependentUpon>
     </EmbeddedResource>
@@ -208,6 +219,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="AluminiosRuta5_TemporaryKey.pfx" />
     <None Include="Properties\DataSources\AluminiosRuta5.Objects.Categoria.datasource" />

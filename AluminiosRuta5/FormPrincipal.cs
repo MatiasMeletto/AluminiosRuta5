@@ -34,10 +34,6 @@ namespace AluminiosRuta5
         public FormPrincipal()
         {
             InitializeComponent();
-        }
-
-        private void FormPrincipal_Load(object sender, EventArgs e)
-        {
             ResetearEleccion();
         }
 
@@ -57,6 +53,11 @@ namespace AluminiosRuta5
         internal void ResetForm()
         {
             CambiarForm(formElec, new FormStock(this));
+        }
+
+        internal void GetCambiarFormEstadisticas()
+        {
+            CambiarForm(formElec, new FormEstadisticas(this));
         }
     }
 }

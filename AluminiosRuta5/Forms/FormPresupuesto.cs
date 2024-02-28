@@ -120,7 +120,7 @@ namespace AluminiosRuta5.Forms
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBox1.Text.Trim()) || numericUpDown1.Value == 0 || numericUpDownImporte.Value == 0)
+            if (string.IsNullOrEmpty(textBox1.Text.Trim()) || string.IsNullOrEmpty(textBoxTiras.Text.Trim()) || string.IsNullOrEmpty(textBoxImporte.Text.Trim()))
             {
                 MessageBox.Show("Complete los campos por favor");
                 return;
@@ -156,18 +156,19 @@ namespace AluminiosRuta5.Forms
                             Array.Reverse(chars2);
                             a = new string(chars2);
                         }
-                        listaLabels[listaLabels.IndexOf(l)].Text = new string(chars) + (Convert.ToInt16(a) + numericUpDown1.Value).ToString();
+                        listaLabels[listaLabels.IndexOf(l)].Text = new string(chars) + (Convert.ToInt16(a) + Convert.ToInt16(textBoxTiras.Text)).ToString();
                     }
                     else
                     {
-                        ModuloStock.ListaLabels(listaLabels, p, Convert.ToInt16(numericUpDown1.Value));
-                        p.Import = numericUpDownImporte.Value.ToString();
+                        p.Import = textBoxImporte.Text;
+                        p.CantidadTiras = Convert.ToInt16(textBoxTiras.Text);
+                        ModuloStock.ListaLabels(listaLabels, p, Convert.ToInt16(textBoxTiras.Text));
                         listaPerfilesPresupuestados.Add(p);
                     }
                     CargarLabels(listaLabels);
                     textBox1.Text = string.Empty;
-                    numericUpDown1.Value = 0;
-                    numericUpDownImporte.Value = 0;
+                    textBoxTiras.Text = string.Empty;
+                    textBoxImporte.Text = string.Empty; 
                     buttonReset.Enabled = true;
                 }
                 else
@@ -213,7 +214,7 @@ namespace AluminiosRuta5.Forms
                 }
                 sumaTiras += Convert.ToDecimal(a);
                 kg += Convert.ToDecimal(listaPerfilesPresupuestados[listaLabels.IndexOf(item)].KgXTira.Replace(".", ",")) * Convert.ToDecimal(a);
-                importe += Convert.ToDecimal(listaPerfilesPresupuestados[listaLabels.IndexOf(item)].Import) * kg;
+                importe += Convert.ToDecimal(listaPerfilesPresupuestados[listaLabels.IndexOf(item)].Import) * (Convert.ToDecimal(listaPerfilesPresupuestados[listaLabels.IndexOf(item)].KgXTira) * Convert.ToDecimal(listaPerfilesPresupuestados[listaLabels.IndexOf(item)].CantidadTiras));
             }
             labelTotalImporte.Text = "Total importe = " + importe.ToString("C", CultureInfo.CreateSpecificCulture("en-US"));
             labelTotalTiras.Text = "Total tiras = " + sumaTiras.ToString();
@@ -236,5 +237,18 @@ namespace AluminiosRuta5.Forms
             MessageBox.Show("Se limpiaron los campos");
         }
 
+        private void textBoxTiras_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.') && (e.KeyChar != ','))
+            {
+                e.Handled = true;
+            }
+
+            // only allow one decimal point
+            if ((e.KeyChar == '.' || e.KeyChar == ',') && ((sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

@@ -36,7 +36,6 @@
             this.textBoxBuscar = new System.Windows.Forms.TextBox();
             this.textBoxCodigo = new System.Windows.Forms.TextBox();
             this.textBoxDescripcion = new System.Windows.Forms.TextBox();
-            this.numericUpDownTiras = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -53,9 +52,9 @@
             this.perfilBindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.perfilBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.perfilBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.textBoxTiras = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStock)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTiras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.perfilBindingSource2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.perfilBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.perfilBindingSource1)).BeginInit();
@@ -150,20 +149,6 @@
             this.textBoxDescripcion.Name = "textBoxDescripcion";
             this.textBoxDescripcion.Size = new System.Drawing.Size(403, 75);
             this.textBoxDescripcion.TabIndex = 3;
-            // 
-            // numericUpDownTiras
-            // 
-            this.numericUpDownTiras.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.numericUpDownTiras.Font = new System.Drawing.Font("Microsoft JhengHei UI", 13F);
-            this.numericUpDownTiras.Location = new System.Drawing.Point(903, 41);
-            this.numericUpDownTiras.Maximum = new decimal(new int[] {
-            9999999,
-            0,
-            0,
-            0});
-            this.numericUpDownTiras.Name = "numericUpDownTiras";
-            this.numericUpDownTiras.Size = new System.Drawing.Size(120, 35);
-            this.numericUpDownTiras.TabIndex = 5;
             // 
             // label1
             // 
@@ -261,6 +246,7 @@
             this.textBox1Tira.Name = "textBox1Tira";
             this.textBox1Tira.Size = new System.Drawing.Size(121, 34);
             this.textBox1Tira.TabIndex = 6;
+            this.textBox1Tira.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxKg_KeyPress);
             // 
             // label6
             // 
@@ -309,12 +295,25 @@
             // 
             this.perfilBindingSource1.DataSource = typeof(AluminiosRuta5.Objects.Perfil);
             // 
+            // textBoxTiras
+            // 
+            this.textBoxTiras.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxTiras.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxTiras.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
+            this.textBoxTiras.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.textBoxTiras.Location = new System.Drawing.Point(904, 41);
+            this.textBoxTiras.Name = "textBoxTiras";
+            this.textBoxTiras.Size = new System.Drawing.Size(121, 34);
+            this.textBoxTiras.TabIndex = 17;
+            this.textBoxTiras.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxKg_KeyPress);
+            // 
             // FormPerfil
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1082, 673);
+            this.Controls.Add(this.textBoxTiras);
             this.Controls.Add(this.textBox1Tira);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.textBoxKg);
@@ -325,7 +324,6 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.numericUpDownTiras);
             this.Controls.Add(this.textBoxDescripcion);
             this.Controls.Add(this.textBoxCodigo);
             this.Controls.Add(this.panel1);
@@ -336,7 +334,6 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStock)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTiras)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.perfilBindingSource2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.perfilBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.perfilBindingSource1)).EndInit();
@@ -354,7 +351,6 @@
         private System.Windows.Forms.BindingSource perfilBindingSource;
         private System.Windows.Forms.TextBox textBoxCodigo;
         private System.Windows.Forms.TextBox textBoxDescripcion;
-        private System.Windows.Forms.NumericUpDown numericUpDownTiras;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -372,5 +368,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn CantidadTiras;
         private System.Windows.Forms.DataGridViewTextBoxColumn KgXTira;
         private System.Windows.Forms.BindingSource perfilBindingSource2;
+        private System.Windows.Forms.TextBox textBoxTiras;
     }
 }

@@ -31,7 +31,6 @@
             this.labelTotalImporte = new System.Windows.Forms.Label();
             this.labelTotalTiras = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.numericUpDownCantTiras = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.labelTotalKg = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -39,16 +38,14 @@
             this.btnAgregar = new System.Windows.Forms.Button();
             this.textBoxCodigo = new System.Windows.Forms.TextBox();
             this.btnConfirmar = new System.Windows.Forms.Button();
-            this.numericUpDownImporte = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDownKilos = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.textBoxNombre = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCantTiras)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownImporte)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownKilos)).BeginInit();
+            this.textBoxTiras = new System.Windows.Forms.TextBox();
+            this.textBoxImporte = new System.Windows.Forms.TextBox();
+            this.textBoxKilos = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // labelTotalImporte
@@ -92,24 +89,11 @@
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // numericUpDownCantTiras
-            // 
-            this.numericUpDownCantTiras.Font = new System.Drawing.Font("Microsoft JhengHei UI", 13F);
-            this.numericUpDownCantTiras.Location = new System.Drawing.Point(184, 55);
-            this.numericUpDownCantTiras.Maximum = new decimal(new int[] {
-            999999,
-            0,
-            0,
-            0});
-            this.numericUpDownCantTiras.Name = "numericUpDownCantTiras";
-            this.numericUpDownCantTiras.Size = new System.Drawing.Size(120, 35);
-            this.numericUpDownCantTiras.TabIndex = 1;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
-            this.label2.Location = new System.Drawing.Point(180, 34);
+            this.label2.Location = new System.Drawing.Point(172, 34);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(107, 19);
             this.label2.TabIndex = 30;
@@ -183,37 +167,11 @@
             this.btnConfirmar.UseVisualStyleBackColor = true;
             this.btnConfirmar.Click += new System.EventHandler(this.btnConfirmar_Click);
             // 
-            // numericUpDownImporte
-            // 
-            this.numericUpDownImporte.Font = new System.Drawing.Font("Microsoft JhengHei UI", 13F);
-            this.numericUpDownImporte.Location = new System.Drawing.Point(310, 55);
-            this.numericUpDownImporte.Maximum = new decimal(new int[] {
-            999999,
-            0,
-            0,
-            0});
-            this.numericUpDownImporte.Name = "numericUpDownImporte";
-            this.numericUpDownImporte.Size = new System.Drawing.Size(120, 35);
-            this.numericUpDownImporte.TabIndex = 2;
-            // 
-            // numericUpDownKilos
-            // 
-            this.numericUpDownKilos.Font = new System.Drawing.Font("Microsoft JhengHei UI", 13F);
-            this.numericUpDownKilos.Location = new System.Drawing.Point(436, 55);
-            this.numericUpDownKilos.Maximum = new decimal(new int[] {
-            999999,
-            0,
-            0,
-            0});
-            this.numericUpDownKilos.Name = "numericUpDownKilos";
-            this.numericUpDownKilos.Size = new System.Drawing.Size(120, 35);
-            this.numericUpDownKilos.TabIndex = 3;
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
-            this.label3.Location = new System.Drawing.Point(306, 34);
+            this.label3.Location = new System.Drawing.Point(310, 34);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(121, 19);
             this.label3.TabIndex = 38;
@@ -223,7 +181,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
-            this.label4.Location = new System.Drawing.Point(432, 34);
+            this.label4.Location = new System.Drawing.Point(444, 34);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(42, 19);
             this.label4.TabIndex = 39;
@@ -261,23 +219,59 @@
             this.label5.TabIndex = 42;
             this.label5.Text = "Nombre del remito";
             // 
+            // textBoxTiras
+            // 
+            this.textBoxTiras.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.textBoxTiras.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.textBoxTiras.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxTiras.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
+            this.textBoxTiras.Location = new System.Drawing.Point(176, 54);
+            this.textBoxTiras.Name = "textBoxTiras";
+            this.textBoxTiras.Size = new System.Drawing.Size(128, 34);
+            this.textBoxTiras.TabIndex = 43;
+            this.textBoxTiras.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxImporte_KeyPress);
+            // 
+            // textBoxImporte
+            // 
+            this.textBoxImporte.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.textBoxImporte.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.textBoxImporte.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxImporte.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
+            this.textBoxImporte.Location = new System.Drawing.Point(310, 54);
+            this.textBoxImporte.Name = "textBoxImporte";
+            this.textBoxImporte.Size = new System.Drawing.Size(128, 34);
+            this.textBoxImporte.TabIndex = 44;
+            this.textBoxImporte.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxImporte_KeyPress);
+            // 
+            // textBoxKilos
+            // 
+            this.textBoxKilos.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.textBoxKilos.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.textBoxKilos.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxKilos.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
+            this.textBoxKilos.Location = new System.Drawing.Point(444, 54);
+            this.textBoxKilos.Name = "textBoxKilos";
+            this.textBoxKilos.Size = new System.Drawing.Size(128, 34);
+            this.textBoxKilos.TabIndex = 45;
+            this.textBoxKilos.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxImporte_KeyPress);
+            // 
             // FormRemito
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1262, 673);
+            this.Controls.Add(this.textBoxKilos);
+            this.Controls.Add(this.textBoxImporte);
+            this.Controls.Add(this.textBoxTiras);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.textBoxNombre);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.numericUpDownKilos);
-            this.Controls.Add(this.numericUpDownImporte);
             this.Controls.Add(this.btnConfirmar);
             this.Controls.Add(this.labelTotalImporte);
             this.Controls.Add(this.labelTotalTiras);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.numericUpDownCantTiras);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.labelTotalKg);
             this.Controls.Add(this.panel1);
@@ -288,9 +282,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormRemito";
             this.Text = "FormRemito";
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCantTiras)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownImporte)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownKilos)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -301,7 +292,6 @@
         private System.Windows.Forms.Label labelTotalImporte;
         private System.Windows.Forms.Label labelTotalTiras;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.NumericUpDown numericUpDownCantTiras;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label labelTotalKg;
         private System.Windows.Forms.Panel panel1;
@@ -309,12 +299,13 @@
         private System.Windows.Forms.Button btnAgregar;
         private System.Windows.Forms.TextBox textBoxCodigo;
         private System.Windows.Forms.Button btnConfirmar;
-        private System.Windows.Forms.NumericUpDown numericUpDownImporte;
-        private System.Windows.Forms.NumericUpDown numericUpDownKilos;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TextBox textBoxNombre;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBoxTiras;
+        private System.Windows.Forms.TextBox textBoxImporte;
+        private System.Windows.Forms.TextBox textBoxKilos;
     }
 }

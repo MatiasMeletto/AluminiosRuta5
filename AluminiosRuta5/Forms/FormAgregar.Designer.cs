@@ -30,7 +30,6 @@
         {
             this.labelTotalTiras = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.labelTotalKg = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -39,7 +38,7 @@
             this.textBoxCodigo = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.button2 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.textBoxTiras = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // labelTotalTiras
@@ -68,19 +67,6 @@
             this.button1.Text = "Volver";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Font = new System.Drawing.Font("Microsoft JhengHei UI", 13F);
-            this.numericUpDown1.Location = new System.Drawing.Point(182, 55);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            999999,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(120, 35);
-            this.numericUpDown1.TabIndex = 48;
             // 
             // label2
             // 
@@ -169,16 +155,28 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // textBoxTiras
+            // 
+            this.textBoxTiras.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.textBoxTiras.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.textBoxTiras.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxTiras.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
+            this.textBoxTiras.Location = new System.Drawing.Point(182, 54);
+            this.textBoxTiras.Name = "textBoxTiras";
+            this.textBoxTiras.Size = new System.Drawing.Size(128, 34);
+            this.textBoxTiras.TabIndex = 56;
+            this.textBoxTiras.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxTiras_KeyPress);
+            // 
             // FormAgregar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1262, 673);
+            this.Controls.Add(this.textBoxTiras);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.labelTotalTiras);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.labelTotalKg);
             this.Controls.Add(this.panel1);
@@ -189,7 +187,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormAgregar";
             this.Text = "FormAgregar";
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -199,7 +196,6 @@
 
         private System.Windows.Forms.Label labelTotalTiras;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label labelTotalKg;
         private System.Windows.Forms.Panel panel1;
@@ -208,5 +204,6 @@
         private System.Windows.Forms.TextBox textBoxCodigo;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox textBoxTiras;
     }
 }

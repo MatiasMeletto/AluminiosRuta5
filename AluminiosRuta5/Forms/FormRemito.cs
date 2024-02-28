@@ -136,7 +136,7 @@ namespace AluminiosRuta5.Forms
                     nroRemitoActual = Convert.ToString(Convert.ToInt16(dr[0]) + 1);
                 }
                 else
-                { 
+                {
                     AddCmdParameters(0);
                     nroRemitoActual = "0";
                 }
@@ -174,7 +174,7 @@ namespace AluminiosRuta5.Forms
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxCodigo.Text.Trim()) || numericUpDownCantTiras.Value == 0 || numericUpDownKilos.Value == 0)
+            if (string.IsNullOrEmpty(textBoxCodigo.Text.Trim()) || string.IsNullOrEmpty(textBoxKilos.Text.Trim()) || string.IsNullOrEmpty(textBoxImporte.Text.Trim()) || string.IsNullOrEmpty(textBoxTiras.Text.Trim()))
             {
                 MessageBox.Show("Complete los campos por favor");
                 return;
@@ -212,25 +212,25 @@ namespace AluminiosRuta5.Forms
                             Array.Reverse(chars2);
                             a = new string(chars2);
                         }
-                        listaLabels[listaLabels.IndexOf(l)].Text = new string(chars) + (Convert.ToInt16(a) + numericUpDownCantTiras.Value).ToString();
-                        pe.Import = numericUpDownImporte.Value.ToString();
-                        pe.KgXPaquete = (Convert.ToDecimal(pe.KgXPaquete) + numericUpDownKilos.Value).ToString();
-                        pe.CantidadTiras += Convert.ToInt16(numericUpDownCantTiras.Value);
+                        listaLabels[listaLabels.IndexOf(l)].Text = new string(chars) + (Convert.ToInt16(a) + Convert.ToDecimal(textBoxTiras.Text)).ToString();
+                        pe.Import = textBoxImporte.Text;
+                        pe.KgXPaquete = (Convert.ToDecimal(pe.KgXPaquete) + Convert.ToDecimal(textBoxKilos.Text)).ToString();
+                        pe.CantidadTiras += Convert.ToInt16(textBoxTiras.Text);
                     }
                     else
                     {
-                        p.Import = numericUpDownImporte.Value.ToString();
-                        p.KgXPaquete = numericUpDownKilos.Value.ToString();
-                        ModuloStock.ListaLabels(listaLabels, p, Convert.ToInt16(numericUpDownCantTiras.Value));
-                        p.CantidadTiras = Convert.ToInt16(numericUpDownCantTiras.Value);
+                        p.Import = textBoxImporte.Text;
+                        p.KgXPaquete = textBoxKilos.Text;
+                        ModuloStock.ListaLabels(listaLabels, p, Convert.ToInt16(textBoxTiras.Text));
+                        p.CantidadTiras = Convert.ToInt16(textBoxTiras.Text);
                         listaPerfilesPresupuestados.Add(p);
                     }
 
                     CargarLabels(listaLabels);
                     textBoxCodigo.Text = string.Empty;
-                    numericUpDownCantTiras.Value = 0;
-                    numericUpDownKilos.Value = 0;
-                    numericUpDownImporte.Value = 0;
+                    textBoxTiras.Text = string.Empty;
+                    textBoxKilos.Text = string.Empty;
+                    textBoxImporte.Text = string.Empty;
                     if (!btnConfirmar.Enabled)
                     {
                         btnConfirmar.Enabled = true;
@@ -387,7 +387,7 @@ namespace AluminiosRuta5.Forms
             sw.Close();
 
             SaveFileDialog guardar = new SaveFileDialog();
-            guardar.FileName = DateTime.Now.Day.ToString()+"_" + DateTime.Now.Month.ToString() + "_" + DateTime.Now.Year.ToString() + "-" + (Convert.ToDecimal(nroRemitoActual)).ToString("0000") + ".pdf";
+            guardar.FileName = DateTime.Now.Day.ToString() + "_" + DateTime.Now.Month.ToString() + "_" + DateTime.Now.Year.ToString() + "-" + (Convert.ToDecimal(nroRemitoActual)).ToString("0000") + ".pdf";
 
             if (guardar.ShowDialog() == DialogResult.OK)
             {
@@ -439,6 +439,20 @@ namespace AluminiosRuta5.Forms
             panel1.Controls.Clear();
             SumarCantidades();
             CloseConnection();
+        }
+
+        private void textBoxImporte_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.') && (e.KeyChar != ','))
+            {
+                e.Handled = true;
+            }
+
+            // only allow one decimal point
+            if ((e.KeyChar == '.' || e.KeyChar == ',') && ((sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

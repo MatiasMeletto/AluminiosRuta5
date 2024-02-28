@@ -33,17 +33,15 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.labelTotalKg = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.button1 = new System.Windows.Forms.Button();
             this.labelTotalTiras = new System.Windows.Forms.Label();
             this.labelTotalImporte = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.numericUpDownImporte = new System.Windows.Forms.NumericUpDown();
             this.panel2 = new System.Windows.Forms.Panel();
             this.buttonReset = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownImporte)).BeginInit();
+            this.textBoxTiras = new System.Windows.Forms.TextBox();
+            this.textBoxImporte = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btnAgregar
@@ -96,24 +94,11 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
-            this.label2.Location = new System.Drawing.Point(178, 35);
+            this.label2.Location = new System.Drawing.Point(170, 35);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(107, 19);
             this.label2.TabIndex = 19;
             this.label2.Text = "Cantidad tiras";
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Font = new System.Drawing.Font("Microsoft JhengHei UI", 13F);
-            this.numericUpDown1.Location = new System.Drawing.Point(182, 56);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            999999,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(120, 35);
-            this.numericUpDown1.TabIndex = 1;
             // 
             // button1
             // 
@@ -160,24 +145,11 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
-            this.label3.Location = new System.Drawing.Point(308, 35);
+            this.label3.Location = new System.Drawing.Point(304, 35);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(121, 19);
             this.label3.TabIndex = 40;
             this.label3.Text = "Importe por kilo";
-            // 
-            // numericUpDownImporte
-            // 
-            this.numericUpDownImporte.Font = new System.Drawing.Font("Microsoft JhengHei UI", 13F);
-            this.numericUpDownImporte.Location = new System.Drawing.Point(312, 56);
-            this.numericUpDownImporte.Maximum = new decimal(new int[] {
-            999999,
-            0,
-            0,
-            0});
-            this.numericUpDownImporte.Name = "numericUpDownImporte";
-            this.numericUpDownImporte.Size = new System.Drawing.Size(120, 35);
-            this.numericUpDownImporte.TabIndex = 2;
             // 
             // panel2
             // 
@@ -210,20 +182,44 @@
             this.textBox1.Size = new System.Drawing.Size(128, 34);
             this.textBox1.TabIndex = 43;
             // 
+            // textBoxTiras
+            // 
+            this.textBoxTiras.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.textBoxTiras.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.textBoxTiras.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxTiras.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
+            this.textBoxTiras.Location = new System.Drawing.Point(174, 56);
+            this.textBoxTiras.Name = "textBoxTiras";
+            this.textBoxTiras.Size = new System.Drawing.Size(128, 34);
+            this.textBoxTiras.TabIndex = 44;
+            this.textBoxTiras.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxTiras_KeyPress);
+            // 
+            // textBoxImporte
+            // 
+            this.textBoxImporte.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.textBoxImporte.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.textBoxImporte.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxImporte.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
+            this.textBoxImporte.Location = new System.Drawing.Point(308, 56);
+            this.textBoxImporte.Name = "textBoxImporte";
+            this.textBoxImporte.Size = new System.Drawing.Size(128, 34);
+            this.textBoxImporte.TabIndex = 45;
+            this.textBoxImporte.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxTiras_KeyPress);
+            // 
             // FormPresupuesto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1262, 673);
+            this.Controls.Add(this.textBoxImporte);
+            this.Controls.Add(this.textBoxTiras);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.buttonReset);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.numericUpDownImporte);
             this.Controls.Add(this.labelTotalImporte);
             this.Controls.Add(this.labelTotalTiras);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.labelTotalKg);
             this.Controls.Add(this.panel1);
@@ -233,8 +229,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormPresupuesto";
             this.Text = "FormPresupuesto";
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownImporte)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -246,14 +240,14 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label labelTotalKg;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label labelTotalTiras;
         private System.Windows.Forms.Label labelTotalImporte;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.NumericUpDown numericUpDownImporte;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button buttonReset;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxTiras;
+        private System.Windows.Forms.TextBox textBoxImporte;
     }
 }

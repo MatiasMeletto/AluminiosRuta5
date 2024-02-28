@@ -149,7 +149,7 @@ namespace AluminiosRuta5.Forms
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxCodigo.Text.Trim()) || numericUpDown1.Value == 0)
+            if (string.IsNullOrEmpty(textBoxCodigo.Text.Trim()) || string.IsNullOrEmpty(textBoxTiras.Text.Trim()))
             {
                 MessageBox.Show("Complete los campos por favor");
                 return;
@@ -160,7 +160,8 @@ namespace AluminiosRuta5.Forms
                 Perfil p = listaPerfiles.Where(l => l.Codigo == textBoxCodigo.Text).SingleOrDefault();
                 if (p != null)
                 {
-                    p.CantidadTiras = Convert.ToInt16(numericUpDown1.Value);
+                    p.CantidadTiras = Convert.ToInt16(textBoxTiras.Text);
+                    p.KgXPaquete = (Convert.ToDecimal(textBoxTiras.Text) * Convert.ToDecimal(p.KgXTira)).ToString();
                     Label l = listaLabels.Where(la => Convert.ToInt16(la.Tag) == p.PerfilId).SingleOrDefault();
                     if (l != null)
                     {
@@ -186,20 +187,19 @@ namespace AluminiosRuta5.Forms
                             Array.Reverse(chars2);
                             a = new string(chars2);
                         }
-                        listaLabels[listaLabels.IndexOf(l)].Text = new string(chars) + (Convert.ToInt16(a) + numericUpDown1.Value).ToString();
+                        listaLabels[listaLabels.IndexOf(l)].Text = new string(chars) + (Convert.ToInt16(a) + Convert.ToInt16(textBoxTiras.Text)).ToString();
                     }
                     else
                     {
-                        ModuloStock.ListaLabels(listaLabels, p, Convert.ToInt16(numericUpDown1.Value));
+                        ModuloStock.ListaLabels(listaLabels, p, Convert.ToInt16(textBoxTiras.Text));
                         listaPerfilesPresupuestados.Add(p);
                     }
                     CargarLabels(listaLabels);
-                    textBoxCodigo.Text = string.Empty;
-                    numericUpDown1.Value = 0;
                 }
                 else
                 {
                     MessageBox.Show("No se encontro el codigo");
+                    return;
                 }
 
             }
@@ -213,6 +213,8 @@ namespace AluminiosRuta5.Forms
                 CloseConnection();
             }
             SumarCantidades();
+            textBoxCodigo.Text = string.Empty;
+            textBoxTiras.Text = string.Empty;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -250,6 +252,20 @@ namespace AluminiosRuta5.Forms
             panel1.Controls.Clear();
             SumarCantidades();
             CloseConnection();
+        }
+
+        private void textBoxTiras_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.') && (e.KeyChar != ','))
+            {
+                e.Handled = true;
+            }
+
+            // only allow one decimal point
+            if ((e.KeyChar == '.' || e.KeyChar == ',') && ((sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

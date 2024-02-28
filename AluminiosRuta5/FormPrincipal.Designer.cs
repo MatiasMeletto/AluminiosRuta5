@@ -56,7 +56,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Aluminios Ruta 5";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.FormPrincipal_Load);
             this.ResumeLayout(false);
 
         }

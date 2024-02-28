@@ -27,5 +27,10 @@ namespace AluminiosRuta5.Forms
         {
             f.GetCambiarFormRemito();
         }
+
+        private void buttonEstadisticas_Click(object sender, EventArgs e)
+        {
+            f.GetCambiarFormEstadisticas();
+        }
     }
 }
