@@ -133,7 +133,7 @@
             this.textBoxCodigo.Location = new System.Drawing.Point(40, 54);
             this.textBoxCodigo.Name = "textBoxCodigo";
             this.textBoxCodigo.Size = new System.Drawing.Size(128, 34);
-            this.textBoxCodigo.TabIndex = 42;
+            this.textBoxCodigo.TabIndex = 1;
             // 
             // panel2
             // 
@@ -164,7 +164,7 @@
             this.textBoxTiras.Location = new System.Drawing.Point(182, 54);
             this.textBoxTiras.Name = "textBoxTiras";
             this.textBoxTiras.Size = new System.Drawing.Size(128, 34);
-            this.textBoxTiras.TabIndex = 56;
+            this.textBoxTiras.TabIndex = 2;
             this.textBoxTiras.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxTiras_KeyPress);
             // 
             // FormAgregar

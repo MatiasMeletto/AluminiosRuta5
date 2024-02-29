@@ -31,8 +31,12 @@
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dataGridViewStock = new System.Windows.Forms.DataGridView();
+            this.codigoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.descripcionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.kgXPaqueteDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CantidadTiras = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.KgXTira = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.perfilBindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.textBoxBuscar = new System.Windows.Forms.TextBox();
             this.textBoxCodigo = new System.Windows.Forms.TextBox();
             this.textBoxDescripcion = new System.Windows.Forms.TextBox();
@@ -46,10 +50,6 @@
             this.textBoxKg = new System.Windows.Forms.TextBox();
             this.textBox1Tira = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.codigoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.descripcionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.kgXPaqueteDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.perfilBindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.perfilBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.perfilBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.textBoxTiras = new System.Windows.Forms.TextBox();
@@ -99,6 +99,30 @@
             this.dataGridViewStock.TabIndex = 1;
             this.dataGridViewStock.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewStock_RowHeaderMouseDoubleClick);
             // 
+            // codigoDataGridViewTextBoxColumn
+            // 
+            this.codigoDataGridViewTextBoxColumn.DataPropertyName = "Codigo";
+            this.codigoDataGridViewTextBoxColumn.HeaderText = "Codigo";
+            this.codigoDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.codigoDataGridViewTextBoxColumn.Name = "codigoDataGridViewTextBoxColumn";
+            this.codigoDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // descripcionDataGridViewTextBoxColumn
+            // 
+            this.descripcionDataGridViewTextBoxColumn.DataPropertyName = "Descripcion";
+            this.descripcionDataGridViewTextBoxColumn.HeaderText = "Descripcion";
+            this.descripcionDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.descripcionDataGridViewTextBoxColumn.Name = "descripcionDataGridViewTextBoxColumn";
+            this.descripcionDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // kgXPaqueteDataGridViewTextBoxColumn
+            // 
+            this.kgXPaqueteDataGridViewTextBoxColumn.DataPropertyName = "KgXPaquete";
+            this.kgXPaqueteDataGridViewTextBoxColumn.HeaderText = "KgXPaquete";
+            this.kgXPaqueteDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.kgXPaqueteDataGridViewTextBoxColumn.Name = "kgXPaqueteDataGridViewTextBoxColumn";
+            this.kgXPaqueteDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
             // CantidadTiras
             // 
             this.CantidadTiras.DataPropertyName = "CantidadTiras";
@@ -114,6 +138,10 @@
             this.KgXTira.MinimumWidth = 6;
             this.KgXTira.Name = "KgXTira";
             this.KgXTira.ReadOnly = true;
+            // 
+            // perfilBindingSource2
+            // 
+            this.perfilBindingSource2.DataSource = typeof(AluminiosRuta5.Objects.Perfil);
             // 
             // textBoxBuscar
             // 
@@ -259,34 +287,6 @@
             this.label6.TabIndex = 16;
             this.label6.Text = "Kg x tira";
             // 
-            // codigoDataGridViewTextBoxColumn
-            // 
-            this.codigoDataGridViewTextBoxColumn.DataPropertyName = "Codigo";
-            this.codigoDataGridViewTextBoxColumn.HeaderText = "Codigo";
-            this.codigoDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.codigoDataGridViewTextBoxColumn.Name = "codigoDataGridViewTextBoxColumn";
-            this.codigoDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // descripcionDataGridViewTextBoxColumn
-            // 
-            this.descripcionDataGridViewTextBoxColumn.DataPropertyName = "Descripcion";
-            this.descripcionDataGridViewTextBoxColumn.HeaderText = "Descripcion";
-            this.descripcionDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.descripcionDataGridViewTextBoxColumn.Name = "descripcionDataGridViewTextBoxColumn";
-            this.descripcionDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // kgXPaqueteDataGridViewTextBoxColumn
-            // 
-            this.kgXPaqueteDataGridViewTextBoxColumn.DataPropertyName = "KgXPaquete";
-            this.kgXPaqueteDataGridViewTextBoxColumn.HeaderText = "KgXPaquete";
-            this.kgXPaqueteDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.kgXPaqueteDataGridViewTextBoxColumn.Name = "kgXPaqueteDataGridViewTextBoxColumn";
-            this.kgXPaqueteDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // perfilBindingSource2
-            // 
-            this.perfilBindingSource2.DataSource = typeof(AluminiosRuta5.Objects.Perfil);
-            // 
             // perfilBindingSource
             // 
             this.perfilBindingSource.DataSource = typeof(AluminiosRuta5.Objects.Perfil);
@@ -304,7 +304,7 @@
             this.textBoxTiras.Location = new System.Drawing.Point(904, 41);
             this.textBoxTiras.Name = "textBoxTiras";
             this.textBoxTiras.Size = new System.Drawing.Size(121, 34);
-            this.textBoxTiras.TabIndex = 17;
+            this.textBoxTiras.TabIndex = 5;
             this.textBoxTiras.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxKg_KeyPress);
             // 
             // FormPerfil

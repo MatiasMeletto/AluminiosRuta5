@@ -278,6 +278,13 @@ namespace AluminiosRuta5.Forms
             command.Parameters.Clear();
 
             UpdateDataBinding(command);
+            foreach (DataRowView b in bindingSrc.List)
+            {
+                if (Convert.ToInt16(b[6]) != c.CategoriaId)
+                {
+                    bindingSrc.Remove(b);
+                }
+            }
             dataGridViewStock.DataSource = bindingSrc;
 
             CloseConnection();

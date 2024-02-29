@@ -11,7 +11,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.tool.xml;
 using System.IO;
-
+using iTextSharp.tool.xml.html;
 
 namespace AluminiosRuta5.Forms
 {
@@ -176,15 +176,30 @@ namespace AluminiosRuta5.Forms
         {
             if (string.IsNullOrEmpty(textBoxCodigo.Text.Trim()) || string.IsNullOrEmpty(textBoxKilos.Text.Trim()) || string.IsNullOrEmpty(textBoxImporte.Text.Trim()) || string.IsNullOrEmpty(textBoxTiras.Text.Trim()))
             {
+                if (checkBox1.Checked)
+                    goto Agregar;
                 MessageBox.Show("Complete los campos por favor");
                 return;
             }
             OpenConnection();
-            try
-            {
-                Perfil p = listaPerfiles.Where(l => l.Codigo == textBoxCodigo.Text).SingleOrDefault();
 
-                if (p != null)
+        Agregar:
+            Perfil p = listaPerfiles.Where(l => l.Codigo == textBoxCodigo.Text).SingleOrDefault();
+
+            if (p != null || checkBox1.Checked)
+            {
+                if (checkBox1.Checked)
+                {
+                    Perfil perfil = new Perfil()
+                    {
+                        Codigo = textBoxCodigo.Text,
+                        CantidadTiras = Convert.ToInt16(textBoxTiras.Text),
+                        Import = textBoxImporte.Text,
+                    };
+                    ModuloStock.ListaLabels(listaLabels, perfil, Convert.ToInt16(textBoxTiras.Text));
+                    listaPerfilesPresupuestados.Add(perfil);
+                }
+                else
                 {
                     Label l = listaLabels.Where(la => Convert.ToInt16(la.Tag) == p.PerfilId).SingleOrDefault();
                     if (l != null)
@@ -225,33 +240,27 @@ namespace AluminiosRuta5.Forms
                         p.CantidadTiras = Convert.ToInt16(textBoxTiras.Text);
                         listaPerfilesPresupuestados.Add(p);
                     }
-
-                    CargarLabels(listaLabels);
-                    textBoxCodigo.Text = string.Empty;
-                    textBoxTiras.Text = string.Empty;
-                    textBoxKilos.Text = string.Empty;
-                    textBoxImporte.Text = string.Empty;
-                    if (!btnConfirmar.Enabled)
-                    {
-                        btnConfirmar.Enabled = true;
-                        textBoxNombre.Enabled = true;
-                    }
                 }
-                else
+
+                CargarLabels(listaLabels);
+                textBoxCodigo.Text = string.Empty;
+                textBoxTiras.Text = string.Empty;
+                textBoxKilos.Text = string.Empty;
+                textBoxImporte.Text = string.Empty;
+                if (!btnConfirmar.Enabled)
                 {
-                    MessageBox.Show("No se encontro el codigo");
+                    btnConfirmar.Enabled = true;
+                    textBoxNombre.Enabled = true;
                 }
-
             }
-            catch (Exception)
+            else
             {
                 MessageBox.Show("No se encontro el codigo");
-                return;
             }
-            finally
-            {
-                CloseConnection();
-            }
+
+
+            CloseConnection();
+
             SumarCantidades();
         }
         private void SumarCantidades()
@@ -286,8 +295,10 @@ namespace AluminiosRuta5.Forms
             OpenConnection();
             foreach (var p in listaPerfilesPresupuestados)
             {
+                if (p.PerfilId == 0)
+                    continue;
                 sql = "SELECT * FROM perfiles ";
-                sql += "WHERE PerfilId = " + p.PerfilId;
+               sql += "WHERE PerfilId = " + p.PerfilId;
 
                 command.CommandText = sql;
 
@@ -368,7 +379,10 @@ namespace AluminiosRuta5.Forms
                         sw.WriteLine("<td>" + l.Codigo + "</td>");
                         sw.WriteLine("<td>" + Convert.ToDecimal(l.Import).ToString("C", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
                         sw.WriteLine("<td>" + l.KgXPaquete + "</td>");
-                        sw.WriteLine("<td>" + (Convert.ToDecimal(l.KgXPaquete) * Convert.ToDecimal(l.Import)).ToString("C", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
+                        if (l.PerfilId != 0)
+                            sw.WriteLine("<td>" + (Convert.ToDecimal(l.KgXPaquete) * Convert.ToDecimal(l.Import)).ToString("C", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
+                        if (l.PerfilId == 0)
+                            sw.WriteLine("<td>" + (Convert.ToDecimal(l.CantidadTiras) * Convert.ToDecimal(l.Import)).ToString("C", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
                         sw.WriteLine("</tr>");
                     }
                 }
@@ -387,7 +401,7 @@ namespace AluminiosRuta5.Forms
             sw.Close();
 
             SaveFileDialog guardar = new SaveFileDialog();
-            guardar.FileName = DateTime.Now.Day.ToString() + "_" + DateTime.Now.Month.ToString() + "_" + DateTime.Now.Year.ToString() + "-" + (Convert.ToDecimal(nroRemitoActual)).ToString("0000") + ".pdf";
+            guardar.FileName = DateTime.Now.Day.ToString() + "_" + DateTime.Now.Month.ToString() + "_" + DateTime.Now.Year.ToString() + "-" + (Convert.ToDecimal(nroRemitoActual)).ToString("0000") + "-" + textBoxNombre.Text + ".pdf";
 
             if (guardar.ShowDialog() == DialogResult.OK)
             {
@@ -412,7 +426,8 @@ namespace AluminiosRuta5.Forms
             }
             foreach (var p in listaPerfilesPresupuestados)
             {
-
+                if (p.PerfilId == 0)
+                    continue;
                 sql = "SELECT * FROM perfiles ";
                 sql += "WHERE PerfilId = " + p.PerfilId;
 
@@ -452,6 +467,22 @@ namespace AluminiosRuta5.Forms
             if ((e.KeyChar == '.' || e.KeyChar == ',') && ((sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1))
             {
                 e.Handled = true;
+            }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                lImporte.Text = "Importe x unidad";
+                lTiras.Text = "Cantidad";
+                textBoxKilos.Enabled = false;
+            }
+            else
+            {
+                lImporte.Text = "Importe por kilo";
+                lTiras.Text = "Cantidad tiras";
+                textBoxKilos.Enabled = true;
             }
         }
     }

@@ -180,7 +180,7 @@
             this.textBox1.Location = new System.Drawing.Point(40, 56);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(128, 34);
-            this.textBox1.TabIndex = 43;
+            this.textBox1.TabIndex = 1;
             // 
             // textBoxTiras
             // 
@@ -191,7 +191,7 @@
             this.textBoxTiras.Location = new System.Drawing.Point(174, 56);
             this.textBoxTiras.Name = "textBoxTiras";
             this.textBoxTiras.Size = new System.Drawing.Size(128, 34);
-            this.textBoxTiras.TabIndex = 44;
+            this.textBoxTiras.TabIndex = 2;
             this.textBoxTiras.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxTiras_KeyPress);
             // 
             // textBoxImporte
@@ -203,7 +203,7 @@
             this.textBoxImporte.Location = new System.Drawing.Point(308, 56);
             this.textBoxImporte.Name = "textBoxImporte";
             this.textBoxImporte.Size = new System.Drawing.Size(128, 34);
-            this.textBoxImporte.TabIndex = 45;
+            this.textBoxImporte.TabIndex = 3;
             this.textBoxImporte.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxTiras_KeyPress);
             // 
             // FormPresupuesto
