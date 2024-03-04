@@ -37,6 +37,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.buttonFiltrar = new System.Windows.Forms.Button();
+            this.buttonLimpiar = new System.Windows.Forms.Button();
             this.panelKilos.SuspendLayout();
             this.panelRemitos.SuspendLayout();
             this.SuspendLayout();
@@ -46,9 +48,9 @@
             this.panelKilos.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.panelKilos.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.panelKilos.Controls.Add(this.label1);
-            this.panelKilos.Location = new System.Drawing.Point(50, 50);
+            this.panelKilos.Location = new System.Drawing.Point(12, 40);
             this.panelKilos.Name = "panelKilos";
-            this.panelKilos.Size = new System.Drawing.Size(576, 570);
+            this.panelKilos.Size = new System.Drawing.Size(614, 580);
             this.panelKilos.TabIndex = 0;
             // 
             // label1
@@ -80,9 +82,9 @@
             this.panelRemitos.AutoScroll = true;
             this.panelRemitos.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.panelRemitos.Controls.Add(this.label3);
-            this.panelRemitos.Location = new System.Drawing.Point(632, 50);
+            this.panelRemitos.Location = new System.Drawing.Point(632, 40);
             this.panelRemitos.Name = "panelRemitos";
-            this.panelRemitos.Size = new System.Drawing.Size(576, 570);
+            this.panelRemitos.Size = new System.Drawing.Size(618, 580);
             this.panelRemitos.TabIndex = 34;
             // 
             // label3
@@ -98,7 +100,7 @@
             // dateTimePicker1
             // 
             this.dateTimePicker1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.dateTimePicker1.Location = new System.Drawing.Point(685, 25);
+            this.dateTimePicker1.Location = new System.Drawing.Point(685, 12);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 22);
             this.dateTimePicker1.TabIndex = 35;
@@ -108,7 +110,7 @@
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
-            this.label2.Location = new System.Drawing.Point(628, 25);
+            this.label2.Location = new System.Drawing.Point(628, 12);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(56, 19);
             this.label2.TabIndex = 36;
@@ -119,7 +121,7 @@
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
-            this.label4.Location = new System.Drawing.Point(951, 25);
+            this.label4.Location = new System.Drawing.Point(901, 12);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(51, 19);
             this.label4.TabIndex = 37;
@@ -128,10 +130,32 @@
             // dateTimePicker2
             // 
             this.dateTimePicker2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.dateTimePicker2.Location = new System.Drawing.Point(1008, 25);
+            this.dateTimePicker2.Location = new System.Drawing.Point(958, 12);
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(200, 22);
             this.dateTimePicker2.TabIndex = 38;
+            // 
+            // buttonFiltrar
+            // 
+            this.buttonFiltrar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buttonFiltrar.Location = new System.Drawing.Point(1164, 9);
+            this.buttonFiltrar.Name = "buttonFiltrar";
+            this.buttonFiltrar.Size = new System.Drawing.Size(86, 25);
+            this.buttonFiltrar.TabIndex = 39;
+            this.buttonFiltrar.Text = "Filtar";
+            this.buttonFiltrar.UseVisualStyleBackColor = true;
+            this.buttonFiltrar.Click += new System.EventHandler(this.buttonFiltrar_Click);
+            // 
+            // buttonLimpiar
+            // 
+            this.buttonLimpiar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buttonLimpiar.Location = new System.Drawing.Point(1130, 626);
+            this.buttonLimpiar.Name = "buttonLimpiar";
+            this.buttonLimpiar.Size = new System.Drawing.Size(120, 25);
+            this.buttonLimpiar.TabIndex = 40;
+            this.buttonLimpiar.Text = "Limpiar filtro";
+            this.buttonLimpiar.UseVisualStyleBackColor = true;
+            this.buttonLimpiar.Click += new System.EventHandler(this.buttonLimpiar_Click);
             // 
             // FormEstadisticas
             // 
@@ -139,6 +163,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1262, 673);
+            this.Controls.Add(this.buttonLimpiar);
+            this.Controls.Add(this.buttonFiltrar);
             this.Controls.Add(this.dateTimePicker2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
@@ -169,5 +195,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DateTimePicker dateTimePicker2;
+        private System.Windows.Forms.Button buttonFiltrar;
+        private System.Windows.Forms.Button buttonLimpiar;
     }
 }

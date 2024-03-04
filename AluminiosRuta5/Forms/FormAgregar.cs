@@ -133,7 +133,7 @@ namespace AluminiosRuta5.Forms
                 }
                 sumaTiras += Convert.ToDecimal(a);
                 importe += Convert.ToDecimal(listaPerfilesPresupuestados[listaLabels.IndexOf(item)].Import) * Convert.ToDecimal(a);
-                kg += Convert.ToDecimal(listaPerfilesPresupuestados[listaLabels.IndexOf(item)].KgXTira) * Convert.ToDecimal(a);
+                kg += Convert.ToDecimal(listaPerfilesPresupuestados[listaLabels.IndexOf(item)].KgXTira.Replace(".", ",")) * Convert.ToDecimal(a);
             }
             labelTotalTiras.Text = "Total tiras = " + sumaTiras.ToString();
             labelTotalKg.Text = "Total KG = " + kg.ToString();

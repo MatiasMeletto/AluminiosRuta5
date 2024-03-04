@@ -214,7 +214,7 @@ namespace AluminiosRuta5.Forms
                 }
                 sumaTiras += Convert.ToDecimal(a);
                 kg += Convert.ToDecimal(listaPerfilesPresupuestados[listaLabels.IndexOf(item)].KgXTira.Replace(".", ",")) * Convert.ToDecimal(a);
-                importe += Convert.ToDecimal(listaPerfilesPresupuestados[listaLabels.IndexOf(item)].Import) * (Convert.ToDecimal(listaPerfilesPresupuestados[listaLabels.IndexOf(item)].KgXTira) * Convert.ToDecimal(listaPerfilesPresupuestados[listaLabels.IndexOf(item)].CantidadTiras));
+                importe += Convert.ToDecimal(listaPerfilesPresupuestados[listaLabels.IndexOf(item)].Import.Replace(".", ",")) * (Convert.ToDecimal(listaPerfilesPresupuestados[listaLabels.IndexOf(item)].KgXTira.Replace(".", ",")) * Convert.ToDecimal(listaPerfilesPresupuestados[listaLabels.IndexOf(item)].CantidadTiras));
             }
             labelTotalImporte.Text = "Total importe = " + importe.ToString("C", CultureInfo.CreateSpecificCulture("en-US"));
             labelTotalTiras.Text = "Total tiras = " + sumaTiras.ToString();

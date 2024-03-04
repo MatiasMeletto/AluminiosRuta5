@@ -38,11 +38,13 @@ namespace AluminiosRuta5.Forms
         }
         public static void ListaLabels(List<Label> lista, Perfil perfil, int cantidadTiras)
         {
+            string auxKgXTira = perfil.KgXTira.Replace(".", ",");
+            string auximporte = perfil.Import;
             Label label = new Label
             {
                 Tag = perfil.PerfilId,
                 Name = lista.Count().ToString(),
-                Text = $"* {perfil.Codigo} --- {perfil.Descripcion} ---  KG: {Convert.ToDecimal(perfil.KgXTira) * cantidadTiras} ---  $ por kilo: {perfil.Import} --- total $: {(Convert.ToDecimal(perfil.KgXTira) * cantidadTiras * Convert.ToDecimal(perfil.Import)).ToString("C", CultureInfo.CreateSpecificCulture("en-US"))} ---  x{cantidadTiras}",
+                Text = $"* {perfil.Codigo} --- {perfil.Descripcion} ---  KG: {Convert.ToDecimal(auxKgXTira) * cantidadTiras} ---  $ por kilo: {auximporte} --- total $: {(Convert.ToDecimal(auxKgXTira) * cantidadTiras * Convert.ToDecimal(auximporte)).ToString("C", CultureInfo.CreateSpecificCulture("en-US"))} ---  x{cantidadTiras}",
                 Location = new Point(0, 30 * lista.Count()),
                 Font = new Font("Microsoft JhengHei UI", 13),
                 AutoSize = true

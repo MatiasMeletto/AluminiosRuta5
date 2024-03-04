@@ -42,7 +42,7 @@
             this.btnStock.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnStock.Font = new System.Drawing.Font("Microsoft YaHei UI Light", 21F);
             this.btnStock.Image = ((System.Drawing.Image)(resources.GetObject("btnStock.Image")));
-            this.btnStock.Location = new System.Drawing.Point(85, 117);
+            this.btnStock.Location = new System.Drawing.Point(93, 117);
             this.btnStock.Name = "btnStock";
             this.btnStock.Padding = new System.Windows.Forms.Padding(0, 0, 0, 50);
             this.btnStock.Size = new System.Drawing.Size(270, 400);
@@ -55,12 +55,11 @@
             // btnRemitos
             // 
             this.btnRemitos.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnRemitos.AutoSize = true;
             this.btnRemitos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(130)))), ((int)(((byte)(157)))), ((int)(((byte)(186)))));
             this.btnRemitos.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnRemitos.Font = new System.Drawing.Font("Microsoft YaHei UI Light", 21F);
             this.btnRemitos.Image = ((System.Drawing.Image)(resources.GetObject("btnRemitos.Image")));
-            this.btnRemitos.Location = new System.Drawing.Point(361, 117);
+            this.btnRemitos.Location = new System.Drawing.Point(369, 117);
             this.btnRemitos.Name = "btnRemitos";
             this.btnRemitos.Padding = new System.Windows.Forms.Padding(0, 0, 0, 50);
             this.btnRemitos.Size = new System.Drawing.Size(270, 400);
@@ -77,7 +76,7 @@
             this.btnPresupuestos.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnPresupuestos.Font = new System.Drawing.Font("Microsoft YaHei UI Light", 21F);
             this.btnPresupuestos.Image = ((System.Drawing.Image)(resources.GetObject("btnPresupuestos.Image")));
-            this.btnPresupuestos.Location = new System.Drawing.Point(637, 117);
+            this.btnPresupuestos.Location = new System.Drawing.Point(645, 117);
             this.btnPresupuestos.Name = "btnPresupuestos";
             this.btnPresupuestos.Padding = new System.Windows.Forms.Padding(0, 0, 0, 50);
             this.btnPresupuestos.Size = new System.Drawing.Size(270, 400);
@@ -94,7 +93,7 @@
             this.buttonEstadisticas.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonEstadisticas.Font = new System.Drawing.Font("Microsoft YaHei UI Light", 21F);
             this.buttonEstadisticas.Image = global::AluminiosRuta5.Properties.Resources.investigacion_1_;
-            this.buttonEstadisticas.Location = new System.Drawing.Point(913, 117);
+            this.buttonEstadisticas.Location = new System.Drawing.Point(921, 117);
             this.buttonEstadisticas.Name = "buttonEstadisticas";
             this.buttonEstadisticas.Padding = new System.Windows.Forms.Padding(0, 0, 0, 50);
             this.buttonEstadisticas.Size = new System.Drawing.Size(270, 400);
@@ -118,7 +117,6 @@
             this.Name = "FormEleccion";
             this.Text = "FormEleccion";
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

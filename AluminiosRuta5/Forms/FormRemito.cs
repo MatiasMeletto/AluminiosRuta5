@@ -29,7 +29,17 @@ namespace AluminiosRuta5.Forms
         string paginahtml_texto;
         string nroRemitoActual;
         decimal importe = 0;
+        decimal importeBB = 0;
+        decimal importeBA = 0;
+        decimal importeNE = 0;
+        decimal importeNA = 0;
+        decimal importeR = 0;
         decimal kg = 0;
+        decimal kgBB = 0;
+        decimal kgBA = 0;
+        decimal kgNE = 0;
+        decimal kgNA = 0;
+        decimal kgR = 0;
         private static string sql;
         private List<Label> listaLabels = new List<Label>();
         private FormPrincipal form;
@@ -112,6 +122,16 @@ namespace AluminiosRuta5.Forms
             command.Parameters.AddWithValue("TotalPesos", importe.ToString());
             command.Parameters.AddWithValue("TotalKilos", kg.ToString());
             command.Parameters.AddWithValue("NroRemito", n + 1);
+            command.Parameters.AddWithValue("TotalKilosBlancoB", kgBB.ToString());
+            command.Parameters.AddWithValue("TotalKilosBlancoA", kgBA.ToString());
+            command.Parameters.AddWithValue("TotalKilosNatural", kgNA.ToString());
+            command.Parameters.AddWithValue("TotalKilosNegroSemiMate", kgNE.ToString());
+            command.Parameters.AddWithValue("TotalKilosReciclado", kgR.ToString());
+            command.Parameters.AddWithValue("TotalPesosBlancoB", importeBB.ToString());
+            command.Parameters.AddWithValue("TotalPesosBlancoA", importeBA.ToString());
+            command.Parameters.AddWithValue("TotalPesosNatural", importeNA.ToString());
+            command.Parameters.AddWithValue("TotalPesosNegroSemiMate", importeNE.ToString());
+            command.Parameters.AddWithValue("TotalPesosReciclado", importeR.ToString());
         }
         private void CrearRemito()
         {
@@ -125,8 +145,8 @@ namespace AluminiosRuta5.Forms
             bindingSrc.DataSource = ds.Tables["Remitos"];
 
 
-            sql = "INSERT INTO remitos (Fecha,TotalPesos,TotalKilos,NroRemito) " +
-                "VALUES (@Fecha,@TotalPesos,@TotalKilos,@NroRemito)";
+            sql = "INSERT INTO remitos (Fecha,TotalPesos,TotalKilos,NroRemito,TotalKilosBlancoB,TotalKilosBlancoA,TotalKilosNatural,TotalKilosNegroSemiMate,TotalKilosReciclado,TotalPesosBlancoB,TotalPesosBlancoA,TotalPesosNatural,TotalPesosNegroSemiMate,TotalPesosReciclado) " +
+                "VALUES (@Fecha,@TotalPesos,@TotalKilos,@NroRemito,@TotalKilosBlancoB,@TotalKilosBlancoA,@TotalKilosNatural,@TotalKilosNegroSemiMate,@TotalKilosReciclado,@TotalPesosBlancoB,@TotalPesosBlancoA,@TotalPesosNatural,@TotalPesosNegroSemiMate,@TotalPesosReciclado)";
             if (bindingSrc.Count > 0)
             {
                 DataRowView dr = bindingSrc[0] as DataRowView;
@@ -196,7 +216,7 @@ namespace AluminiosRuta5.Forms
                         CantidadTiras = Convert.ToInt16(textBoxTiras.Text),
                         Import = textBoxImporte.Text,
                     };
-                    ModuloStock.ListaLabels(listaLabels, perfil, Convert.ToInt16(textBoxTiras.Text));
+                    ListaLabels(listaLabels, perfil, Convert.ToInt16(textBoxTiras.Text), checkBox1.Checked);
                     listaPerfilesPresupuestados.Add(perfil);
                 }
                 else
@@ -230,13 +250,15 @@ namespace AluminiosRuta5.Forms
                         listaLabels[listaLabels.IndexOf(l)].Text = new string(chars) + (Convert.ToInt16(a) + Convert.ToDecimal(textBoxTiras.Text)).ToString();
                         pe.Import = textBoxImporte.Text;
                         pe.KgXPaquete = (Convert.ToDecimal(pe.KgXPaquete) + Convert.ToDecimal(textBoxKilos.Text)).ToString();
+                        pe.KgXTira = (Convert.ToDecimal(pe.KgXPaquete) + Convert.ToDecimal(textBoxKilos.Text)).ToString();
                         pe.CantidadTiras += Convert.ToInt16(textBoxTiras.Text);
                     }
                     else
                     {
                         p.Import = textBoxImporte.Text;
+                        p.KgXTira = textBoxKilos.Text;
                         p.KgXPaquete = textBoxKilos.Text;
-                        ModuloStock.ListaLabels(listaLabels, p, Convert.ToInt16(textBoxTiras.Text));
+                        ListaLabels(listaLabels, p, Convert.ToInt16(textBoxTiras.Text),checkBox1.Checked);
                         p.CantidadTiras = Convert.ToInt16(textBoxTiras.Text);
                         listaPerfilesPresupuestados.Add(p);
                     }
@@ -263,17 +285,92 @@ namespace AluminiosRuta5.Forms
 
             SumarCantidades();
         }
+        public static void ListaLabels(List<Label> lista, Perfil perfil, int cantidadTiras, bool acc)
+        {
+            if (acc)
+            {
+                Label label = new Label
+                {
+                    Tag = perfil.PerfilId,
+                    Name = lista.Count().ToString(),
+                    Text = $"* {perfil.Codigo} ---  $ por unidad: {perfil.Import} --- total $: {(cantidadTiras * Convert.ToDecimal(perfil.Import)).ToString("C", CultureInfo.CreateSpecificCulture("en-US"))} ---  x{cantidadTiras}",
+                    Location = new Point(0, 30 * lista.Count()),
+                    Font = new System.Drawing.Font("Microsoft JhengHei UI", 13),
+                    AutoSize = true
+                };
+                label.BringToFront();
+                label.Show();
+                lista.Add(label);
+            }
+            else
+            {
+                Label label = new Label
+                {
+                    Tag = perfil.PerfilId,
+                    Name = lista.Count().ToString(),
+                    Text = $"* {perfil.Codigo} --- {perfil.Descripcion} ---  KG: {perfil.KgXTira} ---  $ por kilo: {perfil.Import} --- total $: {(Convert.ToDecimal(perfil.KgXTira) * Convert.ToDecimal(perfil.Import)).ToString("C", CultureInfo.CreateSpecificCulture("en-US"))} ---  x{cantidadTiras}",
+                    Location = new Point(0, 30 * lista.Count()),
+                    Font = new System.Drawing.Font("Microsoft JhengHei UI", 13),
+                    AutoSize = true
+                };
+                label.BringToFront();
+                label.Show();
+                lista.Add(label);
+            }
+        }
         private void SumarCantidades()
         {
             decimal sumaTiras = 0;
             importe = 0;
+            importeBB = 0;
+            importeBA = 0;
+            importeNE = 0;
+            importeNA = 0;
+            importeR = 0;
             kg = 0;
+            kgBA = 0;
+            kgBB = 0;
+            kgNA = 0;
+            kgNE = 0;
+            kgR = 0;
 
             foreach (var item in listaPerfilesPresupuestados)
             {
-                sumaTiras += item.CantidadTiras;
-                importe += Convert.ToDecimal(item.Import) * Convert.ToDecimal(item.KgXPaquete);
-                kg += Convert.ToDecimal(item.KgXPaquete);
+                if (item.PerfilId == 0)
+                {
+                    importe += Convert.ToDecimal(item.Import) * Convert.ToDecimal(item.CantidadTiras);
+                }
+                else
+                {
+                    sumaTiras += item.CantidadTiras;
+                    importe += Convert.ToDecimal(item.Import) * Convert.ToDecimal(item.KgXPaquete);
+                    kg += Convert.ToDecimal(item.KgXPaquete);
+                    if (item.CategoriaId == 24)
+                    {
+                        kgBB += Convert.ToDecimal(item.KgXPaquete);
+                        importeBB += Convert.ToDecimal(item.Import) * Convert.ToDecimal(item.KgXPaquete);
+                    }
+                    if (item.CategoriaId == 25)
+                    {
+                        kgR += Convert.ToDecimal(item.KgXPaquete);
+                        importeR += Convert.ToDecimal(item.Import) * Convert.ToDecimal(item.KgXPaquete);
+                    }
+                    if (item.CategoriaId == 27)
+                    {
+                        kgNE += Convert.ToDecimal(item.KgXPaquete);
+                        importeNE += Convert.ToDecimal(item.Import) * Convert.ToDecimal(item.KgXPaquete);
+                    }
+                    if (item.CategoriaId == 28)
+                    {
+                        kgBA += Convert.ToDecimal(item.KgXPaquete);
+                        importeBA += Convert.ToDecimal(item.Import) * Convert.ToDecimal(item.KgXPaquete);
+                    }
+                    if (item.CategoriaId == 29)
+                    {
+                        kgNA += Convert.ToDecimal(item.KgXPaquete);
+                        importeNA += Convert.ToDecimal(item.Import) * Convert.ToDecimal(item.KgXPaquete);
+                    }
+                }
             }
             labelTotalImporte.Text = "Total importe = " + importe.ToString("C", CultureInfo.CreateSpecificCulture("en-US"));
             labelTotalTiras.Text = "Total tiras = " + sumaTiras.ToString();
@@ -298,7 +395,7 @@ namespace AluminiosRuta5.Forms
                 if (p.PerfilId == 0)
                     continue;
                 sql = "SELECT * FROM perfiles ";
-               sql += "WHERE PerfilId = " + p.PerfilId;
+                sql += "WHERE PerfilId = " + p.PerfilId;
 
                 command.CommandText = sql;
 
@@ -388,7 +485,7 @@ namespace AluminiosRuta5.Forms
                 }
                 else if (line.Contains("@TOTALKG"))
                 {
-                    line = line.Replace("@TOTALKG", kg.ToString("#,#", CultureInfo.CreateSpecificCulture("en-US")));
+                    line = line.Replace("@TOTALKG", kg.ToString());
                 }
                 else if (line.Contains("@TOTALPESOS"))
                 {
