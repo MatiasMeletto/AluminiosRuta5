@@ -432,24 +432,64 @@ namespace AluminiosRuta5.Forms
                 {
                     line = line.Replace("@NRO", (Convert.ToDecimal(nroRemitoActual)).ToString("0000"));
                 }
-                else if (line.Contains("@NOMBRECLIENTEEEEEEEEEEEEEEEEEE"))
+                else if (line.Contains("@NOMBRECLIENTEEEEEEEEEEEEEEEE"))
                 {
                     char[] chars = textBoxNombre.Text.ToCharArray();
-                    if (textBoxNombre.Text.Trim().Length == 31)
+                    if (textBoxNombre.Text.Trim().Length == 29)
                     {
-                        line = line.Replace("@NOMBRECLIENTEEEEEEEEEEEEEEEEEE", textBoxNombre.Text);
+                        line = line.Replace("@NOMBRECLIENTEEEEEEEEEEEEEEEE", textBoxNombre.Text);
                     }
-                    if (textBoxNombre.Text.Trim().Length < 31)
+                    if (textBoxNombre.Text.Trim().Length < 29)
                     {
                         char[] chars2 = line.ToCharArray();
                         line = "";
-                        for (int i = 0; i < 105; i++)
+                        for (int i = 0; i < 103; i++)
                         {
                             if (i > 49 && i < chars.Length + 50)
                             {
                                 line += chars[i - 50];
                             }
-                            else if (i < 50 || i > 80)
+                            else if (i < 50 || i > 78)
+                            {
+                                line += chars2[i];
+                            }
+                            else
+                            {
+                                line += "&nbsp;";
+                            }
+                        }
+                    }
+                }
+                else if (line.Contains("@DI"))
+                {
+                    line = line.Replace("@DI", DateTime.Now.Day.ToString());
+                }
+                else if (line.Contains("@M"))
+                {
+                    line = line.Replace("@M", DateTime.Now.Month.ToString());
+                }
+                else if (line.Contains("@A"))
+                {
+                    line = line.Replace("@A", DateTime.Now.Year.ToString());
+                }
+                else if (line.Contains("@LOCALIDADDDDD"))
+                {
+                    char[] chars = textBoxLocalidad.Text.ToCharArray();
+                    if (textBoxLocalidad.Text.Trim().Length == 14)
+                    {
+                        line = line.Replace("@LOCALIDADDDDD", textBoxLocalidad.Text);
+                    }
+                    if (textBoxLocalidad.Text.Trim().Length < 29)
+                    {
+                        char[] chars2 = line.ToCharArray();
+                        line = "";
+                        for (int i = 0; i < 88; i++)
+                        {
+                            if (i > 49 && i < chars.Length + 50)
+                            {
+                                line += chars[i - 50];
+                            }
+                            else if (i < 50 || i > 63)
                             {
                                 line += chars2[i];
                             }
@@ -474,14 +514,33 @@ namespace AluminiosRuta5.Forms
                         sw.WriteLine("<tr style=\"height: 30px;\">");
                         sw.WriteLine("<td>" + l.CantidadTiras + "</td>");
                         sw.WriteLine("<td>" + l.Codigo + "</td>");
-                        sw.WriteLine("<td>" + Convert.ToDecimal(l.Import).ToString("C", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
+                        sw.WriteLine("<td>" + Convert.ToDecimal(l.Import).ToString("C0", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
                         sw.WriteLine("<td>" + l.KgXPaquete + "</td>");
                         if (l.PerfilId != 0)
-                            sw.WriteLine("<td>" + (Convert.ToDecimal(l.KgXPaquete) * Convert.ToDecimal(l.Import)).ToString("C", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
+                            sw.WriteLine("<td>" + (Convert.ToDecimal(l.KgXPaquete) * Convert.ToDecimal(l.Import)).ToString("C0", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
                         if (l.PerfilId == 0)
-                            sw.WriteLine("<td>" + (Convert.ToDecimal(l.CantidadTiras) * Convert.ToDecimal(l.Import)).ToString("C", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
+                            sw.WriteLine("<td>" + (Convert.ToDecimal(l.CantidadTiras) * Convert.ToDecimal(l.Import)).ToString("C0", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
                         sw.WriteLine("</tr>");
                     }
+                    if (textBoxPlata.Text.Trim().Length > 0)
+                    {
+                        sw.WriteLine("<tr style=\"height: 30px;border:0px\">");
+                        sw.WriteLine("<td style=\"border:0px\"> </td>");
+                        sw.WriteLine("<td style=\"border:0px\"> </td>");
+                        sw.WriteLine("<td style=\"border:0px\"> </td>");
+                        sw.WriteLine("<td style=\"border:0px\"> </td>");
+                        sw.WriteLine("<td style=\"border:0px\"> </td>");
+                        sw.WriteLine("<td style=\"border:0px\"> </td>");
+                        sw.WriteLine("</tr>");
+                        sw.WriteLine("<tr style=\"height: 30px;\">");
+                        if (!checkBoxPlataAFavorOEnContra.Checked)
+                            sw.WriteLine("<td colspan=\"2\" >" + "Plata a favor del cliente" + "</td>");
+                        else
+                            sw.WriteLine("<td colspan=\"2\" >" + "Plata adeudada " + "</td>");
+                        sw.WriteLine("<td colspan=\"3\" style=\"text-align: right;\" >" + (Convert.ToDecimal(textBoxPlata.Text)).ToString("C0", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
+                        sw.WriteLine("</tr>");
+                    }
+
                 }
                 else if (line.Contains("@TOTALKG"))
                 {
@@ -489,7 +548,17 @@ namespace AluminiosRuta5.Forms
                 }
                 else if (line.Contains("@TOTALPESOS"))
                 {
-                    line = line.Replace("@TOTALPESOS", (Convert.ToDecimal(importe)).ToString("C", CultureInfo.CreateSpecificCulture("en-US")));
+                    if (textBoxPlata.Text.Trim().Length > 0)
+                    {
+                        if (checkBoxPlataAFavorOEnContra.Checked)
+                            line = line.Replace("@TOTALPESOS", (Convert.ToDecimal(textBoxPlata.Text) + Convert.ToDecimal(importe)).ToString("C0", CultureInfo.CreateSpecificCulture("en-US")).Replace("(", "").Replace(")", ""));
+                        else
+                            line = line.Replace("@TOTALPESOS", (Convert.ToDecimal(importe) - Convert.ToDecimal(textBoxPlata.Text)).ToString("C0", CultureInfo.CreateSpecificCulture("en-US")).Replace("(", "").Replace(")", ""));
+                    }
+                    else
+                    {
+                        line = line.Replace("@TOTALPESOS", (Convert.ToDecimal(importe)).ToString("C0", CultureInfo.CreateSpecificCulture("en-US")));
+                    }
                 }
                 sw.WriteLine(line);
                 line = str.ReadLine();
@@ -545,6 +614,8 @@ namespace AluminiosRuta5.Forms
             btnConfirmar.Enabled = false;
             textBoxNombre.Enabled = false;
             textBoxNombre.Text = string.Empty;
+            textBoxLocalidad.Enabled = false;
+            textBoxLocalidad.Text = string.Empty;
             MessageBox.Show("Se resto correctamente del stock");
             listaLabels.Clear();
             listaPerfilesPresupuestados.Clear();
@@ -580,6 +651,32 @@ namespace AluminiosRuta5.Forms
                 lImporte.Text = "Importe por kilo";
                 lTiras.Text = "Cantidad tiras";
                 textBoxKilos.Enabled = true;
+            }
+        }
+
+        private void checkBoxPlataAFavorOEnContra_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxPlataAFavorOEnContra.Checked)
+            {
+                labelPlata.Text = "Plata en contra";
+            }
+            else
+            {
+                labelPlata.Text = "Plata a favor";
+            }
+        }
+
+        private void textBoxPlata_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.') && (e.KeyChar != ','))
+            {
+                e.Handled = true;
+            }
+
+            // only allow one decimal point
+            if ((e.KeyChar == '.' || e.KeyChar == ',') && ((sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
             }
         }
     }

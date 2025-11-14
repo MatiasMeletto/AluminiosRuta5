@@ -47,6 +47,12 @@
             this.textBoxImporte = new System.Windows.Forms.TextBox();
             this.textBoxKilos = new System.Windows.Forms.TextBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.textBoxPlata = new System.Windows.Forms.TextBox();
+            this.labelPlata = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textBoxLocalidad = new System.Windows.Forms.TextBox();
+            this.checkBoxStock = new System.Windows.Forms.CheckBox();
+            this.checkBoxPlataAFavorOEnContra = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // labelTotalImporte
@@ -160,7 +166,7 @@
             // btnConfirmar
             // 
             this.btnConfirmar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnConfirmar.Location = new System.Drawing.Point(42, 542);
+            this.btnConfirmar.Location = new System.Drawing.Point(31, 542);
             this.btnConfirmar.Name = "btnConfirmar";
             this.btnConfirmar.Size = new System.Drawing.Size(135, 51);
             this.btnConfirmar.TabIndex = 35;
@@ -204,9 +210,9 @@
             this.textBoxNombre.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.textBoxNombre.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
-            this.textBoxNombre.Location = new System.Drawing.Point(310, 559);
+            this.textBoxNombre.Location = new System.Drawing.Point(31, 483);
             this.textBoxNombre.Name = "textBoxNombre";
-            this.textBoxNombre.Size = new System.Drawing.Size(246, 34);
+            this.textBoxNombre.Size = new System.Drawing.Size(231, 34);
             this.textBoxNombre.TabIndex = 41;
             // 
             // label5
@@ -214,11 +220,11 @@
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
-            this.label5.Location = new System.Drawing.Point(306, 537);
+            this.label5.Location = new System.Drawing.Point(306, 461);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(143, 19);
+            this.label5.Size = new System.Drawing.Size(77, 19);
             this.label5.TabIndex = 42;
-            this.label5.Text = "Nombre del remito";
+            this.label5.Text = "Localidad";
             // 
             // textBoxTiras
             // 
@@ -260,7 +266,7 @@
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
-            this.checkBox1.Location = new System.Drawing.Point(468, 137);
+            this.checkBox1.Location = new System.Drawing.Point(310, 150);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(98, 23);
             this.checkBox1.TabIndex = 47;
@@ -268,12 +274,87 @@
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
+            // textBoxPlata
+            // 
+            this.textBoxPlata.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textBoxPlata.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.textBoxPlata.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.textBoxPlata.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxPlata.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
+            this.textBoxPlata.Location = new System.Drawing.Point(310, 554);
+            this.textBoxPlata.Name = "textBoxPlata";
+            this.textBoxPlata.Size = new System.Drawing.Size(246, 34);
+            this.textBoxPlata.TabIndex = 48;
+            this.textBoxPlata.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPlata_KeyPress);
+            // 
+            // labelPlata
+            // 
+            this.labelPlata.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelPlata.AutoSize = true;
+            this.labelPlata.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
+            this.labelPlata.Location = new System.Drawing.Point(306, 532);
+            this.labelPlata.Name = "labelPlata";
+            this.labelPlata.Size = new System.Drawing.Size(95, 19);
+            this.labelPlata.TabIndex = 49;
+            this.labelPlata.Text = "Plata a favor";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
+            this.label3.Location = new System.Drawing.Point(27, 461);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(143, 19);
+            this.label3.TabIndex = 51;
+            this.label3.Text = "Nombre del remito";
+            // 
+            // textBoxLocalidad
+            // 
+            this.textBoxLocalidad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textBoxLocalidad.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.textBoxLocalidad.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.textBoxLocalidad.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxLocalidad.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
+            this.textBoxLocalidad.Location = new System.Drawing.Point(310, 483);
+            this.textBoxLocalidad.Name = "textBoxLocalidad";
+            this.textBoxLocalidad.Size = new System.Drawing.Size(246, 34);
+            this.textBoxLocalidad.TabIndex = 50;
+            // 
+            // checkBoxStock
+            // 
+            this.checkBoxStock.AutoSize = true;
+            this.checkBoxStock.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
+            this.checkBoxStock.Location = new System.Drawing.Point(310, 121);
+            this.checkBoxStock.Name = "checkBoxStock";
+            this.checkBoxStock.Size = new System.Drawing.Size(207, 23);
+            this.checkBoxStock.TabIndex = 52;
+            this.checkBoxStock.Text = "Perfil desligado del stock";
+            this.checkBoxStock.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxPlataAFavorOEnContra
+            // 
+            this.checkBoxPlataAFavorOEnContra.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.checkBoxPlataAFavorOEnContra.AutoSize = true;
+            this.checkBoxPlataAFavorOEnContra.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
+            this.checkBoxPlataAFavorOEnContra.Location = new System.Drawing.Point(538, 534);
+            this.checkBoxPlataAFavorOEnContra.Name = "checkBoxPlataAFavorOEnContra";
+            this.checkBoxPlataAFavorOEnContra.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxPlataAFavorOEnContra.TabIndex = 53;
+            this.checkBoxPlataAFavorOEnContra.UseVisualStyleBackColor = true;
+            this.checkBoxPlataAFavorOEnContra.CheckedChanged += new System.EventHandler(this.checkBoxPlataAFavorOEnContra_CheckedChanged);
+            // 
             // FormRemito
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1262, 673);
+            this.Controls.Add(this.checkBoxStock);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.textBoxLocalidad);
+            this.Controls.Add(this.labelPlata);
+            this.Controls.Add(this.textBoxPlata);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.textBoxKilos);
             this.Controls.Add(this.textBoxImporte);
@@ -293,6 +374,7 @@
             this.Controls.Add(this.btnAgregar);
             this.Controls.Add(this.textBoxCodigo);
             this.Controls.Add(this.panel2);
+            this.Controls.Add(this.checkBoxPlataAFavorOEnContra);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormRemito";
             this.Text = "FormRemito";
@@ -322,5 +404,11 @@
         private System.Windows.Forms.TextBox textBoxImporte;
         private System.Windows.Forms.TextBox textBoxKilos;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.TextBox textBoxPlata;
+        private System.Windows.Forms.Label labelPlata;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textBoxLocalidad;
+        private System.Windows.Forms.CheckBox checkBoxStock;
+        private System.Windows.Forms.CheckBox checkBoxPlataAFavorOEnContra;
     }
 }

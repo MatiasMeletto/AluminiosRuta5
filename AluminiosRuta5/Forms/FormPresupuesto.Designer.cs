@@ -42,6 +42,11 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBoxTiras = new System.Windows.Forms.TextBox();
             this.textBoxImporte = new System.Windows.Forms.TextBox();
+            this.textBoxLocalidad = new System.Windows.Forms.TextBox();
+            this.textBoxNombre = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnAgregar
@@ -206,12 +211,70 @@
             this.textBoxImporte.TabIndex = 3;
             this.textBoxImporte.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxTiras_KeyPress);
             // 
+            // textBoxLocalidad
+            // 
+            this.textBoxLocalidad.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.textBoxLocalidad.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.textBoxLocalidad.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxLocalidad.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
+            this.textBoxLocalidad.Location = new System.Drawing.Point(377, 302);
+            this.textBoxLocalidad.Name = "textBoxLocalidad";
+            this.textBoxLocalidad.Size = new System.Drawing.Size(170, 34);
+            this.textBoxLocalidad.TabIndex = 44;
+            // 
+            // textBoxNombre
+            // 
+            this.textBoxNombre.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.textBoxNombre.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.textBoxNombre.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
+            this.textBoxNombre.Location = new System.Drawing.Point(196, 303);
+            this.textBoxNombre.Name = "textBoxNombre";
+            this.textBoxNombre.Size = new System.Drawing.Size(175, 34);
+            this.textBoxNombre.TabIndex = 43;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
+            this.label4.Location = new System.Drawing.Point(373, 281);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(77, 19);
+            this.label4.TabIndex = 46;
+            this.label4.Text = "Localidad";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
+            this.label5.Location = new System.Drawing.Point(195, 281);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(67, 19);
+            this.label5.TabIndex = 45;
+            this.label5.Text = "Nombre";
+            // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button2.Location = new System.Drawing.Point(419, 505);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(128, 50);
+            this.button2.TabIndex = 47;
+            this.button2.Text = "Guardar presupuesto";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // FormPresupuesto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1262, 673);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.textBoxLocalidad);
+            this.Controls.Add(this.textBoxNombre);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.textBoxImporte);
             this.Controls.Add(this.textBoxTiras);
             this.Controls.Add(this.textBox1);
@@ -249,5 +312,10 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBoxTiras;
         private System.Windows.Forms.TextBox textBoxImporte;
+        private System.Windows.Forms.TextBox textBoxLocalidad;
+        private System.Windows.Forms.TextBox textBoxNombre;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button button2;
     }
 }

@@ -250,5 +250,10 @@ namespace AluminiosRuta5.Forms
                 e.Handled = true;
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
