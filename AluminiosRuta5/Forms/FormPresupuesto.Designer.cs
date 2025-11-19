@@ -213,6 +213,7 @@
             // 
             // textBoxLocalidad
             // 
+            this.textBoxLocalidad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.textBoxLocalidad.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.textBoxLocalidad.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.textBoxLocalidad.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -224,6 +225,7 @@
             // 
             // textBoxNombre
             // 
+            this.textBoxNombre.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.textBoxNombre.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.textBoxNombre.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.textBoxNombre.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -235,6 +237,7 @@
             // 
             // label4
             // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
             this.label4.Location = new System.Drawing.Point(373, 281);
@@ -245,6 +248,7 @@
             // 
             // label5
             // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
             this.label5.Location = new System.Drawing.Point(195, 281);
