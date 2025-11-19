@@ -38,7 +38,7 @@ namespace AluminiosRuta5.Forms
         }
         public static void ListaLabels(List<Label> lista, Perfil perfil, int cantidadTiras)
         {
-            string auxKgXTira = perfil.KgXTira.Replace(".", ",");
+            string auxKgXTira = perfil.KgXTira;
             string auximporte = perfil.Import;
             Label label = new Label
             {
