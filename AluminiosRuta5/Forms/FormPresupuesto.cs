@@ -30,6 +30,25 @@ namespace AluminiosRuta5.Forms
             InitializeComponent();
             form = f;
             CargarPerfiles();
+
+            // Asignar evento al checkbox para cambiar textos visuales
+            checkBoxAccesorio.CheckedChanged += CheckBoxAccesorio_CheckedChanged;
+        }
+
+        private void CheckBoxAccesorio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxAccesorio.Checked)
+            {
+                labelTiras.Text = "Cantidad:";
+                labelImporte.Text = "Precio x Unidad:";
+                textBoxTiras.Enabled = true;
+            }
+            else
+            {
+                labelTiras.Text = "Cantidad Tiras:";
+                labelImporte.Text = "Precio x Kilo:";
+                textBoxTiras.Enabled = true;
+            }
         }
 
         // 1. CARGAR BASE DE DATOS
@@ -74,57 +93,92 @@ namespace AluminiosRuta5.Forms
                 string.IsNullOrEmpty(textBoxTiras.Text.Trim()) ||
                 string.IsNullOrEmpty(textBoxImporte.Text.Trim()))
             {
-                MessageBox.Show("Por favor complete: Código, Cantidad de Tiras e Importe por Kilo.");
+                MessageBox.Show("Por favor complete los campos.");
                 return;
             }
 
             try
             {
+                // Buscamos en el catálogo
                 Perfil perfilDb = listaPerfiles.Where(l => l.Codigo == textBox1.Text).SingleOrDefault();
 
-                if (perfilDb != null)
+                // LÓGICA PRINCIPAL: Si existe en DB O es un Accesorio (manual), procedemos.
+                if (perfilDb != null || checkBoxAccesorio.Checked)
                 {
                     int cantidadIngresada = Convert.ToInt32(textBoxTiras.Text);
-                    decimal precioPorKilo = Convert.ToDecimal(textBoxImporte.Text);
-                    decimal pesoUnitarioPorTira = Convert.ToDecimal(perfilDb.KgXTira);
 
-                    // Cálculo del peso total de esta línea
-                    decimal pesoTotalLinea = pesoUnitarioPorTira * cantidadIngresada;
-
-                    // Verificar si ya existe visualmente
-                    Label labelExistente = listaLabels.Where(la => Convert.ToInt16(la.Tag) == perfilDb.PerfilId).SingleOrDefault();
-
-                    if (labelExistente != null)
+                    if (checkBoxAccesorio.Checked)
                     {
-                        // ACTUALIZAR EXISTENTE
-                        var itemEnLista = listaPerfilesPresupuestados.Find(x => x.PerfilId == perfilDb.PerfilId);
+                        // --- MODO ACCESORIO (Venta por unidad) ---
+                        // No validamos duplicados para accesorios (se agregan siempre nuevos para permitir distintos precios/descripciones)
 
-                        itemEnLista.CantidadTiras += cantidadIngresada;
+                        string descripcion = "Accesorio";
+                        if (perfilDb != null) descripcion = perfilDb.Descripcion;
 
-                        // Recalcular peso total acumulado
-                        decimal pesoTotalAcumulado = pesoUnitarioPorTira * itemEnLista.CantidadTiras;
-                        itemEnLista.KgXPaquete = pesoTotalAcumulado.ToString();
-
-                        itemEnLista.Import = textBoxImporte.Text;
-
-                        ActualizarTextoLabel(labelExistente, itemEnLista);
-                    }
-                    else
-                    {
-                        // CREAR NUEVO
                         Perfil nuevoItem = new Perfil
                         {
-                            PerfilId = perfilDb.PerfilId,
-                            Codigo = perfilDb.Codigo,
-                            Descripcion = perfilDb.Descripcion,
+                            PerfilId = 0, // ID 0 para identificar accesorios
+                            Codigo = textBox1.Text,
+                            Descripcion = descripcion,
                             CantidadTiras = cantidadIngresada,
                             Import = textBoxImporte.Text,
-                            KgXTira = perfilDb.KgXTira,
-                            KgXPaquete = pesoTotalLinea.ToString() // Guardamos el peso total aquí
+                            KgXTira = "0",
+                            KgXPaquete = "0"
                         };
 
                         CrearLabelVisual(nuevoItem);
                         listaPerfilesPresupuestados.Add(nuevoItem);
+                    }
+                    else
+                    {
+                        // --- MODO PERFIL (Venta por peso) ---
+
+                        if (perfilDb == null)
+                        {
+                            MessageBox.Show("El código ingresado no existe en la base de datos.");
+                            return;
+                        }
+
+                        // Buscamos si ya existe este perfil en la lista
+                        var perfilExistente = listaPerfilesPresupuestados.FirstOrDefault(x => x.PerfilId == perfilDb.PerfilId);
+
+                        if (perfilExistente != null)
+                        {
+                            // ACTUALIZAR EXISTENTE
+                            int index = listaPerfilesPresupuestados.IndexOf(perfilExistente);
+                            Label l = listaLabels[index]; // Obtenemos el label por índice seguro
+
+                            perfilExistente.CantidadTiras += cantidadIngresada;
+
+                            // Recalcular peso total acumulado
+                            decimal pesoUnitarioPorTira = Convert.ToDecimal(perfilDb.KgXTira);
+                            decimal pesoTotalAcumulado = pesoUnitarioPorTira * perfilExistente.CantidadTiras;
+
+                            perfilExistente.KgXPaquete = pesoTotalAcumulado.ToString();
+                            perfilExistente.Import = textBoxImporte.Text; // Actualizamos precio al último ingresado
+
+                            ActualizarTextoLabel(l, perfilExistente);
+                        }
+                        else
+                        {
+                            // CREAR NUEVO
+                            decimal pesoUnitarioPorTira = Convert.ToDecimal(perfilDb.KgXTira);
+                            decimal pesoTotalLinea = pesoUnitarioPorTira * cantidadIngresada;
+
+                            Perfil nuevoItem = new Perfil
+                            {
+                                PerfilId = perfilDb.PerfilId,
+                                Codigo = perfilDb.Codigo,
+                                Descripcion = perfilDb.Descripcion,
+                                CantidadTiras = cantidadIngresada,
+                                Import = textBoxImporte.Text,
+                                KgXTira = perfilDb.KgXTira,
+                                KgXPaquete = pesoTotalLinea.ToString()
+                            };
+
+                            CrearLabelVisual(nuevoItem);
+                            listaPerfilesPresupuestados.Add(nuevoItem);
+                        }
                     }
 
                     // Limpieza
@@ -133,6 +187,8 @@ namespace AluminiosRuta5.Forms
                     textBoxImporte.Text = "";
                     textBox1.Focus();
                     buttonReset.Enabled = true;
+
+                    checkBoxAccesorio.Checked = false;
                 }
                 else
                 {
@@ -147,32 +203,42 @@ namespace AluminiosRuta5.Forms
             SumarCantidades();
         }
 
-        // --- MÉTODOS VISUALES (FORMATO ANTIGUO RESTAURADO) ---
+        // --- MÉTODOS VISUALES ---
 
         private void CrearLabelVisual(Perfil p)
         {
             CultureInfo us = CultureInfo.CreateSpecificCulture("en-US");
-            decimal precioKg = Convert.ToDecimal(p.Import);
-            decimal pesoTotal = Convert.ToDecimal(p.KgXPaquete); // KgXPaquete tiene el total calculado
-            decimal totalPesos = pesoTotal * precioKg;
+            decimal precio = Convert.ToDecimal(p.Import);
+            decimal totalPesos = 0;
+
+            string textoLabel = "";
+
+            if (p.PerfilId == 0) // Es Accesorio
+            {
+                totalPesos = precio * p.CantidadTiras;
+                textoLabel = $"* {p.Codigo} --- {p.Descripcion} ---  Unidad: {precio.ToString("C", us)} --- Cantidad: {p.CantidadTiras} --- Total: {totalPesos.ToString("C", us)}";
+            }
+            else // Es Perfil
+            {
+                decimal pesoTotal = Convert.ToDecimal(p.KgXPaquete);
+                totalPesos = pesoTotal * precio;
+                textoLabel = $"* {p.Codigo} --- {p.Descripcion} ---  KG: {pesoTotal.ToString("N2", us)} ---  $ por kilo: {precio.ToString("N2", us)} --- total $: {totalPesos.ToString("C", us)} ---  x{p.CantidadTiras}";
+            }
 
             Label l = new Label();
             l.Tag = p.PerfilId;
-            l.Name = listaLabels.Count.ToString();
+            l.Name = listaLabels.Count.ToString(); // El nombre es el índice inicial
             l.AutoSize = true;
-            l.Font = new System.Drawing.Font("Microsoft JhengHei UI", 13); // Fuente original más grande
-            l.Location = new Point(0, 30 * listaLabels.Count); // Posición original (X=0)
-
-            // FORMATO RESTAURADO:
-            // "* CODIGO --- DESCRIPCION --- KG: 99.99 --- $ por kilo: 99.99 --- total $: $999.99 --- x99"
-            l.Text = $"* {p.Codigo} --- {p.Descripcion} ---  KG: {pesoTotal.ToString("N2", us)} ---  $ por kilo: {precioKg.ToString("N2", us)} --- total $: {totalPesos.ToString("C", us)} ---  x{p.CantidadTiras}";
+            l.Font = new System.Drawing.Font("Microsoft JhengHei UI", 13);
+            l.Location = new Point(0, 30 * listaLabels.Count);
+            l.Text = textoLabel;
 
             panel1.Controls.Add(l);
             listaLabels.Add(l);
 
             Button btnX = new Button();
             btnX.Text = "X";
-            btnX.Name = l.Name;
+            btnX.Name = l.Name; // El botón tiene el mismo nombre (índice) que el label
             btnX.Font = new System.Drawing.Font("Microsoft JhengHei UI", 10);
             btnX.Size = new Size(20, 20);
             btnX.AutoSize = true;
@@ -186,14 +252,13 @@ namespace AluminiosRuta5.Forms
         private void ActualizarTextoLabel(Label l, Perfil p)
         {
             CultureInfo us = CultureInfo.CreateSpecificCulture("en-US");
-            decimal precioKg = Convert.ToDecimal(p.Import);
+            decimal precio = Convert.ToDecimal(p.Import);
             decimal pesoTotal = Convert.ToDecimal(p.KgXPaquete);
-            decimal totalPesos = pesoTotal * precioKg;
+            decimal totalPesos = pesoTotal * precio;
 
-            // Misma lógica de formato para actualizar
-            l.Text = $"* {p.Codigo} --- {p.Descripcion} ---  KG: {pesoTotal.ToString("N2", us)} ---  $ por kilo: {precioKg.ToString("N2", us)} --- total $: {totalPesos.ToString("C", us)} ---  x{p.CantidadTiras}";
+            l.Text = $"* {p.Codigo} --- {p.Descripcion} ---  KG: {pesoTotal.ToString("N2", us)} ---  $ por kilo: {precio.ToString("N2", us)} --- total $: {totalPesos.ToString("C", us)} ---  x{p.CantidadTiras}";
 
-            // Actualizar posición del botón X
+            // Recolocar el botón X si el texto cambió de tamaño
             foreach (Control c in panel1.Controls)
             {
                 if (c is Button && c.Name == l.Name)
@@ -207,27 +272,81 @@ namespace AluminiosRuta5.Forms
         private void EliminarLabel_Click(object sender, EventArgs e)
         {
             Button btn = sender as Button;
+
+            // Buscamos por nombre (que es el índice original)
             Label lbl = listaLabels.Find(x => x.Name == btn.Name);
 
             if (lbl != null)
             {
-                int idPerfil = Convert.ToInt32(lbl.Tag);
-                var item = listaPerfilesPresupuestados.Find(x => x.PerfilId == idPerfil);
+                // Obtenemos el índice REAL actual en la lista
+                int index = listaLabels.IndexOf(lbl);
 
-                listaPerfilesPresupuestados.Remove(item);
-                listaLabels.Remove(lbl);
-
-                // Redibujar lista para quitar huecos
-                panel1.Controls.Clear();
-                listaLabels.Clear();
-
-                foreach (var perfil in listaPerfilesPresupuestados)
+                if (index >= 0 && index < listaPerfilesPresupuestados.Count)
                 {
-                    CrearLabelVisual(perfil);
+                    // Eliminamos por índice para asegurar sincronización perfecta
+                    listaPerfilesPresupuestados.RemoveAt(index);
+                    listaLabels.RemoveAt(index);
+
+                    // Redibujar la lista para quitar huecos y reasignar índices/nombres
+                    CargarLabelsVisualesDeNuevo();
+                    SumarCantidades();
+                }
+            }
+        }
+
+        private void CargarLabelsVisualesDeNuevo()
+        {
+            panel1.Controls.Clear();
+            List<Label> nuevaListaLabels = new List<Label>(); // Lista temporal para reconstruir
+
+            foreach (var perfil in listaPerfilesPresupuestados)
+            {
+                // Reutilizamos la lógica de crear, pero gestionando la lista manualmente
+                // para no duplicar lógica, copiamos parte de CrearLabelVisual aquí adaptada
+
+                CultureInfo us = CultureInfo.CreateSpecificCulture("en-US");
+                decimal precio = Convert.ToDecimal(perfil.Import);
+                decimal totalPesos = 0;
+                string textoLabel = "";
+
+                if (perfil.PerfilId == 0) // Accesorio
+                {
+                    totalPesos = precio * perfil.CantidadTiras;
+                    textoLabel = $"* {perfil.Codigo} --- {perfil.Descripcion} ---  Unidad: {precio.ToString("C", us)} --- Cantidad: {perfil.CantidadTiras} --- Total: {totalPesos.ToString("C", us)}";
+                }
+                else // Perfil
+                {
+                    decimal pesoTotal = Convert.ToDecimal(perfil.KgXPaquete);
+                    totalPesos = pesoTotal * precio;
+                    textoLabel = $"* {perfil.Codigo} --- {perfil.Descripcion} ---  KG: {pesoTotal.ToString("N2", us)} ---  $ por kilo: {precio.ToString("N2", us)} --- total $: {totalPesos.ToString("C", us)} ---  x{perfil.CantidadTiras}";
                 }
 
-                SumarCantidades();
+                Label l = new Label();
+                l.Tag = perfil.PerfilId;
+                l.Name = nuevaListaLabels.Count.ToString(); // Nuevo índice secuencial
+                l.AutoSize = true;
+                l.Font = new System.Drawing.Font("Microsoft JhengHei UI", 13);
+                l.Location = new Point(0, 30 * nuevaListaLabels.Count);
+                l.Text = textoLabel;
+
+                panel1.Controls.Add(l);
+                nuevaListaLabels.Add(l);
+
+                Button btnX = new Button();
+                btnX.Text = "X";
+                btnX.Name = l.Name;
+                btnX.Font = new System.Drawing.Font("Microsoft JhengHei UI", 10);
+                btnX.Size = new Size(20, 20);
+                btnX.AutoSize = true;
+                btnX.FlatStyle = FlatStyle.Popup;
+                btnX.FlatAppearance.BorderSize = 0;
+                btnX.Location = new Point(l.Right + 20, l.Top);
+                btnX.Click += EliminarLabel_Click;
+                panel1.Controls.Add(btnX);
             }
+
+            // Reemplazamos la lista vieja con la nueva, ordenada y sin huecos
+            listaLabels = nuevaListaLabels;
         }
 
         // 3. CALCULAR TOTALES
@@ -241,11 +360,19 @@ namespace AluminiosRuta5.Forms
             {
                 totalTiras += item.CantidadTiras;
 
-                decimal pesoItem = Convert.ToDecimal(item.KgXPaquete);
-                totalKilos += pesoItem;
+                if (item.PerfilId == 0) // Accesorio
+                {
+                    decimal precioUnidad = Convert.ToDecimal(item.Import);
+                    totalDinero += item.CantidadTiras * precioUnidad;
+                }
+                else // Perfil
+                {
+                    decimal pesoItem = Convert.ToDecimal(item.KgXPaquete);
+                    decimal precioKg = Convert.ToDecimal(item.Import);
 
-                decimal precioKg = Convert.ToDecimal(item.Import);
-                totalDinero += pesoItem * precioKg;
+                    totalKilos += pesoItem;
+                    totalDinero += pesoItem * precioKg;
+                }
             }
 
             CultureInfo us = CultureInfo.CreateSpecificCulture("en-US");
@@ -306,7 +433,6 @@ namespace AluminiosRuta5.Forms
 
                         else if (line.Contains("id=\"tabla\""))
                         {
-                            // Saltamos las líneas del template HTML vacio
                             line = str.ReadLine();
                             line = str.ReadLine();
                             line = str.ReadLine();
@@ -319,31 +445,30 @@ namespace AluminiosRuta5.Forms
 
                             foreach (var l in listaPerfilesPresupuestados)
                             {
-                                // 1. Convertimos los valores correctamente para evitar el error de "3.500 kg"
-                                // Import viene del TextBox (formato local de tu PC)
                                 decimal precio = decimal.Parse(l.Import);
-                                // KgXPaquete lo calculamos nosotros con punto (Invariant) en el btnAgregar
-                                decimal pesoTotal = decimal.Parse(l.KgXPaquete, CultureInfo.InvariantCulture);
+                                decimal pesoTotal = decimal.Parse(l.KgXPaquete);
 
                                 sw.WriteLine("<tr style=\"height: 30px;\">");
                                 sw.WriteLine("<td>" + l.CantidadTiras + "</td>");
                                 sw.WriteLine("<td>" + l.Codigo + "</td>");
-                                sw.WriteLine("<td>" + precio.ToString("C0", us) + "</td>");
-                                sw.WriteLine("<td>" + pesoTotal.ToString("N2", us) + "</td>");
+                                sw.WriteLine("<td>" + precio.ToString("C", us) + "</td>");
 
-                                // Lógica idéntica al Remito:
-                                if (l.PerfilId != 0) // Si es Perfil -> Precio x Peso
+                                if (l.PerfilId != 0)
+                                    sw.WriteLine("<td>" + pesoTotal.ToString("N2", us) + "</td>");
+                                else
+                                    sw.WriteLine("<td> - </td>");
+
+                                if (l.PerfilId != 0)
                                 {
-                                    sw.WriteLine("<td>" + (pesoTotal * precio).ToString("C0", us) + "</td>");
+                                    sw.WriteLine("<td>" + (pesoTotal * precio).ToString("C", us) + "</td>");
                                 }
-                                if (l.PerfilId == 0) // Si es Accesorio -> Precio x Cantidad
+                                else
                                 {
-                                    sw.WriteLine("<td>" + (l.CantidadTiras * precio).ToString("C0", us) + "</td>");
+                                    sw.WriteLine("<td>" + (l.CantidadTiras * precio).ToString("C", us) + "</td>");
                                 }
 
                                 sw.WriteLine("</tr>");
                             }
-                            // Aquí NO ponemos el bloque de 'textBoxPlata' porque es Presupuesto
                         }
 
                         else if (line.Contains("@TOTALKG"))
@@ -397,6 +522,7 @@ namespace AluminiosRuta5.Forms
             buttonReset.Enabled = false;
             textBoxNombre.Text = "";
             textBoxLocalidad.Text = "";
+            checkBoxAccesorio.Checked = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -405,8 +531,7 @@ namespace AluminiosRuta5.Forms
             form.ResetearEleccion();
         }
 
-        // --- ARREGLO DE LOS ERRORES DEL DISEÑADOR ---
-        // Este método es invocado por los eventos KeyPress de Tiras e Importe
+        // --- VALIDACIONES ---
         private void ValidarInputNumerico(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != ',')
@@ -420,7 +545,6 @@ namespace AluminiosRuta5.Forms
             }
         }
 
-        // Nombres exactos que busca el Designer.cs
         private void textBoxTiras_KeyPress(object sender, KeyPressEventArgs e)
         {
             ValidarInputNumerico(sender, e);

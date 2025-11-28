@@ -32,11 +32,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.labelTotalKg = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.labelTiras = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.labelTotalTiras = new System.Windows.Forms.Label();
             this.labelTotalImporte = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.labelImporte = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.buttonReset = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -47,6 +47,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
+            this.checkBoxAccesorio = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btnAgregar
@@ -95,15 +96,15 @@
             this.labelTotalKg.Text = "Total KG =";
             this.labelTotalKg.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // label2
+            // labelTiras
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
-            this.label2.Location = new System.Drawing.Point(170, 35);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(107, 19);
-            this.label2.TabIndex = 19;
-            this.label2.Text = "Cantidad tiras";
+            this.labelTiras.AutoSize = true;
+            this.labelTiras.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
+            this.labelTiras.Location = new System.Drawing.Point(170, 35);
+            this.labelTiras.Name = "labelTiras";
+            this.labelTiras.Size = new System.Drawing.Size(107, 19);
+            this.labelTiras.TabIndex = 19;
+            this.labelTiras.Text = "Cantidad tiras";
             // 
             // button1
             // 
@@ -146,15 +147,15 @@
             this.labelTotalImporte.Text = "Total importe =";
             this.labelTotalImporte.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // label3
+            // labelImporte
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
-            this.label3.Location = new System.Drawing.Point(304, 35);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(121, 19);
-            this.label3.TabIndex = 40;
-            this.label3.Text = "Importe por kilo";
+            this.labelImporte.AutoSize = true;
+            this.labelImporte.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
+            this.labelImporte.Location = new System.Drawing.Point(304, 35);
+            this.labelImporte.Name = "labelImporte";
+            this.labelImporte.Size = new System.Drawing.Size(121, 19);
+            this.labelImporte.TabIndex = 40;
+            this.labelImporte.Text = "Importe por kilo";
             // 
             // panel2
             // 
@@ -268,12 +269,24 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // checkBoxAccesorio
+            // 
+            this.checkBoxAccesorio.AutoSize = true;
+            this.checkBoxAccesorio.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
+            this.checkBoxAccesorio.Location = new System.Drawing.Point(338, 151);
+            this.checkBoxAccesorio.Name = "checkBoxAccesorio";
+            this.checkBoxAccesorio.Size = new System.Drawing.Size(98, 23);
+            this.checkBoxAccesorio.TabIndex = 48;
+            this.checkBoxAccesorio.Text = "Accesorio";
+            this.checkBoxAccesorio.UseVisualStyleBackColor = true;
+            // 
             // FormPresupuesto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1262, 673);
+            this.Controls.Add(this.checkBoxAccesorio);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.textBoxLocalidad);
             this.Controls.Add(this.textBoxNombre);
@@ -283,11 +296,11 @@
             this.Controls.Add(this.textBoxTiras);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.buttonReset);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.labelImporte);
             this.Controls.Add(this.labelTotalImporte);
             this.Controls.Add(this.labelTotalTiras);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.labelTiras);
             this.Controls.Add(this.labelTotalKg);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label1);
@@ -306,11 +319,11 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label labelTotalKg;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelTiras;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label labelTotalTiras;
         private System.Windows.Forms.Label labelTotalImporte;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label labelImporte;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button buttonReset;
         private System.Windows.Forms.TextBox textBox1;
@@ -321,5 +334,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.CheckBox checkBoxAccesorio;
     }
 }

@@ -284,7 +284,7 @@
             this.textBoxPlata.Location = new System.Drawing.Point(310, 554);
             this.textBoxPlata.Name = "textBoxPlata";
             this.textBoxPlata.Size = new System.Drawing.Size(246, 34);
-            this.textBoxPlata.TabIndex = 48;
+            this.textBoxPlata.TabIndex = 43;
             this.textBoxPlata.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPlata_KeyPress);
             // 
             // labelPlata
@@ -319,7 +319,7 @@
             this.textBoxLocalidad.Location = new System.Drawing.Point(310, 483);
             this.textBoxLocalidad.Name = "textBoxLocalidad";
             this.textBoxLocalidad.Size = new System.Drawing.Size(246, 34);
-            this.textBoxLocalidad.TabIndex = 50;
+            this.textBoxLocalidad.TabIndex = 42;
             // 
             // checkBoxStock
             // 
@@ -331,6 +331,7 @@
             this.checkBoxStock.TabIndex = 52;
             this.checkBoxStock.Text = "Perfil desligado del stock";
             this.checkBoxStock.UseVisualStyleBackColor = true;
+            this.checkBoxStock.CheckedChanged += new System.EventHandler(this.checkBoxStock_CheckedChanged);
             // 
             // checkBoxPlataAFavorOEnContra
             // 

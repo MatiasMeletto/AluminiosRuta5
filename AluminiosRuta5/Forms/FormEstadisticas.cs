@@ -158,7 +158,7 @@ namespace AluminiosRuta5.Forms
             //labels temporales
             Label labelTodosP = new Label()
             {
-                Text = $" Total entre todos los remitos:  {TotalPesosR.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"))}",
+                Text = $" Total entre todos los remitos:  {TotalPesosR.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))}",
                 Location = new Point(15, 60),
                 Font = new System.Drawing.Font("Microsoft JhengHei UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0))),
                 Width = 580,
@@ -174,7 +174,7 @@ namespace AluminiosRuta5.Forms
             };
             Label labelBBP = new Label()
             {
-                Text = $" -------------------------------------------------------------\n Total entre todos los remitos de blanco brill. :  {TotalPesosRBB.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"))}",
+                Text = $" -------------------------------------------------------------\n Total entre todos los remitos de blanco brill. :  {TotalPesosRBB.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))}",
                 Location = new Point(15, 47 * 3),
                 Font = new System.Drawing.Font("Microsoft JhengHei UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0))),
                 Width = 580,
@@ -190,7 +190,7 @@ namespace AluminiosRuta5.Forms
             };
             Label labelRP = new Label()
             {
-                Text = $" -------------------------------------------------------------\n Total entre todos los remitos de reciclado:  {TotalPesosRR.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"))}",
+                Text = $" -------------------------------------------------------------\n Total entre todos los remitos de reciclado:  {TotalPesosRR.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))}",
                 Location = new Point(15, 50 * 5),
                 Font = new System.Drawing.Font("Microsoft JhengHei UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0))),
                 Width = 580,
@@ -206,7 +206,7 @@ namespace AluminiosRuta5.Forms
             };
             Label labelNEP = new Label()
             {
-                Text = $" -------------------------------------------------------------\n Total entre todos los remitos de negro s/m:  {TotalPesosRNE.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"))}",
+                Text = $" -------------------------------------------------------------\n Total entre todos los remitos de negro s/m:  {TotalPesosRNE.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))}",
                 Location = new Point(15, 52 * 7),
                 Font = new System.Drawing.Font("Microsoft JhengHei UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0))),
                 Width = 580,
@@ -222,7 +222,7 @@ namespace AluminiosRuta5.Forms
             };
             Label labelBAP = new Label()
             {
-                Text = $" -------------------------------------------------------------\n Total entre todos los remitos de blanco aluar:  {TotalPesosRBA.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"))}",
+                Text = $" -------------------------------------------------------------\n Total entre todos los remitos de blanco aluar:  {TotalPesosRBA.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))}",
                 Location = new Point(15, 52 * 9),
                 Font = new System.Drawing.Font("Microsoft JhengHei UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0))),
                 Width = 580,
@@ -238,7 +238,7 @@ namespace AluminiosRuta5.Forms
             };
             Label labelNP = new Label()
             {
-                Text = $" -------------------------------------------------------------\n Total entre todos los remitos de natural:  {TotalPesosRNA.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"))}",
+                Text = $" -------------------------------------------------------------\n Total entre todos los remitos de natural:  {TotalPesosRNA.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))}",
                 Location = new Point(15, 53 * 11),
                 Font = new System.Drawing.Font("Microsoft JhengHei UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0))),
                 Width = 580,
