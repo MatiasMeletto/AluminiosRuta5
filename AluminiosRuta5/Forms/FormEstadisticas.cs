@@ -47,6 +47,15 @@ namespace AluminiosRuta5.Forms
                 connection.Open();
             }
         }
+
+        // Método auxiliar para convertir string a decimal de forma segura (Puntos y Comas)
+        private decimal ParseDecimalSeguro(string input)
+        {
+            if (string.IsNullOrEmpty(input)) return 0;
+            // Reemplazamos coma por punto y usamos InvariantCulture para asegurar que "10.5" sea 10.5
+            return decimal.Parse(input.Replace(",", "."), CultureInfo.InvariantCulture);
+        }
+
         private void CargarPerfiles(SQLiteCommand cmd = null)
         {
             OpenConnection();
@@ -71,6 +80,7 @@ namespace AluminiosRuta5.Forms
             listaPerfiles = ModuloStock.CargarPerfiles(bindingSrc);
             CloseConnection();
         }
+
         public FormEstadisticas(FormPrincipal f)
         {
             InitializeComponent();
@@ -83,8 +93,9 @@ namespace AluminiosRuta5.Forms
             CargarLabelsKg();
             CargarListaRemitos();
             CargarLabelsRemitos();
-            buttonFiltrar_Click(this, EventArgs.Empty); 
+            buttonFiltrar_Click(this, EventArgs.Empty);
         }
+
         private void CargarListaRemitos()
         {
             remitos.Clear();
@@ -124,6 +135,7 @@ namespace AluminiosRuta5.Forms
                 remitos.Add(r);
             }
         }
+
         private void CargarLabelsRemitos()
         {
             panelRemitos.Controls.Clear();
@@ -139,23 +151,27 @@ namespace AluminiosRuta5.Forms
             decimal TotalKGNA = 0;
             decimal TotalKGNE = 0;
             decimal TotalKGR = 0;
+
             foreach (var r in remitos)
             {
-                TotalPesosR += Convert.ToDecimal(r.TotalPesos);
-                TotalKG += Convert.ToDecimal(r.TotalKilos);
-                TotalKGBB += Convert.ToDecimal(r.TotalKilosBlancoB);
-                TotalKGBA += Convert.ToDecimal(r.TotalKilosBlancoA);
-                TotalKGNA += Convert.ToDecimal(r.TotalKilosNatural);
-                TotalKGNE += Convert.ToDecimal(r.TotalKilosNegroSemiMate);
-                TotalKGR += Convert.ToDecimal(r.TotalKilosReciclado);
-                TotalPesosRBB += Convert.ToDecimal(r.TotalPesosBlancoB);
-                TotalPesosRBA += Convert.ToDecimal(r.TotalPesosBlancoA);
-                TotalPesosRNA += Convert.ToDecimal(r.TotalPesosNatural);
-                TotalPesosRNE += Convert.ToDecimal(r.TotalPesosNegroSemiMate);
-                TotalPesosRR += Convert.ToDecimal(r.TotalPesosReciclado);
+                // Usamos el parse seguro para evitar errores de comas/puntos al sumar
+                TotalPesosR += ParseDecimalSeguro(r.TotalPesos);
+                TotalKG += ParseDecimalSeguro(r.TotalKilos);
+
+                TotalKGBB += ParseDecimalSeguro(r.TotalKilosBlancoB);
+                TotalKGBA += ParseDecimalSeguro(r.TotalKilosBlancoA);
+                TotalKGNA += ParseDecimalSeguro(r.TotalKilosNatural);
+                TotalKGNE += ParseDecimalSeguro(r.TotalKilosNegroSemiMate);
+                TotalKGR += ParseDecimalSeguro(r.TotalKilosReciclado);
+
+                TotalPesosRBB += ParseDecimalSeguro(r.TotalPesosBlancoB);
+                TotalPesosRBA += ParseDecimalSeguro(r.TotalPesosBlancoA);
+                TotalPesosRNA += ParseDecimalSeguro(r.TotalPesosNatural);
+                TotalPesosRNE += ParseDecimalSeguro(r.TotalPesosNegroSemiMate);
+                TotalPesosRR += ParseDecimalSeguro(r.TotalPesosReciclado);
             }
 
-            //labels temporales
+            //labels temporales - Formato visual mantenido en en-US como pediste
             Label labelTodosP = new Label()
             {
                 Text = $" Total entre todos los remitos:  {TotalPesosR.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))}",
@@ -166,7 +182,7 @@ namespace AluminiosRuta5.Forms
             };
             Label labelTodosK = new Label()
             {
-                Text = $" Total KG todos los remitos:  {TotalKG.ToString("#.#", CultureInfo.CreateSpecificCulture("en-US"))}",
+                Text = $" Total KG todos los remitos:  {TotalKG.ToString("#.##", CultureInfo.CreateSpecificCulture("en-US"))}",
                 Location = new Point(15, 50 * 2),
                 Font = new System.Drawing.Font("Microsoft JhengHei UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0))),
                 Width = 580,
@@ -182,7 +198,7 @@ namespace AluminiosRuta5.Forms
             };
             Label labelBBK = new Label()
             {
-                Text = $" Total KG todos los remitos de blanco brill. :  {TotalKGBB.ToString("#.#", CultureInfo.CreateSpecificCulture("en-US"))}",
+                Text = $" Total KG todos los remitos de blanco brill. :  {TotalKGBB.ToString("#.##", CultureInfo.CreateSpecificCulture("en-US"))}",
                 Location = new Point(15, 42 * 5),
                 Font = new System.Drawing.Font("Microsoft JhengHei UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0))),
                 Width = 580,
@@ -198,7 +214,7 @@ namespace AluminiosRuta5.Forms
             };
             Label labelRK = new Label()
             {
-                Text = $" Total KG todos los remitos de reciclado:  {TotalKGR.ToString("#.#", CultureInfo.CreateSpecificCulture("en-US"))}",
+                Text = $" Total KG todos los remitos de reciclado:  {TotalKGR.ToString("#.##", CultureInfo.CreateSpecificCulture("en-US"))}",
                 Location = new Point(15, 53 * 6),
                 Font = new System.Drawing.Font("Microsoft JhengHei UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0))),
                 Width = 580,
@@ -214,7 +230,7 @@ namespace AluminiosRuta5.Forms
             };
             Label labelNEK = new Label()
             {
-                Text = $" Total KG todos los remitos de negro s/m:  {TotalKGNE.ToString("#.#", CultureInfo.CreateSpecificCulture("en-US"))}",
+                Text = $" Total KG todos los remitos de negro s/m:  {TotalKGNE.ToString("#.##", CultureInfo.CreateSpecificCulture("en-US"))}",
                 Location = new Point(15, 53 * 8),
                 Font = new System.Drawing.Font("Microsoft JhengHei UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0))),
                 Width = 580,
@@ -230,7 +246,7 @@ namespace AluminiosRuta5.Forms
             };
             Label labelBAK = new Label()
             {
-                Text = $" Total KG todos los remitos de blanco aluar:  {TotalKGBA.ToString("#.#", CultureInfo.CreateSpecificCulture("en-US"))}",
+                Text = $" Total KG todos los remitos de blanco aluar:  {TotalKGBA.ToString("#.##", CultureInfo.CreateSpecificCulture("en-US"))}",
                 Location = new Point(15, 54 * 10),
                 Font = new System.Drawing.Font("Microsoft JhengHei UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0))),
                 Width = 580,
@@ -246,7 +262,7 @@ namespace AluminiosRuta5.Forms
             };
             Label labelNK = new Label()
             {
-                Text = $" Total KG todos los remitos de natural:  {TotalKGNA.ToString("#.#", CultureInfo.CreateSpecificCulture("en-US"))}",
+                Text = $" Total KG todos los remitos de natural:  {TotalKGNA.ToString("#.##", CultureInfo.CreateSpecificCulture("en-US"))}",
                 Location = new Point(15, 54 * 12),
                 Font = new System.Drawing.Font("Microsoft JhengHei UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0))),
                 Width = 580,
@@ -297,14 +313,16 @@ namespace AluminiosRuta5.Forms
 
                 foreach (Perfil p in perfils)
                 {
-                    string aux = p.CantidadTiras.ToString();
-                    string aux2 = p.KgXTira.ToString();
-                    TotalKg += Convert.ToDecimal(aux) * Convert.ToDecimal(aux2);
+                    // Usamos el parse seguro para KgXTira también
+                    decimal cantidad = Convert.ToDecimal(p.CantidadTiras);
+                    decimal pesoPorTira = ParseDecimalSeguro(p.KgXTira.ToString());
+
+                    TotalKg += cantidad * pesoPorTira;
                 }
                 TotalKgTodos += TotalKg;
                 Label la = new Label()
                 {
-                    Text = $" Total de kilos de {b[1]}:  {TotalKg.ToString("#.#", CultureInfo.CreateSpecificCulture("en-US"))}",
+                    Text = $" Total de kilos de {b[1]}:  {TotalKg.ToString("#.##", CultureInfo.CreateSpecificCulture("en-US"))}",
                     Location = new Point(15, (50 * (bindingSrc.List.IndexOf(b) + 1)) + 10),
                     Font = new System.Drawing.Font("Microsoft JhengHei UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0))),
                     Width = 2000,
@@ -313,10 +331,9 @@ namespace AluminiosRuta5.Forms
                 panelKilos.Controls.Add(la);
                 TotalKg = 0;
             }
-            TotalKgTodos += TotalKg;
             Label l = new Label()
             {
-                Text = $" Total de kilos entre todas las categorias:  {TotalKgTodos.ToString("#.#", CultureInfo.CreateSpecificCulture("en-US"))}",
+                Text = $" Total de kilos entre todas las categorias:  {TotalKgTodos.ToString("#.##", CultureInfo.CreateSpecificCulture("en-US"))}",
                 Location = new Point(15, (50 * (bindingSrc.List.Count + 1)) + 10),
                 Font = new System.Drawing.Font("Microsoft JhengHei UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0))),
                 Width = 2000,

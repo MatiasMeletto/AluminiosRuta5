@@ -51,6 +51,14 @@ namespace AluminiosRuta5.Forms
             }
         }
 
+        // --- MÉTODO HELPER PARA PARSEO SEGURO (SOLUCIÓN A COMAS/PUNTOS) ---
+        private decimal ParseDecimal(string input)
+        {
+            if (string.IsNullOrEmpty(input)) return 0;
+            // Reemplaza comas por puntos y usa InvariantCulture para asegurar lectura correcta
+            return decimal.Parse(input.Replace(",", "."), CultureInfo.InvariantCulture);
+        }
+
         // 1. CARGAR BASE DE DATOS
         private void CargarPerfiles()
         {
@@ -110,7 +118,6 @@ namespace AluminiosRuta5.Forms
                     if (checkBoxAccesorio.Checked)
                     {
                         // --- MODO ACCESORIO (Venta por unidad) ---
-                        // No validamos duplicados para accesorios (se agregan siempre nuevos para permitir distintos precios/descripciones)
 
                         string descripcion = "Accesorio";
                         if (perfilDb != null) descripcion = perfilDb.Descripcion;
@@ -150,11 +157,11 @@ namespace AluminiosRuta5.Forms
 
                             perfilExistente.CantidadTiras += cantidadIngresada;
 
-                            // Recalcular peso total acumulado
-                            decimal pesoUnitarioPorTira = Convert.ToDecimal(perfilDb.KgXTira);
+                            // Recalcular peso total acumulado con ParseDecimal
+                            decimal pesoUnitarioPorTira = ParseDecimal(perfilDb.KgXTira);
                             decimal pesoTotalAcumulado = pesoUnitarioPorTira * perfilExistente.CantidadTiras;
 
-                            perfilExistente.KgXPaquete = pesoTotalAcumulado.ToString();
+                            perfilExistente.KgXPaquete = pesoTotalAcumulado.ToString(CultureInfo.InvariantCulture);
                             perfilExistente.Import = textBoxImporte.Text; // Actualizamos precio al último ingresado
 
                             ActualizarTextoLabel(l, perfilExistente);
@@ -162,7 +169,7 @@ namespace AluminiosRuta5.Forms
                         else
                         {
                             // CREAR NUEVO
-                            decimal pesoUnitarioPorTira = Convert.ToDecimal(perfilDb.KgXTira);
+                            decimal pesoUnitarioPorTira = ParseDecimal(perfilDb.KgXTira);
                             decimal pesoTotalLinea = pesoUnitarioPorTira * cantidadIngresada;
 
                             Perfil nuevoItem = new Perfil
@@ -173,7 +180,7 @@ namespace AluminiosRuta5.Forms
                                 CantidadTiras = cantidadIngresada,
                                 Import = textBoxImporte.Text,
                                 KgXTira = perfilDb.KgXTira,
-                                KgXPaquete = pesoTotalLinea.ToString()
+                                KgXPaquete = pesoTotalLinea.ToString(CultureInfo.InvariantCulture)
                             };
 
                             CrearLabelVisual(nuevoItem);
@@ -208,7 +215,7 @@ namespace AluminiosRuta5.Forms
         private void CrearLabelVisual(Perfil p)
         {
             CultureInfo us = CultureInfo.CreateSpecificCulture("en-US");
-            decimal precio = Convert.ToDecimal(p.Import);
+            decimal precio = ParseDecimal(p.Import);
             decimal totalPesos = 0;
 
             string textoLabel = "";
@@ -220,7 +227,7 @@ namespace AluminiosRuta5.Forms
             }
             else // Es Perfil
             {
-                decimal pesoTotal = Convert.ToDecimal(p.KgXPaquete);
+                decimal pesoTotal = ParseDecimal(p.KgXPaquete);
                 totalPesos = pesoTotal * precio;
                 textoLabel = $"* {p.Codigo} --- {p.Descripcion} ---  KG: {pesoTotal.ToString("N2", us)} ---  $ por kilo: {precio.ToString("N2", us)} --- total $: {totalPesos.ToString("C", us)} ---  x{p.CantidadTiras}";
             }
@@ -252,8 +259,8 @@ namespace AluminiosRuta5.Forms
         private void ActualizarTextoLabel(Label l, Perfil p)
         {
             CultureInfo us = CultureInfo.CreateSpecificCulture("en-US");
-            decimal precio = Convert.ToDecimal(p.Import);
-            decimal pesoTotal = Convert.ToDecimal(p.KgXPaquete);
+            decimal precio = ParseDecimal(p.Import);
+            decimal pesoTotal = ParseDecimal(p.KgXPaquete);
             decimal totalPesos = pesoTotal * precio;
 
             l.Text = $"* {p.Codigo} --- {p.Descripcion} ---  KG: {pesoTotal.ToString("N2", us)} ---  $ por kilo: {precio.ToString("N2", us)} --- total $: {totalPesos.ToString("C", us)} ---  x{p.CantidadTiras}";
@@ -302,10 +309,8 @@ namespace AluminiosRuta5.Forms
             foreach (var perfil in listaPerfilesPresupuestados)
             {
                 // Reutilizamos la lógica de crear, pero gestionando la lista manualmente
-                // para no duplicar lógica, copiamos parte de CrearLabelVisual aquí adaptada
-
                 CultureInfo us = CultureInfo.CreateSpecificCulture("en-US");
-                decimal precio = Convert.ToDecimal(perfil.Import);
+                decimal precio = ParseDecimal(perfil.Import);
                 decimal totalPesos = 0;
                 string textoLabel = "";
 
@@ -316,7 +321,7 @@ namespace AluminiosRuta5.Forms
                 }
                 else // Perfil
                 {
-                    decimal pesoTotal = Convert.ToDecimal(perfil.KgXPaquete);
+                    decimal pesoTotal = ParseDecimal(perfil.KgXPaquete);
                     totalPesos = pesoTotal * precio;
                     textoLabel = $"* {perfil.Codigo} --- {perfil.Descripcion} ---  KG: {pesoTotal.ToString("N2", us)} ---  $ por kilo: {precio.ToString("N2", us)} --- total $: {totalPesos.ToString("C", us)} ---  x{perfil.CantidadTiras}";
                 }
@@ -362,13 +367,13 @@ namespace AluminiosRuta5.Forms
 
                 if (item.PerfilId == 0) // Accesorio
                 {
-                    decimal precioUnidad = Convert.ToDecimal(item.Import);
+                    decimal precioUnidad = ParseDecimal(item.Import);
                     totalDinero += item.CantidadTiras * precioUnidad;
                 }
                 else // Perfil
                 {
-                    decimal pesoItem = Convert.ToDecimal(item.KgXPaquete);
-                    decimal precioKg = Convert.ToDecimal(item.Import);
+                    decimal pesoItem = ParseDecimal(item.KgXPaquete);
+                    decimal precioKg = ParseDecimal(item.Import);
 
                     totalKilos += pesoItem;
                     totalDinero += pesoItem * precioKg;
@@ -445,8 +450,8 @@ namespace AluminiosRuta5.Forms
 
                             foreach (var l in listaPerfilesPresupuestados)
                             {
-                                decimal precio = decimal.Parse(l.Import);
-                                decimal pesoTotal = decimal.Parse(l.KgXPaquete);
+                                decimal precio = ParseDecimal(l.Import);
+                                decimal pesoTotal = ParseDecimal(l.KgXPaquete);
 
                                 sw.WriteLine("<tr style=\"height: 30px;\">");
                                 sw.WriteLine("<td>" + l.CantidadTiras + "</td>");

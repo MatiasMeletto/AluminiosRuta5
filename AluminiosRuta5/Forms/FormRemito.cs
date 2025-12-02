@@ -48,6 +48,14 @@ namespace AluminiosRuta5.Forms
 
         // Ya no necesitamos listaPerfilesNoRestar porque usaremos IDs negativos.
 
+        // --- MÉTODO HELPER PARA PARSEO SEGURO ---
+        private decimal ParseDecimal(string input)
+        {
+            if (string.IsNullOrEmpty(input)) return 0;
+            // Reemplaza comas por puntos y usa InvariantCulture para asegurar lectura correcta
+            return decimal.Parse(input.Replace(",", "."), CultureInfo.InvariantCulture);
+        }
+
         private void CargarPerfiles(SQLiteCommand cmd = null)
         {
             dbCommand = "SELECT";
@@ -216,9 +224,9 @@ namespace AluminiosRuta5.Forms
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxCodigo.Text.Trim()) || string.IsNullOrEmpty(textBoxKilos.Text.Trim()) || string.IsNullOrEmpty(textBoxImporte.Text.Trim()) || string.IsNullOrEmpty(textBoxTiras.Text.Trim()))
+            if (string.IsNullOrWhiteSpace(textBoxCodigo.Text.Trim()) || string.IsNullOrEmpty(textBoxKilos.Text.Trim()) || string.IsNullOrEmpty(textBoxImporte.Text.Trim()) || string.IsNullOrEmpty(textBoxTiras.Text.Trim()))
             {
-                if (checkBox1.Checked || checkBoxStock.Checked)
+                if ((checkBox1.Checked && !(string.IsNullOrWhiteSpace(textBoxCodigo.Text.Trim()) || string.IsNullOrEmpty(textBoxImporte.Text.Trim()) || string.IsNullOrEmpty(textBoxTiras.Text.Trim()))) || checkBoxStock.Checked)
                     goto Agregar;
                 MessageBox.Show("Complete los campos por favor");
                 return;
@@ -299,14 +307,13 @@ namespace AluminiosRuta5.Forms
                         // Si el ID es positivo (Stock normal), confiamos en el TextBox (por si lo editaste manual).
                         // Si el ID es negativo (Desligado), usamos el catálogo directo porque el TextBox está deshabilitado.
                         decimal pesoUnitario = (perfilExistente.PerfilId > 0)
-                                                ? Convert.ToDecimal(textBoxKilos.Text)
-                                                : Convert.ToDecimal(pCatalogo.KgXTira);
+                                                ? ParseDecimal(textBoxKilos.Text)
+                                                : ParseDecimal(pCatalogo.KgXTira);
 
                         decimal pesoASumar = pesoUnitario * tirasNuevas;
 
-                        // Actualizamos el objeto
                         perfilExistente.Import = textBoxImporte.Text;
-                        perfilExistente.KgXPaquete = (Convert.ToDecimal(perfilExistente.KgXPaquete) + pesoASumar).ToString();
+                        perfilExistente.KgXPaquete = (ParseDecimal(perfilExistente.KgXPaquete) + pesoASumar).ToString(CultureInfo.InvariantCulture);
                         perfilExistente.KgXTira = perfilExistente.KgXPaquete;
                         perfilExistente.CantidadTiras += tirasNuevas;
                     }
@@ -321,8 +328,8 @@ namespace AluminiosRuta5.Forms
                             Descripcion = pCatalogo.Descripcion,
                             CategoriaId = pCatalogo.CategoriaId,
                             Import = textBoxImporte.Text,
-                            KgXTira = targetId > 0 ? textBoxKilos.Text : (Convert.ToDouble(listaPerfiles.Where(p => p.PerfilId == (targetId * -1)).FirstOrDefault().KgXTira) * Convert.ToInt16(textBoxTiras.Text)).ToString(),
-                            KgXPaquete = targetId > 0 ? textBoxKilos.Text : (Convert.ToDouble(listaPerfiles.Where(p => p.PerfilId == (targetId * -1)).FirstOrDefault().KgXTira) * Convert.ToInt16(textBoxTiras.Text)).ToString(),
+                            KgXTira = textBoxKilos.Text,
+                            KgXPaquete = textBoxKilos.Text,
                             CantidadTiras = Convert.ToInt16(textBoxTiras.Text)
                         };
 
@@ -337,9 +344,6 @@ namespace AluminiosRuta5.Forms
                 textBoxTiras.Text = string.Empty;
                 textBoxKilos.Text = string.Empty;
                 textBoxImporte.Text = string.Empty;
-
-                checkBox1.Checked = false;
-                checkBoxStock.Checked = false;
 
                 if (!btnConfirmar.Enabled)
                 {
@@ -360,13 +364,20 @@ namespace AluminiosRuta5.Forms
 
         public static void ListaLabels(List<Label> lista, Perfil perfil, int cantidadTiras, bool acc)
         {
+            // Nota: Para etiquetas visuales, ParseDecimal ayuda a asegurar que los calculos sean correctos antes del ToString("C")
+            // Pero para mostrar el precio unitario en texto, podes usar el string original o formatearlo.
+            // Aqui usamos ParseDecimal para los calculos internos.
+
+            // Helper local para parsear dentro de este metodo estatico (o duplicar logica)
+            decimal _parse(string s) => string.IsNullOrEmpty(s) ? 0 : decimal.Parse(s.Replace(",", "."), CultureInfo.InvariantCulture);
+
             if (acc)
             {
                 Label label = new Label
                 {
                     Tag = perfil.PerfilId,
                     Name = lista.Count().ToString(),
-                    Text = $"* {perfil.Codigo} ---  $ por unidad: {perfil.Import} --- total $: {(cantidadTiras * Convert.ToDecimal(perfil.Import)).ToString("C", CultureInfo.CreateSpecificCulture("en-US"))} ---  x{cantidadTiras}",
+                    Text = $"* {perfil.Codigo} ---  $ por unidad: {perfil.Import} --- total $: {(cantidadTiras * _parse(perfil.Import)).ToString("C", CultureInfo.CreateSpecificCulture("en-US"))} ---  x{cantidadTiras}",
                     Location = new Point(0, 30 * lista.Count()),
                     Font = new System.Drawing.Font("Microsoft JhengHei UI", 13),
                     AutoSize = true
@@ -381,7 +392,7 @@ namespace AluminiosRuta5.Forms
                 {
                     Tag = perfil.PerfilId,
                     Name = lista.Count().ToString(),
-                    Text = $"* {perfil.Codigo} --- {perfil.Descripcion} ---  KG: {perfil.KgXTira} ---  $ por kilo: {perfil.Import} --- total $: {(Convert.ToDecimal(perfil.KgXTira) * Convert.ToDecimal(perfil.Import)).ToString("C", CultureInfo.CreateSpecificCulture("en-US"))} ---  x{cantidadTiras}",
+                    Text = $"* {perfil.Codigo} --- {perfil.Descripcion} ---  KG: {perfil.KgXTira} ---  $ por kilo: {perfil.Import} --- total $: {(_parse(perfil.KgXTira) * _parse(perfil.Import)).ToString("C", CultureInfo.CreateSpecificCulture("en-US"))} ---  x{cantidadTiras}",
                     Location = new Point(0, 30 * lista.Count()),
                     Font = new System.Drawing.Font("Microsoft JhengHei UI", 13),
                     AutoSize = true
@@ -411,38 +422,38 @@ namespace AluminiosRuta5.Forms
             {
                 if (item.PerfilId == 0) // Accesorio
                 {
-                    importe += Convert.ToDecimal(item.Import) * Convert.ToDecimal(item.CantidadTiras);
+                    importe += ParseDecimal(item.Import) * Convert.ToDecimal(item.CantidadTiras);
                 }
                 else // Perfil (Ligado o Desligado, ambos suman plata y kilos al remito)
                 {
                     sumaTiras += item.CantidadTiras;
-                    importe += Convert.ToDecimal(item.Import) * Convert.ToDecimal(item.KgXPaquete);
-                    kg += Convert.ToDecimal(item.KgXPaquete);
+                    importe += ParseDecimal(item.Import) * ParseDecimal(item.KgXPaquete);
+                    kg += ParseDecimal(item.KgXPaquete);
 
                     if (item.CategoriaId == 24)
                     {
-                        kgBB += Convert.ToDecimal(item.KgXPaquete);
-                        importeBB += Convert.ToDecimal(item.Import) * Convert.ToDecimal(item.KgXPaquete);
+                        kgBB += ParseDecimal(item.KgXPaquete);
+                        importeBB += ParseDecimal(item.Import) * ParseDecimal(item.KgXPaquete);
                     }
                     else if (item.CategoriaId == 25)
                     {
-                        kgR += Convert.ToDecimal(item.KgXPaquete);
-                        importeR += Convert.ToDecimal(item.Import) * Convert.ToDecimal(item.KgXPaquete);
+                        kgR += ParseDecimal(item.KgXPaquete);
+                        importeR += ParseDecimal(item.Import) * ParseDecimal(item.KgXPaquete);
                     }
                     else if (item.CategoriaId == 27)
                     {
-                        kgNE += Convert.ToDecimal(item.KgXPaquete);
-                        importeNE += Convert.ToDecimal(item.Import) * Convert.ToDecimal(item.KgXPaquete);
+                        kgNE += ParseDecimal(item.KgXPaquete);
+                        importeNE += ParseDecimal(item.Import) * ParseDecimal(item.KgXPaquete);
                     }
                     else if (item.CategoriaId == 28)
                     {
-                        kgBA += Convert.ToDecimal(item.KgXPaquete);
-                        importeBA += Convert.ToDecimal(item.Import) * Convert.ToDecimal(item.KgXPaquete);
+                        kgBA += ParseDecimal(item.KgXPaquete);
+                        importeBA += ParseDecimal(item.Import) * ParseDecimal(item.KgXPaquete);
                     }
                     else if (item.CategoriaId == 29)
                     {
-                        kgNA += Convert.ToDecimal(item.KgXPaquete);
-                        importeNA += Convert.ToDecimal(item.Import) * Convert.ToDecimal(item.KgXPaquete);
+                        kgNA += ParseDecimal(item.KgXPaquete);
+                        importeNA += ParseDecimal(item.Import) * ParseDecimal(item.KgXPaquete);
                     }
                 }
             }
@@ -591,12 +602,12 @@ namespace AluminiosRuta5.Forms
                         sw.WriteLine("<tr style=\"height: 30px;\">");
                         sw.WriteLine("<td>" + l.CantidadTiras + "</td>");
                         sw.WriteLine("<td>" + l.Codigo + "</td>");
-                        sw.WriteLine("<td>" + Convert.ToDecimal(l.Import).ToString("C", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
+                        sw.WriteLine("<td>" + ParseDecimal(l.Import).ToString("C", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
                         sw.WriteLine("<td>" + l.KgXPaquete + "</td>");
                         if (l.PerfilId != 0)
-                            sw.WriteLine("<td>" + (Convert.ToDecimal(l.KgXPaquete) * Convert.ToDecimal(l.Import)).ToString("C", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
+                            sw.WriteLine("<td>" + (ParseDecimal(l.KgXPaquete) * ParseDecimal(l.Import)).ToString("C", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
                         if (l.PerfilId == 0)
-                            sw.WriteLine("<td>" + (Convert.ToDecimal(l.CantidadTiras) * Convert.ToDecimal(l.Import)).ToString("C", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
+                            sw.WriteLine("<td>" + (Convert.ToDecimal(l.CantidadTiras) * ParseDecimal(l.Import)).ToString("C", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
                         sw.WriteLine("</tr>");
                     }
                     if (textBoxPlata.Text.Trim().Length > 0)
@@ -614,7 +625,7 @@ namespace AluminiosRuta5.Forms
                             sw.WriteLine("<td colspan=\"2\" >" + "Plata a favor del cliente" + "</td>");
                         else
                             sw.WriteLine("<td colspan=\"2\" >" + "Plata adeudada " + "</td>");
-                        sw.WriteLine("<td colspan=\"3\" style=\"text-align: right;\" >" + (Convert.ToDecimal(textBoxPlata.Text)).ToString("C", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
+                        sw.WriteLine("<td colspan=\"3\" style=\"text-align: right;\" >" + (ParseDecimal(textBoxPlata.Text)).ToString("C", CultureInfo.CreateSpecificCulture("en-US")) + "</td>");
                         sw.WriteLine("</tr>");
                     }
 
@@ -630,9 +641,9 @@ namespace AluminiosRuta5.Forms
                         CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
                         culture.NumberFormat.CurrencyNegativePattern = 1;
                         if (checkBoxPlataAFavorOEnContra.Checked)
-                            line = line.Replace("@TOTALPESOS", (Convert.ToDecimal(textBoxPlata.Text) + Convert.ToDecimal(importe)).ToString("C", culture));
+                            line = line.Replace("@TOTALPESOS", (ParseDecimal(textBoxPlata.Text) + Convert.ToDecimal(importe)).ToString("C", culture));
                         else
-                            line = line.Replace("@TOTALPESOS", (Convert.ToDecimal(importe) - Convert.ToDecimal(textBoxPlata.Text)).ToString("C", culture));
+                            line = line.Replace("@TOTALPESOS", (Convert.ToDecimal(importe) - ParseDecimal(textBoxPlata.Text)).ToString("C", culture));
                     }
                     else
                     {
@@ -698,11 +709,13 @@ namespace AluminiosRuta5.Forms
             textBoxLocalidad.Enabled = false;
             textBoxLocalidad.Text = string.Empty;
             textBoxPlata.Enabled = false;
+            checkBoxStock.Checked = false;
+            checkBox1.Checked = false;
+            checkBoxPlataAFavorOEnContra.Checked = false;
             textBoxPlata.Text = string.Empty;
             MessageBox.Show("Se resto correctamente del stock");
             listaLabels.Clear();
             listaPerfilesPresupuestados.Clear();
-            // listaPerfilesNoRestar.Clear(); // Ya no existe
             panel1.Controls.Clear();
             SumarCantidades();
             CloseConnection();
@@ -728,6 +741,7 @@ namespace AluminiosRuta5.Forms
                 lImporte.Text = "Importe x unidad";
                 lTiras.Text = "Cantidad";
                 textBoxKilos.Enabled = false;
+                checkBoxStock.Checked = false;
             }
             else
             {
@@ -766,11 +780,7 @@ namespace AluminiosRuta5.Forms
         {
             if (checkBoxStock.Checked)
             {
-                textBoxKilos.Enabled = false;
-            }
-            else
-            {
-                textBoxKilos.Enabled = true;
+                checkBox1.Checked = false;
             }
         }
     }
