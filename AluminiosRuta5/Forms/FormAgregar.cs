@@ -30,9 +30,16 @@ namespace AluminiosRuta5.Forms
         private List<Perfil> listaPerfiles = new List<Perfil>();
         private List<Perfil> listaPerfilesPresupuestados = new List<Perfil>();
 
+        // --- 1. AGREGAMOS EL MÉTODO HELPER PARA PARSEO SEGURO ---
+        private decimal ParseDecimal(string input)
+        {
+            if (string.IsNullOrEmpty(input)) return 0;
+            // Reemplaza comas por puntos y usa InvariantCulture
+            return decimal.Parse(input.Replace(",", "."), CultureInfo.InvariantCulture);
+        }
+
         private void CargarPerfiles(SQLiteCommand cmd = null)
         {
-
             sql = "SELECT * FROM perfiles ORDER BY PerfilId ASC;";
 
             if (cmd == null)
@@ -52,11 +59,15 @@ namespace AluminiosRuta5.Forms
             bindingSrc.DataSource = ds.Tables["Perfiles"];
 
             listaPerfiles = ModuloStock.CargarPerfiles(bindingSrc);
+
+            // Limpiamos antes de agregar para no duplicar si se recarga
+            textBoxCodigo.AutoCompleteCustomSource.Clear();
             foreach (DataRowView b in bindingSrc.List)
             {
                 textBoxCodigo.AutoCompleteCustomSource.Add(b[1].ToString());
             }
         }
+
         private void CloseConnection()
         {
             if (connection.State == ConnectionState.Open)
@@ -71,6 +82,7 @@ namespace AluminiosRuta5.Forms
                 connection.Open();
             }
         }
+
         private void CargarLabels(List<Label> labels)
         {
             panel1.Controls.Clear();
@@ -101,44 +113,52 @@ namespace AluminiosRuta5.Forms
         private void EliminarLabel(object sender, EventArgs e)
         {
             Button button = sender as Button;
+            // Buscamos el label por nombre
             Label label = listaLabels.Where(l => l.Name == button.Name).SingleOrDefault();
-            Perfil perfil = listaPerfilesPresupuestados.Where(p => p.PerfilId == Convert.ToInt16(label.Tag)).SingleOrDefault();
-            listaLabels.Remove(label);
-            listaPerfilesPresupuestados.Remove(perfil);
+
+            // Borramos usando el INDICE para asegurar que borramos el par correcto (Label y Perfil)
+            if (label != null)
+            {
+                int index = listaLabels.IndexOf(label);
+                if (index >= 0 && index < listaPerfilesPresupuestados.Count)
+                {
+                    listaLabels.RemoveAt(index);
+                    listaPerfilesPresupuestados.RemoveAt(index);
+                }
+            }
+
             CargarLabels(listaLabels);
             SumarCantidades();
         }
+
+        // --- 2. OPTIMIZACIÓN DE SUMA (Usando objetos y ParseDecimal) ---
         private void SumarCantidades()
         {
             decimal sumaTiras = 0;
-            decimal importe = 0;
-            decimal kg = 0;
-            foreach (var item in listaLabels)
-            {
-                char[] chars = item.Text.ToCharArray();
-                Array.Reverse(chars);
-                string a = "";
-                foreach (char c in chars)
-                {
-                    if (char.IsDigit(c))
-                        a += c;
-                    else
-                        break;
-                }
-                if (a.Length > 1)
-                {
-                    char[] chars2 = a.ToCharArray();
-                    Array.Reverse(chars2);
-                    a = new string(chars2);
-                }
-                sumaTiras += Convert.ToDecimal(a);
-                importe += Convert.ToDecimal(listaPerfilesPresupuestados[listaLabels.IndexOf(item)].Import) * Convert.ToDecimal(a);
-                kg += Convert.ToDecimal(listaPerfilesPresupuestados[listaLabels.IndexOf(item)].KgXTira) * Convert.ToDecimal(a);
-            }
-            labelTotalTiras.Text = "Total tiras = " + sumaTiras.ToString();
-            labelTotalKg.Text = "Total KG = " + kg.ToString();
-        }
+            decimal totalImporte = 0;
+            decimal totalKg = 0;
 
+            // En lugar de leer el texto del label al revés, usamos la lista de objetos que es más segura
+            foreach (var item in listaPerfilesPresupuestados)
+            {
+                // Cantidad de tiras
+                sumaTiras += item.CantidadTiras;
+
+                // Precios y Kilos usando ParseDecimal
+                decimal precioUnitario = ParseDecimal(item.Import);
+                decimal kgUnitario = ParseDecimal(item.KgXTira);
+
+                // Cálculos (Cantidad * Precio) y (Cantidad * Kilos)
+                totalImporte += precioUnitario * item.CantidadTiras;
+                totalKg += kgUnitario * item.CantidadTiras;
+            }
+
+            labelTotalTiras.Text = "Total tiras = " + sumaTiras.ToString();
+
+            // Mostramos formateado
+            CultureInfo us = CultureInfo.CreateSpecificCulture("en-US");
+            labelTotalKg.Text = "Total KG = " + totalKg.ToString("N2", us);
+        }
 
         public FormAgregar(FormStock f)
         {
@@ -154,67 +174,82 @@ namespace AluminiosRuta5.Forms
                 MessageBox.Show("Complete los campos por favor");
                 return;
             }
+
             OpenConnection();
             try
             {
-                Perfil p = listaPerfiles.Where(l => l.Codigo == textBoxCodigo.Text).SingleOrDefault();
-                if (p != null)
+                // Buscamos en el catálogo maestro
+                Perfil pCatalogo = listaPerfiles.Where(l => l.Codigo == textBoxCodigo.Text).SingleOrDefault();
+
+                if (pCatalogo != null)
                 {
-                    p.CantidadTiras = Convert.ToInt16(textBoxTiras.Text);
-                    p.KgXPaquete = (Convert.ToDecimal(textBoxTiras.Text) * Convert.ToDecimal(p.KgXTira)).ToString();
-                    Label l = listaLabels.Where(la => Convert.ToInt16(la.Tag) == p.PerfilId).SingleOrDefault();
-                    if (l != null)
+                    // --- 3. CREAMOS UNA COPIA ---
+                    // IMPORTANTE: Creamos un 'nuevoPerfil' en lugar de modificar 'pCatalogo'.
+                    // Si modificas 'pCatalogo' (que viene de listaPerfiles), estás ensuciando la memoria del catálogo.
+
+                    int tirasAAgregar = Convert.ToInt32(textBoxTiras.Text);
+
+                    // Buscamos si ya está en la lista de PRE-INGRESO (la que estamos armando ahora)
+                    var perfilEnLista = listaPerfilesPresupuestados.FirstOrDefault(x => x.PerfilId == pCatalogo.PerfilId);
+
+                    if (perfilEnLista != null)
                     {
-                        char[] chars = listaLabels[listaLabels.IndexOf(l)].Text.ToCharArray();
-                        Array.Reverse(chars);
-                        string a = "";
-                        List<char> lisTemp = chars.ToList();
-                        foreach (char c in chars)
-                        {
-                            if (char.IsDigit(c))
-                            {
-                                a += c;
-                                lisTemp.RemoveAt(lisTemp.IndexOf(c));
-                            }
-                            else
-                                break;
-                        }
-                        chars = lisTemp.ToArray();
-                        Array.Reverse(chars);
-                        if (a.Length > 1)
-                        {
-                            char[] chars2 = a.ToCharArray();
-                            Array.Reverse(chars2);
-                            a = new string(chars2);
-                        }
-                        listaLabels[listaLabels.IndexOf(l)].Text = new string(chars) + (Convert.ToInt16(a) + Convert.ToInt16(textBoxTiras.Text)).ToString();
+                        // Si ya existe, sumamos
+                        perfilEnLista.CantidadTiras += tirasAAgregar;
+
+                        // Actualizamos el label visualmente
+                        int index = listaPerfilesPresupuestados.IndexOf(perfilEnLista);
+
+                        // Recalculamos el texto visual usando InvariantCulture para mostrar
+                        CultureInfo us = CultureInfo.CreateSpecificCulture("en-US");
+                        decimal kgTira = ParseDecimal(perfilEnLista.KgXTira); // Usamos helper
+                        decimal costo = ParseDecimal(perfilEnLista.Import);
+
+                        // Nota: Aquí mantengo tu lógica de visualización pero simplificada
+                        listaLabels[index].Text = $"* {perfilEnLista.Codigo} (x{perfilEnLista.CantidadTiras})";
                     }
                     else
                     {
-                        ModuloStock.ListaLabels(listaLabels, p, Convert.ToInt16(textBoxTiras.Text));
-                        listaPerfilesPresupuestados.Add(p);
+                        // Si es nuevo en la lista, creamos la instancia
+                        Perfil nuevoPerfil = new Perfil()
+                        {
+                            PerfilId = pCatalogo.PerfilId,
+                            Codigo = pCatalogo.Codigo,
+                            CantidadTiras = tirasAAgregar,
+                            Import = pCatalogo.Import,
+                            KgXTira = pCatalogo.KgXTira,
+                            // Calculamos el total del paquete solo si lo necesitas, sino dejamos 0 o calculamos
+                            KgXPaquete = (tirasAAgregar * ParseDecimal(pCatalogo.KgXTira)).ToString(CultureInfo.InvariantCulture)
+                        };
+
+                        // Agregamos a listas
+                        listaPerfilesPresupuestados.Add(nuevoPerfil);
+                        ModuloStock.ListaLabels(listaLabels, nuevoPerfil, tirasAAgregar); // Asegúrate que ModuloStock use formato correcto
                     }
+
                     CargarLabels(listaLabels);
                 }
                 else
                 {
-                    MessageBox.Show("No se encontro el codigo");
+                    MessageBox.Show("No se encontró el código");
                     return;
                 }
-
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("No se encontro el codigo");
+                MessageBox.Show("Error al agregar: " + ex.Message);
                 return;
             }
             finally
             {
                 CloseConnection();
             }
-            SumarCantidades();
+
+            SumarCantidades(); // Recalcula totales
+
             textBoxCodigo.Text = string.Empty;
             textBoxTiras.Text = string.Empty;
+            textBoxCodigo.Focus();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -225,30 +260,37 @@ namespace AluminiosRuta5.Forms
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if (listaPerfilesPresupuestados.Count == 0) return;
+
             OpenConnection();
+
             foreach (var p in listaPerfilesPresupuestados)
             {
-                sql = "SELECT * FROM perfiles ";
-                sql += "WHERE PerfilId = " + p.PerfilId;
-
+                // Obtenemos la cantidad ACTUAL de la base de datos para no pisar cambios de otros usuarios
+                sql = "SELECT CantidadTiras FROM perfiles WHERE PerfilId = " + p.PerfilId;
                 command.CommandText = sql;
 
-                SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
-                DataSet ds = new DataSet();
-                adapter.Fill(ds, "Perfiles");
+                // Ejecutamos Scalar porque solo queremos 1 dato (CantidadTiras actual)
+                object result = command.ExecuteScalar();
+                int stockActual = (result != null) ? Convert.ToInt32(result) : 0;
 
-                bindingSrc = new BindingSource();
-                bindingSrc.DataSource = ds.Tables["Perfiles"];
-                DataRowView dr = bindingSrc[0] as DataRowView;
+                // Sumamos lo nuevo
+                int stockNuevo = stockActual + p.CantidadTiras;
 
-                sql = $"UPDATE perfiles SET CantidadTiras = {Convert.ToInt16(dr[3]) + p.CantidadTiras} WHERE PerfilId = {dr[0]}";
+                // Actualizamos
+                sql = $"UPDATE perfiles SET CantidadTiras = {stockNuevo} WHERE PerfilId = {p.PerfilId}";
                 command.CommandText = sql;
                 command.ExecuteNonQuery();
             }
-            MessageBox.Show("Se agrego correctamente");
+
+            MessageBox.Show("Se agregó correctamente al stock");
+
             listaLabels.Clear();
             listaPerfilesPresupuestados.Clear();
+
+            // Recargamos catálogo por si queremos seguir agregando
             CargarPerfiles();
+
             panel1.Controls.Clear();
             SumarCantidades();
             CloseConnection();
@@ -256,16 +298,12 @@ namespace AluminiosRuta5.Forms
 
         private void textBoxTiras_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.') && (e.KeyChar != ','))
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
             }
-
-            // only allow one decimal point
-            if ((e.KeyChar == '.' || e.KeyChar == ',') && ((sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1))
-            {
-                e.Handled = true;
-            }
+            // En "Cantidad de Tiras" usualmente son enteros, pero si permites decimales deja el punto
+            // Si solo son enteros, borra el bloque de abajo.
         }
     }
 }

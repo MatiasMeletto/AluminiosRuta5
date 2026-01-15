@@ -522,29 +522,43 @@ namespace AluminiosRuta5.Forms
                 }
                 else if (line.Contains("@NOMBRECLIENTEEEEEEEEEEEEEEEE"))
                 {
-                    char[] chars = textBoxNombre.Text.ToCharArray();
-                    if (textBoxNombre.Text.Trim().Length == 29)
+                    // 1. Obtenemos el nombre limpio
+                    string textoNombre = textBoxNombre.Text.Trim();
+
+                    // 2. REGLA: Si supera los 29 caracteres, cortamos a 29 exactos.
+                    if (textoNombre.Length > 29)
                     {
-                        line = line.Replace("@NOMBRECLIENTEEEEEEEEEEEEEEEE", textBoxNombre.Text);
+                        textoNombre = textoNombre.Substring(0, 29);
                     }
-                    if (textBoxNombre.Text.Trim().Length < 29)
+
+                    // Convertimos a arrays
+                    char[] chars = textoNombre.ToCharArray();
+                    char[] charsOriginales = line.ToCharArray();
+
+                    line = ""; // Reiniciamos la línea
+
+                    // El loop va hasta 103 según tu código original
+                    for (int i = 0; i < 103; i++)
                     {
-                        char[] chars2 = line.ToCharArray();
-                        line = "";
-                        for (int i = 0; i < 103; i++)
+                        // CASO 1: Insertar el nombre (empezando en el índice 50)
+                        if (i > 49 && i < chars.Length + 50)
                         {
-                            if (i > 49 && i < chars.Length + 50)
+                            line += chars[i - 50];
+                        }
+                        // CASO 2: Mantener el HTML original fuera del área reservada
+                        // El área reservada va del 50 al 78 (29 espacios)
+                        else if (i < 50 || i > 78)
+                        {
+                            // Verificación de seguridad para no leer fuera del array original
+                            if (i < charsOriginales.Length)
                             {
-                                line += chars[i - 50];
+                                line += charsOriginales[i];
                             }
-                            else if (i < 50 || i > 78)
-                            {
-                                line += chars2[i];
-                            }
-                            else
-                            {
-                                line += "&nbsp;";
-                            }
+                        }
+                        // CASO 3: Rellenar el sobrante con espacios HTML
+                        else
+                        {
+                            line += "&nbsp;";
                         }
                     }
                 }
@@ -560,31 +574,46 @@ namespace AluminiosRuta5.Forms
                 {
                     line = line.Replace("@A", DateTime.Now.Year.ToString());
                 }
-                else if (line.Contains("@LOCALIDADDDDD"))
+                else if (line.Contains("@LOCALIDADDDDDDDD"))
                 {
-                    char[] chars = textBoxLocalidad.Text.ToCharArray();
-                    if (textBoxLocalidad.Text.Trim().Length == 14)
+                    // 1. Obtenemos el texto limpio
+                    string textoLoc = textBoxLocalidad.Text.Trim();
+
+                    // 2. REGLA DE ORO: Si supera 17 caracteres, lo cortamos a 17.
+                    if (textoLoc.Length > 17)
                     {
-                        line = line.Replace("@LOCALIDADDDDD", textBoxLocalidad.Text);
+                        textoLoc = textoLoc.Substring(0, 17);
                     }
-                    if (textBoxLocalidad.Text.Trim().Length < 29)
+
+                    // Convertimos el texto (ya truncado o original) a caracteres
+                    char[] chars = textoLoc.ToCharArray();
+
+                    // Guardamos la línea original para copiar el principio y el final
+                    char[] charsOriginales = line.ToCharArray();
+
+                    line = ""; // Vaciamos la línea para reconstruirla
+
+                    for (int i = 0; i < 91; i++)
                     {
-                        char[] chars2 = line.ToCharArray();
-                        line = "";
-                        for (int i = 0; i < 88; i++)
+                        // CASO 1: Insertar los caracteres de la localidad (desde el índice 50)
+                        if (i > 49 && i < chars.Length + 50)
                         {
-                            if (i > 49 && i < chars.Length + 50)
+                            line += chars[i - 50];
+                        }
+                        // CASO 2: Copiar el HTML original fuera del área reservada (antes del 50 o después del 66)
+                        // El área reservada es de 17 espacios (índices 50 al 66)
+                        else if (i < 50 || i > 66)
+                        {
+                            // Verificamos no pasarnos del largo del array original para evitar errores
+                            if (i < charsOriginales.Length)
                             {
-                                line += chars[i - 50];
+                                line += charsOriginales[i];
                             }
-                            else if (i < 50 || i > 63)
-                            {
-                                line += chars2[i];
-                            }
-                            else
-                            {
-                                line += "&nbsp;";
-                            }
+                        }
+                        // CASO 3: Rellenar con espacios (&nbsp;) si el texto es menor a 17 caracteres
+                        else
+                        {
+                            line += "&nbsp;";
                         }
                     }
                 }

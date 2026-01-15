@@ -390,6 +390,7 @@ namespace AluminiosRuta5.Forms
         // 4. GUARDAR PRESUPUESTO (PDF)
         private void button2_Click(object sender, EventArgs e)
         {
+            // 1. Validaciones
             if (string.IsNullOrEmpty(textBoxNombre.Text.Trim()))
             {
                 MessageBox.Show("Por favor ingrese el Nombre del cliente.");
@@ -403,6 +404,7 @@ namespace AluminiosRuta5.Forms
                 return;
             }
 
+            // 2. Rutas
             string paginahtml = Application.StartupPath + "\\HTMLModelo\\html.html";
             string paginahtml_temp = Application.StartupPath + "\\HTMLModelo\\htmlModificado.txt";
 
@@ -420,32 +422,84 @@ namespace AluminiosRuta5.Forms
                     string line;
                     while ((line = str.ReadLine()) != null)
                     {
-                        if (line.Contains("N° @NRO"))
-                            line = line.Replace("N° @NRO", "       ");
-
-                        else if (line.Contains("REMITO"))
+                        // --- A. CAMBIO DE TÍTULO Y BORRADO DE NÚMERO ---
+                        if (line.Contains("REMITO"))
+                        {
                             line = line.Replace("REMITO", "PRESUPUESTO");
+                        }
 
+                        if (line.Contains("@NRO"))
+                        {
+                            // Reemplazamos por vacío para que no salga ningún número
+                            line = line.Replace("N° @NRO", "       ").Replace("@NRO", "");
+                        }
+
+                        // --- B. NOMBRE CLIENTE (Límite 29) ---
                         else if (line.Contains("@NOMBRECLIENTEEEEEEEEEEEEEEEE"))
-                            line = line.Replace("@NOMBRECLIENTEEEEEEEEEEEEEEEE", textBoxNombre.Text.PadRight(50).Substring(0, 50));
+                        {
+                            string textoNombre = textBoxNombre.Text.Trim();
+                            if (textoNombre.Length > 29) textoNombre = textoNombre.Substring(0, 29);
 
+                            char[] chars = textoNombre.ToCharArray();
+                            char[] charsOriginales = line.ToCharArray();
+                            line = "";
+
+                            for (int i = 0; i < 103; i++)
+                            {
+                                if (i > 49 && i < chars.Length + 50)
+                                    line += chars[i - 50];
+                                else if (i < 50 || i > 78)
+                                {
+                                    if (i < charsOriginales.Length) line += charsOriginales[i];
+                                }
+                                else
+                                    line += "&nbsp;";
+                            }
+                        }
+
+                        // --- C. LOCALIDAD (Límite 17) ---
                         else if (line.Contains("@LOCALIDADDDDD"))
-                            line = line.Replace("@LOCALIDADDDDD", textBoxLocalidad.Text);
+                        {
+                            string textoLoc = textBoxLocalidad.Text.Trim();
+                            if (textoLoc.Length > 17) textoLoc = textoLoc.Substring(0, 17);
 
+                            char[] chars = textoLoc.ToCharArray();
+                            char[] charsOriginales = line.ToCharArray();
+                            line = "";
+
+                            for (int i = 0; i < 91; i++)
+                            {
+                                if (i > 49 && i < chars.Length + 50)
+                                    line += chars[i - 50];
+                                else if (i < 50 || i > 66)
+                                {
+                                    if (i < charsOriginales.Length) line += charsOriginales[i];
+                                }
+                                else
+                                    line += "&nbsp;";
+                            }
+                        }
+
+                        // --- D. FECHAS ---
                         else if (line.Contains("@DI")) line = line.Replace("@DI", DateTime.Now.Day.ToString());
                         else if (line.Contains("@M")) line = line.Replace("@M", DateTime.Now.Month.ToString());
                         else if (line.Contains("@A")) line = line.Replace("@A", DateTime.Now.Year.ToString());
 
+                        // --- E. TABLA (La parte crítica) ---
                         else if (line.Contains("id=\"tabla\""))
                         {
-                            line = str.ReadLine();
-                            line = str.ReadLine();
-                            line = str.ReadLine();
-                            line = str.ReadLine();
-                            line = str.ReadLine();
-                            line = str.ReadLine();
-                            line = str.ReadLine();
+                            // 1. ESTO ES LO QUE FALTABA O ESTABA MAL:
+                            // Consumimos las líneas del HTML original para "saltar" la fila de ejemplo.
+                            // Si no haces esto, el HTML queda corrupto con etiquetas tr anidadas o duplicadas.
+                            line = str.ReadLine(); // <tr...>
+                            line = str.ReadLine(); // td
+                            line = str.ReadLine(); // td
+                            line = str.ReadLine(); // td
+                            line = str.ReadLine(); // td
+                            line = str.ReadLine(); // td
+                            line = str.ReadLine(); // </tr>
 
+                            // 2. Ahora escribimos nuestras filas nuevas
                             CultureInfo us = CultureInfo.CreateSpecificCulture("en-US");
 
                             foreach (var l in listaPerfilesPresupuestados)
@@ -454,28 +508,31 @@ namespace AluminiosRuta5.Forms
                                 decimal pesoTotal = ParseDecimal(l.KgXPaquete);
 
                                 sw.WriteLine("<tr style=\"height: 30px;\">");
+
                                 sw.WriteLine("<td>" + l.CantidadTiras + "</td>");
                                 sw.WriteLine("<td>" + l.Codigo + "</td>");
                                 sw.WriteLine("<td>" + precio.ToString("C", us) + "</td>");
 
+                                // Lógica visual: Si es accesorio (Id 0) mostramos guión en peso
                                 if (l.PerfilId != 0)
                                     sw.WriteLine("<td>" + pesoTotal.ToString("N2", us) + "</td>");
                                 else
                                     sw.WriteLine("<td> - </td>");
 
+                                // Lógica cálculo total
                                 if (l.PerfilId != 0)
-                                {
                                     sw.WriteLine("<td>" + (pesoTotal * precio).ToString("C", us) + "</td>");
-                                }
                                 else
-                                {
                                     sw.WriteLine("<td>" + (l.CantidadTiras * precio).ToString("C", us) + "</td>");
-                                }
 
                                 sw.WriteLine("</tr>");
                             }
+
+                            // NOTA: En presupuesto NO agregamos las filas de "Plata a favor/Deuda" 
+                            // porque ese TextBox no existe en este Form.
                         }
 
+                        // --- F. TOTALES ---
                         else if (line.Contains("@TOTALKG"))
                         {
                             string totalKg = labelTotalKg.Text.Replace("Total KG =", "").Trim();
@@ -487,13 +544,15 @@ namespace AluminiosRuta5.Forms
                             line = line.Replace("@TOTALPESOS", totalPesos);
                         }
 
+                        // Escribir la línea final procesada
                         sw.WriteLine(line);
                     }
                 }
 
+                // 3. GENERAR PDF
                 SaveFileDialog guardar = new SaveFileDialog();
-                guardar.FileName = $"{DateTime.Now.Day}_{DateTime.Now.Month}_{DateTime.Now.Year}-PRESUPUESTO-{textBoxNombre.Text}.pdf";
-                guardar.Filter = "PDF Files|*.pdf";
+                guardar.FileName = DateTime.Now.ToString("dd_MM_yyyy") + "-PRESUPUESTO-" + textBoxNombre.Text + ".pdf";
+                guardar.Filter = "Archivo PDF (*.pdf)|*.pdf";
 
                 if (guardar.ShowDialog() == DialogResult.OK)
                 {
@@ -502,19 +561,20 @@ namespace AluminiosRuta5.Forms
                         Document pdfDoc = new Document(PageSize.A4);
                         PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
                         pdfDoc.Open();
+                        pdfDoc.Add(new Phrase("")); // Fix común de iTextSharp
+
                         using (StreamReader sr = new StreamReader(paginahtml_temp))
                         {
                             XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
                         }
                         pdfDoc.Close();
                     }
-                    MessageBox.Show("Presupuesto generado correctamente.");
+                    MessageBox.Show("Presupuesto guardado correctamente.");
                 }
-                buttonReset_Click(this, EventArgs.Empty);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al generar PDF: " + ex.Message);
+                MessageBox.Show("Error al generar el PDF: " + ex.Message);
             }
         }
 
